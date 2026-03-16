@@ -189,38 +189,26 @@ html, body {
   font-size: .55rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink3); text-align: center; line-height: 1.6;
 }
-.tile-action {
-  font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
-  margin-top: 4px;
-  border-radius: 4px; padding: 3px 10px;
-  border: 1px solid;
-  font-weight: 700;
-}
-
 /* Day type color application */
 .tile-push  { border-color: var(--push-b); }
 .tile-push:active { background: var(--push-t); }
 .tile-push  .tile-corner { color: var(--push); opacity: .35; }
 .tile-push  .tile-name   { color: var(--push); }
-.tile-push  .tile-action { color: var(--push); border-color: var(--push-b); background: var(--push-t); }
 
 .tile-pull  { border-color: var(--pull-b); }
 .tile-pull:active { background: var(--pull-t); }
 .tile-pull  .tile-corner { color: var(--pull); opacity: .35; }
 .tile-pull  .tile-name   { color: var(--pull); }
-.tile-pull  .tile-action { color: var(--pull); border-color: var(--pull-b); background: var(--pull-t); }
 
 .tile-legs  { border-color: var(--legs-b); }
 .tile-legs:active { background: var(--legs-t); }
 .tile-legs  .tile-corner { color: var(--legs); opacity: .35; }
 .tile-legs  .tile-name   { color: var(--legs); }
-.tile-legs  .tile-action { color: var(--legs); border-color: var(--legs-b); background: var(--legs-t); }
 
 .tile-cat   { border-color: var(--cat-b); }
 .tile-cat:active { background: var(--cat-t); }
 .tile-cat   .tile-corner { color: var(--cat); opacity: .25; }
 .tile-cat   .tile-name   { color: var(--cat); }
-.tile-cat   .tile-action { color: var(--cat); border-color: var(--cat-b); background: var(--cat-t); }
 
 /* Full-width catalog tile */
 .tile-full { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; padding: 16px 18px; }
@@ -330,7 +318,6 @@ html, body {
             <span class="tile-corner br">꧂</span>
             <div class="tile-name">Push</div>
             <div class="tile-sub">chest · shoulders<br>triceps</div>
-            <div class="tile-action">Generate ↗</div>
           </div>
 
           <!-- Pull -->
@@ -341,7 +328,6 @@ html, body {
             <span class="tile-corner br">꧂</span>
             <div class="tile-name">Pull</div>
             <div class="tile-sub">back · biceps<br>lats</div>
-            <div class="tile-action">Generate ↗</div>
           </div>
 
           <!-- Legs + Core -->
@@ -352,7 +338,6 @@ html, body {
             <span class="tile-corner br">꧂</span>
             <div class="tile-name">Legs<br>+ Core</div>
             <div class="tile-sub">quads · glutes<br>hamstrings · abs</div>
-            <div class="tile-action">Generate ↗</div>
           </div>
 
           <!-- Catalog — placeholder slot -->
@@ -363,7 +348,6 @@ html, body {
             <span class="tile-corner br">꧂</span>
             <div class="tile-name">Catalog</div>
             <div class="tile-sub">browse all<br>exercises</div>
-            <div class="tile-action">Browse ↗</div>
           </div>
         </div>
 
