@@ -533,35 +533,32 @@ html, body {
 .regen-btn.spinning { animation: spinOnce .5s linear; }
 @keyframes spinOnce { to { transform: rotate(360deg); } }
 
+.ex-swipe-wrap {
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.ex-swipe-wrap:last-child { border-bottom: none; }
+
 .ex-row {
   display: flex; align-items: center;
   gap: 10px; padding: 13px 0;
-  border-bottom: 1px solid var(--border);
   cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: opacity .25s;
+  transition: opacity .25s, transform .22s ease;
+  background: var(--bg);
+  will-change: transform;
 }
-.ex-row:last-child { border-bottom: none; }
 .ex-row.done { opacity: .35; }
-
-.ex-check {
-  width: 18px; height: 18px; flex-shrink: 0;
-  border-radius: 50%; border: 1.5px solid var(--border-strong);
-  display: flex; align-items: center; justify-content: center;
-  transition: background .15s, border-color .15s; pointer-events: none;
-}
-.ex-row.done .ex-check { border-color: transparent; background: var(--ink3); }
-.ex-check-tick {
-  font-size: 9px; color: var(--bg); font-weight: 900;
-  display: none; line-height: 1;
-}
-.ex-row.done .ex-check-tick { display: block; }
 
 .ex-row-left { flex: 1; min-width: 0; }
 .ex-name {
   font-size: .88rem; font-weight: 500; color: var(--ink);
-  line-height: 1.35; transition: text-decoration .15s;
+  line-height: 1.35;
 }
 .ex-row.done .ex-name { text-decoration: line-through; color: var(--ink3); }
+.ex-muscle-label {
+  font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3); margin-top: 2px; opacity: .7;
+}
 .ex-notes {
   font-size: .72rem; color: var(--ink3);
   margin-top: 3px; line-height: 1.5;
@@ -581,6 +578,14 @@ html, body {
   transition: border-color .15s, color .15s;
 }
 .ex-info-btn:active { border-color: var(--border-strong); color: var(--ink2); }
+
+/* Muscle group sub-header within main section */
+.ex-group-hdr {
+  font-size: .58rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); font-weight: 700;
+  padding: 14px 0 6px; opacity: .6;
+}
+.ex-group-hdr:first-child { padding-top: 6px; }
 
 .session-regen-overlay {
   position: absolute; inset: 0; background: rgba(19,17,16,.55);
@@ -772,6 +777,50 @@ html, body {
   -webkit-tap-highlight-color: transparent; transition: color .15s;
 }
 .key-reset-btn:active { color: var(--ink2); }
+/* ══════════════════════════════════════════════════
+   DEBUG PANEL
+══════════════════════════════════════════════════ */
+.debug-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(19,17,16,.92);
+  display: flex; align-items: flex-end;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.debug-backdrop.hidden { display: none; }
+.debug-sheet {
+  width: 100%; background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  border-radius: 20px 20px 0 0;
+  max-height: 80vh; display: flex; flex-direction: column;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
+}
+.debug-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.debug-title {
+  font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); font-weight: 700;
+}
+.debug-close {
+  background: none; border: none; cursor: pointer; font-family: inherit;
+  font-size: .72rem; color: var(--ink3); font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+}
+.debug-body { overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px 20px; flex: 1; }
+.debug-label {
+  font-size: .55rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 8px; margin-top: 16px; opacity: .6;
+}
+.debug-label:first-child { margin-top: 0; }
+.debug-pre {
+  font-family: 'Courier New', monospace; font-size: .72rem;
+  color: var(--ink2); line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px;
+}
 </style>
 </head>
 <body>
@@ -1279,6 +1328,22 @@ html, body {
     </div><!-- /.guides-scroll -->
   </div>
 
+  <!-- ══ DEBUG PANEL ═══════════════════════════════════ -->
+  <div class="debug-backdrop hidden" id="debugPanel">
+    <div class="debug-sheet">
+      <div class="debug-hdr">
+        <span class="debug-title">⊹ Debug — last generation</span>
+        <button class="debug-close" onclick="document.getElementById('debugPanel').classList.add('hidden')">close</button>
+      </div>
+      <div class="debug-body">
+        <div class="debug-label">Prompt sent</div>
+        <div class="debug-pre" id="debugPrompt"></div>
+        <div class="debug-label">Raw JSON received</div>
+        <div class="debug-pre" id="debugRaw"></div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /.app -->
 
 <script>
@@ -1550,23 +1615,25 @@ async function generateSession() {
   }).join('\n');
 
   // 4. Build prompt
-  const mainCount = ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '5–7' : '7–9';
+  const mainCount = ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '6–8' : '8–10';
   const modLine   = ctx.modifier ? '\nPreferences: ' + ctx.modifier : '';
   const prompt    =
     'Design a ' + ctx.dayLabel + ' workout (' + ctx.duration + ' min) targeting ' + ctx.muscles + '.' + modLine + '\n\n' +
     'Choose exercises ONLY from this list (use exact names):\n' + exList + '\n\n' +
     'Return ONLY valid JSON — no markdown, no extra text:\n' +
     '{"warmup":[{"name":"...","duration":"...","notes":"..."}],' +
-    '"main":[{"name":"...","sets":"...","reps":"...","notes":"..."}],' +
+    '"main":[{"name":"...","sets":"...","reps":"...","primary_muscle":"...","notes":"..."}],' +
     '"cooldown":[{"name":"...","duration":"...","notes":"..."}]}\n\n' +
     'Rules:\n' +
     '- warmup: 3–4 dynamic movements, 30–60s each\n' +
-    '- main: ' + mainCount + ' exercises with sets/reps suited to ' + ctx.duration + ' min\n' +
+    '- main: ' + mainCount + ' exercises; group them by muscle (e.g. all chest exercises together, then shoulders, then triceps); each exercise must include a "primary_muscle" field (capitalised, e.g. "Chest")\n' +
     '- cooldown: 2–3 static stretches, 45–60s each\n' +
-    '- notes: one short coaching cue per exercise';
+    '- notes: one short coaching cue per exercise\n' +
+    '- sets/reps suited to ' + ctx.duration + ' min total';
 
   // 5. Call Claude API
   let workout;
+  let rawResponse = '';
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -1578,7 +1645,7 @@ async function generateSession() {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
+        max_tokens: 2000,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -1586,9 +1653,12 @@ async function generateSession() {
       const err = await resp.json().catch(function() { return {}; });
       throw new Error(err.error?.message || 'API error ' + resp.status);
     }
-    const data = await resp.json();
-    const raw  = (data.content?.[0]?.text || '').replace(/```json|```/g, '').trim();
-    workout    = JSON.parse(raw);
+    const data  = await resp.json();
+    rawResponse = (data.content?.[0]?.text || '').trim();
+    const clean = rawResponse.replace(/```json|```/g, '').trim();
+    workout     = JSON.parse(clean);
+    // Store debug data
+    window._debugData = { prompt: prompt, raw: rawResponse };
   } catch(e) {
     showSessionError('Generation failed.<br>' + e.message);
     return;
@@ -1605,39 +1675,58 @@ function renderSession(workout, ctx) {
   window._sessionCtx     = ctx;
 
   const accent = 'var(--' + ctx.dayType + ')';
-  let   exIdx  = 0; // global counter for unique row IDs
+  let   exIdx  = 0;
 
-  function exRow(ex, isMain) {
+  function exRowHTML(ex, isMain) {
     const id     = 'ex-' + (exIdx++);
     const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
-    return '<div class="ex-row" id="' + id + '" onclick="toggleDone(\'' + id + '\')">' +
-      '<div class="ex-check"><span class="ex-check-tick">✓</span></div>' +
-      '<div class="ex-row-left">' +
-        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
-        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+    const muscle = (ex.primary_muscle || '');
+    return '<div class="ex-swipe-wrap" id="wrap-' + id + '">' +
+      '<div class="ex-row" id="' + id + '" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
+        '<div class="ex-row-left">' +
+          '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+          (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
+          (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+        '</div>' +
+        '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+        '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
       '</div>' +
-      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
-      '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
     '</div>';
   }
 
+  function groupedMainHTML(items) {
+    // Group consecutive exercises by primary_muscle
+    const groups = [];
+    (items || []).forEach(function(ex) {
+      const m = ex.primary_muscle || 'Other';
+      const last = groups[groups.length - 1];
+      if (last && last.muscle === m) { last.exercises.push(ex); }
+      else { groups.push({ muscle: m, exercises: [ex] }); }
+    });
+    return groups.map(function(g) {
+      return '<div class="ex-group-hdr">' + escHtml(g.muscle) + '</div>' +
+        g.exercises.map(function(ex) { return exRowHTML(ex, true); }).join('');
+    }).join('');
+  }
+
   function sectionHTML(sectionKey, title, items, isMain) {
-    const rows = (items || []).map(function(ex) { return exRow(ex, isMain); }).join('');
+    const inner = isMain ? groupedMainHTML(items)
+      : (items || []).map(function(ex) { return exRowHTML(ex, false); }).join('');
     return '<div class="session-section" id="section-' + sectionKey + '">' +
       '<div class="session-section-hdr">' +
         '<span class="session-section-title" style="color:' + accent + '">' + title + '</span>' +
         '<button class="regen-btn" onclick="regenSection(\'' + sectionKey + '\')">↻ redo</button>' +
       '</div>' +
-      '<div class="section-rows" id="rows-' + sectionKey + '">' + rows + '</div>' +
+      '<div class="section-rows" id="rows-' + sectionKey + '">' + inner + '</div>' +
       '<div class="session-regen-overlay"><span class="regen-spinner-sym">⊹</span></div>' +
     '</div>';
   }
 
   const html =
     '<div class="session-body">' +
-      sectionHTML('warmup',   'Warmup',       workout.warmup,   false) +
-      sectionHTML('main',     ctx.dayLabel,   workout.main,     true)  +
-      sectionHTML('cooldown', 'Cooldown',     workout.cooldown, false) +
+      sectionHTML('warmup',   'Warmup',     workout.warmup,   false) +
+      sectionHTML('main',     ctx.dayLabel, workout.main,     true)  +
+      sectionHTML('cooldown', 'Cooldown',   workout.cooldown, false) +
     '</div>';
 
   const loadingEl = document.getElementById('loadingScreen');
@@ -1645,15 +1734,62 @@ function renderSession(workout, ctx) {
   loadingEl.style.display = 'none';
   contentEl.innerHTML     = html;
   contentEl.style.display = 'block';
-}
 
-function toggleDone(rowId) {
-  const el = document.getElementById(rowId);
-  if (el) el.classList.toggle('done');
+  // Init swipe on all rows
+  contentEl.querySelectorAll('.ex-row').forEach(initSwipe);
+
+  // Long-press on section title to open debug panel
+  document.getElementById('sessionTitle').addEventListener('touchstart', startLongPress);
+  document.getElementById('sessionTitle').addEventListener('touchend',   cancelLongPress);
+  document.getElementById('sessionTitle').addEventListener('mousedown',  startLongPress);
+  document.getElementById('sessionTitle').addEventListener('mouseup',    cancelLongPress);
 }
 
 function openExercise(name) {
-  // Brick 6 — bottom sheet stub
+  // Brick 6 — bottom sheet (stub)
+}
+
+var _longPressTimer = null;
+function startLongPress() {
+  _longPressTimer = setTimeout(showDebugPanel, 600);
+}
+function cancelLongPress() {
+  clearTimeout(_longPressTimer);
+}
+
+function showDebugPanel() {
+  const d = window._debugData;
+  if (!d) return;
+  document.getElementById('debugPrompt').textContent = d.prompt;
+  document.getElementById('debugRaw').textContent    = d.raw;
+  document.getElementById('debugPanel').classList.remove('hidden');
+}
+
+function initSwipe(el) {
+  var startX = 0, startY = 0, dx = 0, tracking = false;
+  el.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    dx = 0; tracking = true;
+    el.style.transition = 'none';
+  }, { passive: true });
+  el.addEventListener('touchmove', function(e) {
+    if (!tracking) return;
+    var curDx = e.touches[0].clientX - startX;
+    var curDy = e.touches[0].clientY - startY;
+    if (Math.abs(curDy) > Math.abs(curDx) + 5) { tracking = false; return; }
+    dx = curDx;
+    if (dx > 0) dx = 0;
+    el.style.transform = 'translateX(' + Math.max(dx, -80) + 'px)';
+  }, { passive: true });
+  el.addEventListener('touchend', function() {
+    if (!tracking) return;
+    tracking = false;
+    el.style.transition = 'transform .22s ease, opacity .25s';
+    el.style.transform  = 'translateX(0)';
+    if (dx < -60) el.classList.toggle('done');
+    dx = 0;
+  });
 }
 
 async function regenSection(sectionKey) {
@@ -1715,20 +1851,20 @@ async function regenSection(sectionKey) {
 
   const sectionPrompts = {
     warmup:   'Generate a warmup block of 3–4 dynamic movements (30–60s each) for a ' + ctx.dayLabel + '.',
-    main:     'Generate a main block of ' + (ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '5–7' : '7–9') + ' exercises for a ' + ctx.dayLabel + ' (' + ctx.duration + ' min).' + (ctx.modifier ? ' Preferences: ' + ctx.modifier : ''),
+    main:     'Generate a main block of ' + (ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '6–8' : '8–10') + ' exercises for a ' + ctx.dayLabel + ' (' + ctx.duration + ' min), grouped by muscle.' + (ctx.modifier ? ' Preferences: ' + ctx.modifier : ''),
     cooldown: 'Generate a cooldown of 2–3 static stretches (45–60s each) after a ' + ctx.dayLabel + '.',
   };
 
   const schemaMap = {
     warmup:   '{"warmup":[{"name":"...","duration":"...","notes":"..."}]}',
-    main:     '{"main":[{"name":"...","sets":"...","reps":"...","notes":"..."}]}',
+    main:     '{"main":[{"name":"...","sets":"...","reps":"...","primary_muscle":"...","notes":"..."}]}',
     cooldown: '{"cooldown":[{"name":"...","duration":"...","notes":"..."}]}',
   };
 
   const prompt = sectionPrompts[sectionKey] + '\n\n' +
     'Choose ONLY from this list (use exact names):\n' + exList + '\n\n' +
     'Return ONLY valid JSON — no markdown:\n' + schemaMap[sectionKey] + '\n\n' +
-    'One short coaching cue per exercise in "notes".';
+    'Rules: one short coaching cue per exercise in "notes"; main exercises must include "primary_muscle" (capitalised, e.g. "Chest"); group main exercises by muscle.';
 
   let newItems;
   try {
@@ -1742,7 +1878,7 @@ async function regenSection(sectionKey) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 800,
+        max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -1756,27 +1892,49 @@ async function regenSection(sectionKey) {
     return;
   }
 
-  // Patch workout object and re-render just the rows
+  // Patch workout and re-render rows
   workout[sectionKey] = newItems;
   const isMain = sectionKey === 'main';
-  let localIdx = 0;
-  // Use a stable prefix so IDs don't collide with existing rows
   const prefix = sectionKey + '-r' + Date.now() + '-';
-  const newRows = (newItems || []).map(function(ex) {
+  let localIdx = 0;
+
+  function makeRow(ex) {
     const id     = prefix + (localIdx++);
     const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
-    return '<div class="ex-row" id="' + id + '" onclick="toggleDone(\'' + id + '\')">' +
-      '<div class="ex-check"><span class="ex-check-tick">✓</span></div>' +
-      '<div class="ex-row-left">' +
-        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
-        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+    const muscle = ex.primary_muscle || '';
+    return '<div class="ex-swipe-wrap" id="wrap-' + id + '">' +
+      '<div class="ex-row" id="' + id + '" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
+        '<div class="ex-row-left">' +
+          '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+          (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
+          (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+        '</div>' +
+        '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+        '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
       '</div>' +
-      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
-      '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
     '</div>';
-  }).join('');
+  }
 
-  rowsEl.innerHTML = newRows;
+  let newHTML = '';
+  if (isMain) {
+    // Group by primary_muscle
+    const groups = [];
+    (newItems || []).forEach(function(ex) {
+      const m = ex.primary_muscle || 'Other';
+      const last = groups[groups.length - 1];
+      if (last && last.muscle === m) { last.exercises.push(ex); }
+      else { groups.push({ muscle: m, exercises: [ex] }); }
+    });
+    groups.forEach(function(g) {
+      newHTML += '<div class="ex-group-hdr">' + escHtml(g.muscle) + '</div>';
+      g.exercises.forEach(function(ex) { newHTML += makeRow(ex); });
+    });
+  } else {
+    (newItems || []).forEach(function(ex) { newHTML += makeRow(ex); });
+  }
+
+  rowsEl.innerHTML = newHTML;
+  rowsEl.querySelectorAll('.ex-row').forEach(initSwipe);
   sectionEl.classList.remove('regenning');
   if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
 }
