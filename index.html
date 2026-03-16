@@ -39,6 +39,14 @@
   --cat:    #c8b8a8;
   --cat-t:  rgba(200,184,168,.07);
   --cat-b:  rgba(200,184,168,.18);
+
+  --full:   #e8c87a;
+  --full-t: rgba(232,200,122,.10);
+  --full-b: rgba(232,200,122,.28);
+
+  --tips:   #b8b4d8;
+  --tips-t: rgba(184,180,216,.07);
+  --tips-b: rgba(184,180,216,.20);
 }
 
 /* ══════════════════════════════════════════════════
@@ -210,6 +218,16 @@ html, body {
 .tile-cat   .tile-corner { color: var(--cat); opacity: .25; }
 .tile-cat   .tile-name   { color: var(--cat); }
 
+.tile-full-body { border-color: var(--full-b); }
+.tile-full-body:active { background: var(--full-t); }
+.tile-full-body .tile-corner { color: var(--full); opacity: .30; }
+.tile-full-body .tile-name   { color: var(--full); }
+
+.tile-tips  { border-color: var(--tips-b); }
+.tile-tips:active { background: var(--tips-t); }
+.tile-tips  .tile-corner { color: var(--tips); opacity: .30; }
+.tile-tips  .tile-name   { color: var(--tips); }
+
 /* Full-width catalog tile */
 .tile-full { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; padding: 16px 18px; }
 .tile-full .tile-name { font-size: 1rem; }
@@ -294,6 +312,8 @@ html, body {
 .cfg-banner.pull .cfg-banner-day { color: var(--pull); }
 .cfg-banner.legs { border-color: var(--legs-b); background: var(--legs-t); }
 .cfg-banner.legs .cfg-banner-day { color: var(--legs); }
+.cfg-banner.full { border-color: var(--full-b); background: var(--full-t); }
+.cfg-banner.full .cfg-banner-day { color: var(--full); }
 
 /* Section labels */
 .cfg-label {
@@ -322,6 +342,7 @@ html, body {
 .opt-item.checked.push { background: var(--push-t); border-color: var(--push-b); }
 .opt-item.checked.pull { background: var(--pull-t); border-color: var(--pull-b); }
 .opt-item.checked.legs { background: var(--legs-t); border-color: var(--legs-b); }
+.opt-item.checked.full { background: var(--full-t); border-color: var(--full-b); }
 
 .opt-box {
   width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px;
@@ -333,6 +354,7 @@ html, body {
 .opt-item.checked.push .opt-box { background: var(--push); }
 .opt-item.checked.pull .opt-box { background: var(--pull); }
 .opt-item.checked.legs .opt-box { background: var(--legs); }
+.opt-item.checked.full .opt-box { background: var(--full); }
 .opt-tick {
   font-size: 9px; color: #131110; font-weight: 900;
   display: none; line-height: 1;
@@ -431,6 +453,7 @@ html, body {
 .gen-btn.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
 .gen-btn.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
 .gen-btn.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+.gen-btn.full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
 
 /* Corner glyphs on generate button */
 .gen-btn .btn-corner {
@@ -459,6 +482,7 @@ html, body {
 .dur-pill.active.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
 .dur-pill.active.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
 .dur-pill.active.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+.dur-pill.active.full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
 
 /* ══════════════════════════════════════════════════
    PLACEHOLDER SCREENS (Bricks 5+)
@@ -479,6 +503,275 @@ html, body {
 .placeholder-hint {
   font-size: .72rem; color: var(--ink3); line-height: 1.65;
 }
+
+/* ══════════════════════════════════════════════════
+   SESSION SCREEN — Brick 5
+══════════════════════════════════════════════════ */
+.session-body {
+  display: flex; flex-direction: column; gap: 0;
+  padding: 0 0 env(safe-area-inset-bottom) 0;
+}
+.session-section { padding: 18px 20px 4px; }
+.session-section-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+.session-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.regen-btn {
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 700; color: var(--ink3); background: none; border: none;
+  padding: 4px 0 4px 12px; cursor: pointer; font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .15s; flex-shrink: 0;
+}
+.regen-btn:active { color: var(--ink2); }
+.regen-btn.spinning { animation: spinOnce .5s linear; }
+@keyframes spinOnce { to { transform: rotate(360deg); } }
+
+.ex-row {
+  display: flex; align-items: center;
+  gap: 10px; padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: opacity .25s;
+}
+.ex-row:last-child { border-bottom: none; }
+.ex-row.done { opacity: .35; }
+
+.ex-check {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border-radius: 50%; border: 1.5px solid var(--border-strong);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s; pointer-events: none;
+}
+.ex-row.done .ex-check { border-color: transparent; background: var(--ink3); }
+.ex-check-tick {
+  font-size: 9px; color: var(--bg); font-weight: 900;
+  display: none; line-height: 1;
+}
+.ex-row.done .ex-check-tick { display: block; }
+
+.ex-row-left { flex: 1; min-width: 0; }
+.ex-name {
+  font-size: .88rem; font-weight: 500; color: var(--ink);
+  line-height: 1.35; transition: text-decoration .15s;
+}
+.ex-row.done .ex-name { text-decoration: line-through; color: var(--ink3); }
+.ex-notes {
+  font-size: .72rem; color: var(--ink3);
+  margin-top: 3px; line-height: 1.5;
+}
+.ex-sets {
+  font-family: 'Courier New', monospace;
+  font-size: .72rem; font-weight: 700; color: var(--ink2);
+  white-space: nowrap; flex-shrink: 0;
+}
+.ex-info-btn {
+  width: 28px; height: 28px; flex-shrink: 0;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--ink3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color .15s, color .15s;
+}
+.ex-info-btn:active { border-color: var(--border-strong); color: var(--ink2); }
+
+.session-regen-overlay {
+  position: absolute; inset: 0; background: rgba(19,17,16,.55);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 0; z-index: 2; pointer-events: none; opacity: 0;
+  transition: opacity .2s;
+}
+.session-section { position: relative; }
+.session-section.regenning .session-regen-overlay { opacity: 1; pointer-events: all; }
+.regen-spinner-sym {
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: .9rem; color: var(--ink3); letter-spacing: .08em;
+  animation: symCycle 1.6s steps(1) infinite;
+}
+@keyframes symCycle {
+  0%   { content: '⊹'; }
+  25%  { content: '✦'; }
+  50%  { content: '◈'; }
+  75%  { content: '✧'; }
+}
+
+.session-error {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex: 1; gap: 14px; padding: 40px 24px; text-align: center;
+}
+.session-error-sym { font-size: 1rem; color: var(--ink3); opacity: .5; letter-spacing: .1em; }
+.session-error-msg { font-size: .82rem; color: var(--ink2); line-height: 1.6; max-width: 260px; }
+.session-error-btn {
+  margin-top: 8px; padding: 11px 28px;
+  background: var(--surface2); border: 1px solid var(--border-strong);
+  border-radius: 12px; color: var(--ink); font-family: inherit;
+  font-size: .82rem; font-weight: 500; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ══════════════════════════════════════════════════
+   GUIDES SCREEN
+══════════════════════════════════════════════════ */
+.guides-scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 0 0 env(safe-area-inset-bottom) 0;
+}
+.guides-nav {
+  display: flex; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 14px 16px 0; scrollbar-width: none; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.guides-nav::-webkit-scrollbar { display: none; }
+.guides-tab {
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  font-weight: 700; color: var(--ink3); padding: 8px 14px 12px;
+  cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color .15s, border-color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.guides-tab.active { color: var(--tips); border-bottom-color: var(--tips); }
+
+.guides-panel { display: none; padding: 20px 20px 8px; }
+.guides-panel.active { display: block; }
+
+.guide-section { margin-bottom: 28px; }
+.guide-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--tips);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.guide-block { margin-bottom: 14px; }
+.guide-block-label {
+  font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 6px; font-weight: 700;
+}
+.guide-body {
+  font-size: .82rem; color: var(--ink2); line-height: 1.7;
+}
+.guide-body strong { color: var(--ink); font-weight: 600; }
+.guide-rule {
+  display: flex; gap: 10px; margin-bottom: 7px;
+  font-size: .82rem; color: var(--ink2); line-height: 1.5;
+}
+.guide-rule-sym { color: var(--tips); flex-shrink: 0; font-size: .75rem; margin-top: 2px; }
+
+/* Chat area */
+.chat-wrap {
+  margin: 0 -20px; padding: 20px; border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.chat-hdr {
+  font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 14px; font-weight: 700;
+}
+.chat-messages {
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 40px; margin-bottom: 14px;
+}
+.chat-msg {
+  max-width: 86%; font-size: .82rem; line-height: 1.6;
+  padding: 10px 13px; border-radius: 12px;
+}
+.chat-msg.user {
+  align-self: flex-end; background: var(--tips-t);
+  border: 1px solid var(--tips-b); color: var(--ink2);
+}
+.chat-msg.ai {
+  align-self: flex-start; background: var(--surface2);
+  border: 1px solid var(--border); color: var(--ink2);
+}
+.chat-msg.ai.thinking { color: var(--ink3); font-style: italic; }
+.chat-input-row {
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.chat-input {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border-strong);
+  border-radius: 10px; padding: 10px 12px; color: var(--ink);
+  font-family: 'DM Sans', sans-serif; font-size: .85rem; line-height: 1.45;
+  resize: none; min-height: 42px; max-height: 120px;
+  outline: none; transition: border-color .15s;
+}
+.chat-input::placeholder { color: var(--ink3); }
+.chat-input:focus { border-color: var(--tips-b); }
+.chat-send {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: var(--tips-t); border: 1px solid var(--tips-b);
+  border-radius: 10px; color: var(--tips); font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background .15s;
+}
+.chat-send:active { background: var(--tips-b); }
+.chat-send:disabled { opacity: .4; cursor: default; }
+/* ══════════════════════════════════════════════════
+   API KEY MODAL
+══════════════════════════════════════════════════ */
+.key-modal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(19,17,16,.88);
+  display: flex; align-items: flex-end;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.key-modal-backdrop.hidden { display: none; }
+.key-modal {
+  width: 100%; background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  border-radius: 20px 20px 0 0;
+  padding: 28px 24px max(env(safe-area-inset-bottom, 0px), 32px);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.key-modal-sym {
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: .95rem; letter-spacing: .1em; color: var(--ink3);
+  opacity: .45; text-align: center;
+}
+.key-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600; color: var(--ink);
+  text-align: center;
+}
+.key-modal-hint {
+  font-size: .75rem; color: var(--ink3); line-height: 1.65;
+  text-align: center;
+}
+.key-modal-hint a { color: var(--ink2); }
+.key-input {
+  width: 100%; background: var(--surface2);
+  border: 1px solid var(--border-strong); border-radius: 12px;
+  padding: 14px 16px; color: var(--ink);
+  font-family: 'Courier New', monospace; font-size: .82rem;
+  outline: none; transition: border-color .15s;
+  -webkit-appearance: none;
+}
+.key-input::placeholder { color: var(--ink3); font-family: 'DM Sans', sans-serif; }
+.key-input:focus { border-color: rgba(255,255,255,.28); }
+.key-save-btn {
+  width: 100%; padding: 15px;
+  background: var(--surface2); border: 1px solid var(--border-strong);
+  border-radius: 14px; color: var(--ink); font-family: inherit;
+  font-size: .85rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s;
+}
+.key-save-btn:active { background: rgba(255,255,255,.08); }
+.key-reset-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: .62rem;
+  font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3); padding: 4px 0; margin-left: auto;
+  -webkit-tap-highlight-color: transparent; transition: color .15s;
+}
+.key-reset-btn:active { color: var(--ink2); }
 </style>
 </head>
 <body>
@@ -488,6 +781,23 @@ html, body {
   <div class="hdr" id="mainHdr">
     <span class="hdr-sym">⊹₊˚‧︵‿₊୨ᰔ୧₊‿︵‧˚₊⊹</span>
     <span class="hdr-sub">workout</span>
+    <button class="key-reset-btn" onclick="promptForKey(true)" title="API key settings">key ⚙</button>
+  </div>
+
+  <!-- ══ API KEY MODAL ══════════════════════════════════ -->
+  <div class="key-modal-backdrop hidden" id="keyModal">
+    <div class="key-modal">
+      <div class="key-modal-sym">꧁ · ✦ · ꧂</div>
+      <div class="key-modal-title">Anthropic API Key</div>
+      <div class="key-modal-hint">
+        Your key is stored only in this browser's localStorage — never sent anywhere except Anthropic's API directly.<br><br>
+        Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+      </div>
+      <input class="key-input" id="keyInput" type="password"
+        placeholder="sk-ant-…"
+        oninput="document.getElementById('keySaveBtn').disabled = this.value.trim().length < 10">
+      <button class="key-save-btn" id="keySaveBtn" onclick="saveKey()" disabled>Save & continue</button>
+    </div>
   </div>
 
   <!-- ══════════════════════════════════════════════════
@@ -535,14 +845,40 @@ html, body {
             <div class="tile-sub">quads · glutes<br>hamstrings</div>
           </div>
 
-          <!-- Catalog — placeholder slot -->
-          <div class="tile tile-cat" onclick="goTo('screen-catalog',null)">
+          <!-- Full Body -->
+          <div class="tile tile-full-body" onclick="goTo('screen-configure','full')">
             <span class="tile-corner tl">꧁</span>
             <span class="tile-corner tr">꧁</span>
             <span class="tile-corner bl">꧂</span>
             <span class="tile-corner br">꧂</span>
-            <div class="tile-name">Catalog</div>
-            <div class="tile-sub">browse all<br>exercises</div>
+            <div class="tile-name">Full Body</div>
+            <div class="tile-sub">total · compound<br>conditioning</div>
+          </div>
+
+          <!-- Catalog — full width -->
+          <div class="tile tile-cat tile-full" onclick="goTo('screen-catalog',null)">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name-wrap">
+              <div class="tile-name">Catalog</div>
+              <div class="tile-sub">browse all exercises</div>
+            </div>
+            <span style="color:var(--cat);opacity:.4;font-size:.9rem">→</span>
+          </div>
+
+          <!-- Tips & Guides — full width -->
+          <div class="tile tile-tips tile-full" onclick="goTo('screen-guides',null)">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name-wrap">
+              <div class="tile-name">Tips & Guides</div>
+              <div class="tile-sub">training · nutrition · ask claude</div>
+            </div>
+            <span style="color:var(--tips);opacity:.4;font-size:.9rem">→</span>
           </div>
         </div>
 
@@ -706,9 +1042,250 @@ html, body {
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════════════════
+       SCREEN: GUIDES (Tips, Nutrition, Ask Claude)
+  ══════════════════════════════════════════════════ -->
+  <div class="screen" id="screen-guides">
+    <div class="hdr-nav">
+      <button class="back-btn" onclick="goBack()">Home</button>
+      <div class="hdr-title">Tips & Guides</div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="guides-nav" id="guidesTabs">
+      <div class="guides-tab active" onclick="switchTab('tab-training',this)">Training</div>
+      <div class="guides-tab" onclick="switchTab('tab-intensity',this)">Intensity</div>
+      <div class="guides-tab" onclick="switchTab('tab-nutrition',this)">Nutrition</div>
+      <div class="guides-tab" onclick="switchTab('tab-mobility',this)">Mobility</div>
+      <div class="guides-tab" onclick="switchTab('tab-ask',this)">Ask Claude</div>
+    </div>
+
+    <div class="guides-scroll">
+
+      <!-- ── TRAINING ── -->
+      <div class="guides-panel active" id="tab-training">
+
+        <div class="guide-section">
+          <div class="guide-section-title">The fundamental rule</div>
+          <div class="guide-body">
+            <strong>Mechanical tension drives muscle growth.</strong> The muscle must be loaded under stretch and contraction — not just moved through space. A lighter weight felt intensely in the target muscle is almost always more productive than a heavier weight dominated by momentum and secondary movers.
+          </div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Tempo & control</div>
+          <div class="guide-block">
+            <div class="guide-block-label">Eccentric (lowering)</div>
+            <div class="guide-body">Take 2–3 seconds on the way down. The muscle is strongest eccentrically — this phase causes the most fibre damage and therefore the most adaptation. Never drop the weight.</div>
+          </div>
+          <div class="guide-block">
+            <div class="guide-block-label">Concentric (lifting)</div>
+            <div class="guide-body">Drive with intent. You don't need to go slow — you need to feel the muscle doing the work. If your joints are taking over, the load is too heavy or your position is wrong.</div>
+          </div>
+          <div class="guide-block">
+            <div class="guide-block-label">Range of motion</div>
+            <div class="guide-body">Full range whenever anatomy permits. The stretched position (bottom of a rep) creates the highest tension and the greatest growth stimulus. Partial reps have a place but should not be the default.</div>
+          </div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Mind-muscle connection</div>
+          <div class="guide-body">Before each set, place a hand on the target muscle and deliberately contract it. During the set, focus on that muscle — not on completing the rep. If you can't feel it, reduce the weight until you can. The connection improves with practice and is worth building early.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Movement patterns to cover weekly</div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Push</strong> — horizontal (bench, dips) and vertical (overhead press)</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Pull</strong> — horizontal (rows) and vertical (pulldowns, pull-ups)</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Hinge</strong> — hip hinge patterns (deadlift, RDL, good morning)</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Squat</strong> — bilateral (squat) and unilateral (lunge, split squat)</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Carry</strong> — loaded walks, farmer carries, suitcase carries</div></div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Rest between sets</div>
+          <div class="guide-body">
+            <strong>Hypertrophy:</strong> 60–90 seconds. Enough to recover, short enough to keep metabolic stress elevated.<br><br>
+            <strong>Strength:</strong> 3–5 minutes. Full nervous system recovery is needed to express maximum force.<br><br>
+            When in doubt, rest longer rather than shorter — incomplete recovery produces worse sets, not better conditioning.
+          </div>
+        </div>
+
+        <!-- Chat appended to all panels -->
+        <div class="chat-wrap">
+          <div class="chat-hdr">⊹ Ask Claude — training</div>
+          <div class="chat-messages" id="chat-messages-training"></div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input-training" rows="1" placeholder="e.g. How do I fix lat activation on pulldowns?"></textarea>
+            <button class="chat-send" id="chat-send-training" onclick="sendChat('training')">↑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── INTENSITY ── -->
+      <div class="guides-panel" id="tab-intensity">
+
+        <div class="guide-section">
+          <div class="guide-section-title">Going to failure</div>
+          <div class="guide-body">True muscular failure — the point where another full rep is physically impossible with good form — is one of the most potent growth signals available. Most people never reach it. They stop when it becomes uncomfortable, which is usually 3–5 reps before actual failure.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Reps in Reserve (RIR)</div>
+          <div class="guide-body">Use RIR to calibrate effort across sets. On a 3-set working block:</div>
+          <br>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Set 1</strong> — 2 RIR. Hard but clean. Saving enough to not pre-fatigue.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Set 2</strong> — 1 RIR. One more rep would have been possible, barely.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Set 3</strong> — 0 RIR. Failure. The last rep should be a grind.</div></div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Rep ranges</div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>1–5 reps</strong> — Maximum strength. Heavy load, full recovery between sets (3–5 min), low total volume.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>6–12 reps</strong> — Hypertrophy sweet spot. Moderate load, moderate rest. Most sessions should live here.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>15–30 reps</strong> — Metabolic hypertrophy and endurance. Particularly useful for isolation work (side delts, calves, bicep curls).</div></div>
+          <div class="guide-body" style="margin-top:12px">All ranges build muscle. The most important variable is proximity to failure, not the exact rep count.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Progressive overload</div>
+          <div class="guide-body">The body adapts to a stimulus and then stops responding to it. You must regularly increase the demand — more weight, more reps, more sets, or less rest — to keep progressing. Track your lifts. If you're not beating your previous numbers over time, you're not overloading.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Deload</div>
+          <div class="guide-body">Every 4–8 weeks, drop volume by 40–50% for one week. Keep intensity (weight) the same, reduce sets. This is not optional for long-term progress — it allows connective tissue and the nervous system to recover from accumulated fatigue that muscles don't signal directly.</div>
+        </div>
+
+        <div class="chat-wrap">
+          <div class="chat-hdr">⊹ Ask Claude — intensity</div>
+          <div class="chat-messages" id="chat-messages-intensity"></div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input-intensity" rows="1" placeholder="e.g. How do I know when I've hit true failure?"></textarea>
+            <button class="chat-send" id="chat-send-intensity" onclick="sendChat('intensity')">↑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NUTRITION ── -->
+      <div class="guides-panel" id="tab-nutrition">
+
+        <div class="guide-section">
+          <div class="guide-section-title">Protein — the non-negotiable</div>
+          <div class="guide-body">
+            Target <strong>1.6–2.2g of protein per kg of bodyweight daily.</strong> At 80kg that's 128–176g. Spread it across 3–4 meals — muscle protein synthesis is limited per meal, so one large serving does not equal four smaller ones across a day.<br><br>
+            Prioritise whole food sources: eggs, meat, fish, Greek yogurt, cottage cheese, legumes. Protein powder is a convenient supplement, not a replacement.
+          </div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Calories for your goal</div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Building muscle:</strong> slight caloric surplus of 200–300 kcal above maintenance. Larger surpluses accelerate fat gain without speeding muscle gain.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Losing fat:</strong> deficit of 300–500 kcal below maintenance. Preserve protein intake — muscle is expensive to rebuild.</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Recomposition:</strong> maintenance calories with high protein. Slower, but possible, especially early in training.</div></div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Carbohydrates</div>
+          <div class="guide-body">Carbohydrates are the primary fuel for resistance training. Restricting them too aggressively degrades session quality — you'll lift less, recover slower, and feel worse. Time your largest carb intake around training: before for energy, after for replenishment.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Meal structure</div>
+          <div class="guide-body">A useful ordering principle: vegetables first, protein second, carbohydrates third. Eating in this sequence blunts blood sugar spikes and supports satiety. It doesn't need to be rigid — the total intake across the day matters more than any single meal's composition.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Hydration</div>
+          <div class="guide-body">Target ~35ml per kg of bodyweight daily, more on training days. Even mild dehydration (1–2% bodyweight) measurably impairs strength output and cognitive function. Drink water consistently through the day rather than large volumes in one sitting.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Anti-inflammatory basics</div>
+          <div class="guide-body">Reduce processed foods, refined sugars, and seed oils during training blocks. Ginger and turmeric have modest evidence for reducing exercise-induced inflammation — useful additions to diet, not a substitute for adequate protein and sleep.</div>
+        </div>
+
+        <div class="chat-wrap">
+          <div class="chat-hdr">⊹ Ask Claude — nutrition</div>
+          <div class="chat-messages" id="chat-messages-nutrition"></div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input-nutrition" rows="1" placeholder="e.g. How much protein can I absorb per meal?"></textarea>
+            <button class="chat-send" id="chat-send-nutrition" onclick="sendChat('nutrition')">↑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MOBILITY ── -->
+      <div class="guides-panel" id="tab-mobility">
+
+        <div class="guide-section">
+          <div class="guide-section-title">Warmup — dynamic first</div>
+          <div class="guide-body">A warmup has two jobs: raise core temperature and prime the movement patterns you're about to use. 5–10 minutes of dynamic movement (leg swings, arm circles, world's greatest stretch, band pull-aparts) is enough. Static stretching before lifting reduces force output — save it for after.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Warmup sequence</div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>Cat-cow — thoracic spine mobilisation</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>Scapula raise & press — shoulder blade control</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>Cobra & thoracic rotation</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>World's Greatest Stretch — hips, thoracic, hamstrings</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>Hip 90/90 or Asian squat hold</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div>Band pull-aparts (before upper body)</div></div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Cooldown — static stretching</div>
+          <div class="guide-body">After training, when the muscles are warm and pliable, is the most effective time to improve flexibility. Hold each stretch 45–60 seconds without bouncing. Target muscles trained that day. Don't push to pain — you should feel tension and mild discomfort, not sharp sensation.</div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Areas most people neglect</div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Hip flexors</strong> — tight from sitting, limit squat depth and pelvic position</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Thoracic spine</strong> — limited rotation causes shoulder and neck compensation</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Rear delts & external rotators</strong> — chronically weak in pressing-heavy programs</div></div>
+          <div class="guide-rule"><span class="guide-rule-sym">꧁</span><div><strong>Calves & ankles</strong> — restrict squat mechanics more than most realise</div></div>
+        </div>
+
+        <div class="guide-section">
+          <div class="guide-section-title">Recovery between sessions</div>
+          <div class="guide-body">Do not train the same muscle group on consecutive days. Muscle protein synthesis remains elevated for 48–72 hours post-training — you need that window for repair. Active recovery (walking, swimming, light mobility) on rest days supports blood flow without adding stress. Sleep 7–9 hours — the majority of growth hormone release occurs during deep sleep stages.</div>
+        </div>
+
+        <div class="chat-wrap">
+          <div class="chat-hdr">⊹ Ask Claude — mobility</div>
+          <div class="chat-messages" id="chat-messages-mobility"></div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input-mobility" rows="1" placeholder="e.g. My hip flexors are always tight, what helps?"></textarea>
+            <button class="chat-send" id="chat-send-mobility" onclick="sendChat('mobility')">↑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ASK CLAUDE (standalone) ── -->
+      <div class="guides-panel" id="tab-ask">
+        <div class="guide-section">
+          <div class="guide-section-title">Ask anything</div>
+          <div class="guide-body">Ask Claude specific questions about your training, technique, nutrition, or recovery. The more context you provide — your current program, how something feels, what you've already tried — the more precise the answer.</div>
+        </div>
+        <div class="chat-wrap" style="margin:0;border-top:none;background:transparent;padding:0;">
+          <div class="chat-messages" id="chat-messages-ask" style="min-height:120px"></div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input-ask" rows="2" placeholder="e.g. I feel bench press mostly in my front delts, not chest. What am I doing wrong?"></textarea>
+            <button class="chat-send" id="chat-send-ask" onclick="sendChat('ask')">↑</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.guides-scroll -->
+  </div>
+
 </div><!-- /.app -->
 
 <script>
+/* ── Config ──────────────────────────────────────── */
+function getApiKey() { return localStorage.getItem('anthropic_key') || ''; }
+const CATALOG_URL   = 'https://raw.githubusercontent.com/Prastako/workout-platform/main/master_catalog_v3.json';
+
 /* ── State ───────────────────────────────────────── */
 const DAY_CONFIG = {
   push: {
@@ -742,6 +1319,17 @@ const DAY_CONFIG = {
       { text: 'Glute emphasis',     prompt: 'Emphasise glute activation — hip thrusts and RDLs.' },
       { text: 'Hamstring focus',    prompt: 'Include extra hamstring work — curls and RDLs.' },
       { text: 'Calf work included', prompt: 'Add calf raises to the session.' },
+    ],
+  },
+  full: {
+    label:   'Full Body',
+    color:   'full',
+    muscles: 'total · compound · conditioning',
+    targets: [
+      { text: 'Strength focus',      prompt: 'Prioritise strength — heavy compound movements across all patterns.' },
+      { text: 'Conditioning circuit', prompt: 'Structure as a conditioning circuit with minimal rest.' },
+      { text: 'Calisthenics bias',   prompt: 'Favour bodyweight and calisthenic movements.' },
+      { text: 'Kettlebell focus',    prompt: 'Use kettlebell-based exercises wherever possible.' },
     ],
   },
 };
@@ -821,6 +1409,7 @@ function setupConfigure(dayType) {
   document.getElementById('cfgNote').placeholder =
       dayType === 'push' ? 'e.g. Skip flat bench today, focus on overhead pressing…'
     : dayType === 'pull' ? 'e.g. Prioritise lats and skip direct bicep work…'
+    : dayType === 'full' ? 'e.g. Keep it equipment-free, or add a conditioning finisher…'
     :                      'e.g. My left knee is sore, avoid deep squats today…';
 }
 
@@ -911,9 +1500,314 @@ function startGenerate() {
   if (titleEl) titleEl.textContent = cfg.label;
   goTo('screen-session', null);
   startLoadingAnim();
+  generateSession(); // Brick 4
 }
 
-/* ── Navigation ──────────────────────────────────── */
+/* ── Brick 4: Claude API session generation ──────── */
+async function generateSession() {
+  const ctx = window._sessionCtx;
+
+  // 1. Fetch catalog (cached after first load)
+  let catalog = window._catalog;
+  if (!catalog) {
+    try {
+      const resp = await fetch(CATALOG_URL);
+      if (!resp.ok) throw new Error('Catalog fetch failed (' + resp.status + ')');
+      catalog = await resp.json();
+      window._catalog = catalog;
+    } catch(e) {
+      showSessionError('Could not load exercise catalog.<br>' + e.message);
+      return;
+    }
+  }
+
+  // 2. Filter by day_type; full body uses push/pull/legs pool; include core if optCore is checked
+  const coreChecked = document.getElementById('optCore')?.classList.contains('checked');
+  const isFullBody  = ctx.dayType === 'full';
+  let filtered = catalog.filter(function(ex) {
+    const types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
+    const cat   = ex.category || '';
+    if (isFullBody) return cat !== 'stretch_mobility';
+    return types.includes(ctx.dayType) || (coreChecked && types.includes('core'));
+  });
+
+  // Prefer non-flagged; fall back to flagged only if pool is too thin
+  const nonFlagged = filtered.filter(function(ex) { return ex.visual_tier !== 'flagged'; });
+  if (nonFlagged.length >= 10) filtered = nonFlagged;
+
+  // Order: full tier first, then heatmap_only, then flagged — cap at 160
+  const full     = filtered.filter(function(ex) { return ex.visual_tier === 'full'; });
+  const heatmap  = filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; });
+  const flagged  = filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; });
+  const pool     = full.concat(heatmap).concat(flagged).slice(0, 160);
+
+  // 3. Build compact exercise list for the prompt
+  const exList = pool.map(function(ex) {
+    return '- ' + ex.name +
+      ' | muscles: ' + (ex.primary_muscles || []).join(', ') +
+      ' | equip: ' + (ex.equipment || 'bodyweight') +
+      ' | ' + (ex.sets || '3') + 'x' + (ex.reps || '10');
+  }).join('\n');
+
+  // 4. Build prompt
+  const mainCount = ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '5–7' : '7–9';
+  const modLine   = ctx.modifier ? '\nPreferences: ' + ctx.modifier : '';
+  const prompt    =
+    'Design a ' + ctx.dayLabel + ' workout (' + ctx.duration + ' min) targeting ' + ctx.muscles + '.' + modLine + '\n\n' +
+    'Choose exercises ONLY from this list (use exact names):\n' + exList + '\n\n' +
+    'Return ONLY valid JSON — no markdown, no extra text:\n' +
+    '{"warmup":[{"name":"...","duration":"...","notes":"..."}],' +
+    '"main":[{"name":"...","sets":"...","reps":"...","notes":"..."}],' +
+    '"cooldown":[{"name":"...","duration":"...","notes":"..."}]}\n\n' +
+    'Rules:\n' +
+    '- warmup: 3–4 dynamic movements, 30–60s each\n' +
+    '- main: ' + mainCount + ' exercises with sets/reps suited to ' + ctx.duration + ' min\n' +
+    '- cooldown: 2–3 static stretches, 45–60s each\n' +
+    '- notes: one short coaching cue per exercise';
+
+  // 5. Call Claude API
+  let workout;
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': getApiKey(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    if (!resp.ok) {
+      const err = await resp.json().catch(function() { return {}; });
+      throw new Error(err.error?.message || 'API error ' + resp.status);
+    }
+    const data = await resp.json();
+    const raw  = (data.content?.[0]?.text || '').replace(/```json|```/g, '').trim();
+    workout    = JSON.parse(raw);
+  } catch(e) {
+    showSessionError('Generation failed.<br>' + e.message);
+    return;
+  }
+
+  // 6. Render, save, show
+  stopLoadingAnim();
+  renderSession(workout, ctx);
+  saveSession(workout, ctx);
+}
+
+function renderSession(workout, ctx) {
+  window._currentWorkout = workout;
+  window._sessionCtx     = ctx;
+
+  const accent = 'var(--' + ctx.dayType + ')';
+  let   exIdx  = 0; // global counter for unique row IDs
+
+  function exRow(ex, isMain) {
+    const id     = 'ex-' + (exIdx++);
+    const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
+    return '<div class="ex-row" id="' + id + '" onclick="toggleDone(\'' + id + '\')">' +
+      '<div class="ex-check"><span class="ex-check-tick">✓</span></div>' +
+      '<div class="ex-row-left">' +
+        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+      '</div>' +
+      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+      '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
+    '</div>';
+  }
+
+  function sectionHTML(sectionKey, title, items, isMain) {
+    const rows = (items || []).map(function(ex) { return exRow(ex, isMain); }).join('');
+    return '<div class="session-section" id="section-' + sectionKey + '">' +
+      '<div class="session-section-hdr">' +
+        '<span class="session-section-title" style="color:' + accent + '">' + title + '</span>' +
+        '<button class="regen-btn" onclick="regenSection(\'' + sectionKey + '\')">↻ redo</button>' +
+      '</div>' +
+      '<div class="section-rows" id="rows-' + sectionKey + '">' + rows + '</div>' +
+      '<div class="session-regen-overlay"><span class="regen-spinner-sym">⊹</span></div>' +
+    '</div>';
+  }
+
+  const html =
+    '<div class="session-body">' +
+      sectionHTML('warmup',   'Warmup',       workout.warmup,   false) +
+      sectionHTML('main',     ctx.dayLabel,   workout.main,     true)  +
+      sectionHTML('cooldown', 'Cooldown',     workout.cooldown, false) +
+    '</div>';
+
+  const loadingEl = document.getElementById('loadingScreen');
+  const contentEl = document.getElementById('sessionContent');
+  loadingEl.style.display = 'none';
+  contentEl.innerHTML     = html;
+  contentEl.style.display = 'block';
+}
+
+function toggleDone(rowId) {
+  const el = document.getElementById(rowId);
+  if (el) el.classList.toggle('done');
+}
+
+function openExercise(name) {
+  // Brick 6 — bottom sheet stub
+}
+
+async function regenSection(sectionKey) {
+  const ctx     = window._sessionCtx;
+  const workout = window._currentWorkout;
+  if (!ctx || !workout) return;
+
+  const sectionEl = document.getElementById('section-' + sectionKey);
+  const rowsEl    = document.getElementById('rows-' + sectionKey);
+  const btn       = sectionEl.querySelector('.regen-btn');
+  if (!sectionEl || !rowsEl) return;
+
+  // Show spinner overlay
+  sectionEl.classList.add('regenning');
+  if (btn) { btn.disabled = true; btn.classList.add('spinning'); }
+
+  // Fetch catalog (cached on window after first load)
+  let catalog = window._catalog;
+  if (!catalog) {
+    try {
+      const r = await fetch(CATALOG_URL);
+      catalog = await r.json();
+      window._catalog = catalog;
+    } catch(e) {
+      sectionEl.classList.remove('regenning');
+      if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
+      return;
+    }
+  }
+
+  // Build exercise pool same as generateSession
+  const isFullBody = ctx.dayType === 'full';
+  let filtered = catalog.filter(function(ex) {
+    const types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
+    const cat   = ex.category || '';
+    if (isFullBody) return cat !== 'stretch_mobility';
+    return types.includes(ctx.dayType);
+  });
+  const nonFlagged = filtered.filter(function(ex) { return ex.visual_tier !== 'flagged'; });
+  if (nonFlagged.length >= 10) filtered = nonFlagged;
+  const full    = filtered.filter(function(ex) { return ex.visual_tier === 'full'; });
+  const heatmap = filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; });
+  const flagged = filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; });
+  const pool    = full.concat(heatmap).concat(flagged).slice(0, 120);
+
+  // Exclude exercises already in other sections
+  const existing = [];
+  ['warmup','main','cooldown'].forEach(function(k) {
+    if (k !== sectionKey && workout[k]) {
+      workout[k].forEach(function(ex) { existing.push(ex.name.toLowerCase()); });
+    }
+  });
+  const fresh = pool.filter(function(ex) { return !existing.includes(ex.name.toLowerCase()); });
+
+  const exList = (fresh.length ? fresh : pool).map(function(ex) {
+    return '- ' + ex.name + ' | muscles: ' + (ex.primary_muscles || []).join(', ') +
+      ' | equip: ' + (ex.equipment || 'bodyweight') + ' | ' + (ex.sets || '3') + 'x' + (ex.reps || '10');
+  }).join('\n');
+
+  const sectionPrompts = {
+    warmup:   'Generate a warmup block of 3–4 dynamic movements (30–60s each) for a ' + ctx.dayLabel + '.',
+    main:     'Generate a main block of ' + (ctx.duration <= 45 ? '4–5' : ctx.duration <= 90 ? '5–7' : '7–9') + ' exercises for a ' + ctx.dayLabel + ' (' + ctx.duration + ' min).' + (ctx.modifier ? ' Preferences: ' + ctx.modifier : ''),
+    cooldown: 'Generate a cooldown of 2–3 static stretches (45–60s each) after a ' + ctx.dayLabel + '.',
+  };
+
+  const schemaMap = {
+    warmup:   '{"warmup":[{"name":"...","duration":"...","notes":"..."}]}',
+    main:     '{"main":[{"name":"...","sets":"...","reps":"...","notes":"..."}]}',
+    cooldown: '{"cooldown":[{"name":"...","duration":"...","notes":"..."}]}',
+  };
+
+  const prompt = sectionPrompts[sectionKey] + '\n\n' +
+    'Choose ONLY from this list (use exact names):\n' + exList + '\n\n' +
+    'Return ONLY valid JSON — no markdown:\n' + schemaMap[sectionKey] + '\n\n' +
+    'One short coaching cue per exercise in "notes".';
+
+  let newItems;
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': getApiKey(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    const data = await resp.json();
+    const raw  = (data.content?.[0]?.text || '').replace(/```json|```/g, '').trim();
+    const obj  = JSON.parse(raw);
+    newItems   = obj[sectionKey];
+  } catch(e) {
+    sectionEl.classList.remove('regenning');
+    if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
+    return;
+  }
+
+  // Patch workout object and re-render just the rows
+  workout[sectionKey] = newItems;
+  const isMain = sectionKey === 'main';
+  let localIdx = 0;
+  // Use a stable prefix so IDs don't collide with existing rows
+  const prefix = sectionKey + '-r' + Date.now() + '-';
+  const newRows = (newItems || []).map(function(ex) {
+    const id     = prefix + (localIdx++);
+    const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
+    return '<div class="ex-row" id="' + id + '" onclick="toggleDone(\'' + id + '\')">' +
+      '<div class="ex-check"><span class="ex-check-tick">✓</span></div>' +
+      '<div class="ex-row-left">' +
+        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+      '</div>' +
+      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+      '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
+    '</div>';
+  }).join('');
+
+  rowsEl.innerHTML = newRows;
+  sectionEl.classList.remove('regenning');
+  if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
+}
+
+function showSessionError(msg) {
+  stopLoadingAnim();
+  const loadingEl = document.getElementById('loadingScreen');
+  loadingEl.innerHTML =
+    '<div class="session-error">' +
+      '<div class="session-error-sym">✦ · ✦</div>' +
+      '<div class="session-error-msg">' + msg + '</div>' +
+      '<button class="session-error-btn" onclick="goBack()">Go back</button>' +
+    '</div>';
+}
+
+function saveSession(workout, ctx) {
+  try {
+    const count =
+      (workout.warmup?.length   || 0) +
+      (workout.main?.length     || 0) +
+      (workout.cooldown?.length || 0);
+    const date  = new Date().toLocaleDateString(undefined,
+      { weekday: 'short', month: 'short', day: 'numeric' });
+    const entry = { label: ctx.dayLabel, date: date, exerciseCount: count, ctx: ctx };
+    const prev  = JSON.parse(localStorage.getItem('workout_sessions') || '[]');
+    localStorage.setItem('workout_sessions', JSON.stringify([entry].concat(prev).slice(0, 10)));
+    loadRecent();
+  } catch(e) {}
+}
+
+
 function goTo(screenId, dayType) {
   const current   = screenStack[screenStack.length - 1];
   const currentEl = document.getElementById(current);
@@ -975,6 +1869,142 @@ function loadRecent() {
   } catch(e) {}
 }
 loadRecent();
+
+/* ── Guides: tab switching ───────────────────────── */
+function switchTab(panelId, tabEl) {
+  document.querySelectorAll('.guides-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.guides-tab').forEach(function(t)   { t.classList.remove('active'); });
+  document.getElementById(panelId).classList.add('active');
+  tabEl.classList.add('active');
+}
+
+/* ── Guides: per-tab chat history ───────────────── */
+const _chatHistory = {};
+
+async function sendChat(tab) {
+  const inputEl  = document.getElementById('chat-input-' + tab);
+  const sendBtn  = document.getElementById('chat-send-' + tab);
+  const msgsEl   = document.getElementById('chat-messages-' + tab);
+  const text     = inputEl.value.trim();
+  if (!text) return;
+
+  inputEl.value = '';
+  inputEl.style.height = '';
+  msgsEl.insertAdjacentHTML('beforeend',
+    '<div class="chat-msg user">' + escHtml(text) + '</div>');
+
+  const thinkId = 'think-' + Date.now();
+  msgsEl.insertAdjacentHTML('beforeend',
+    '<div class="chat-msg ai thinking" id="' + thinkId + '">thinking…</div>');
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  sendBtn.disabled = true;
+
+  const systemMap = {
+    training:  'You are a precise, no-fluff strength training coach. Answer questions about exercise technique, programming, and muscle training. Keep answers concise — 2–4 short paragraphs maximum. Use plain text, no markdown.',
+    intensity: 'You are a precise, no-fluff strength coach specialising in training intensity, progressive overload, and failure training. Keep answers concise — 2–4 short paragraphs maximum. Use plain text, no markdown.',
+    nutrition: 'You are a knowledgeable sports nutritionist. Answer questions about training nutrition, protein, calories, and recovery diet. Keep answers concise — 2–4 short paragraphs maximum. Use plain text, no markdown.',
+    mobility:  'You are a mobility and movement coach. Answer questions about warmup, stretching, flexibility, and injury prevention. Keep answers concise — 2–4 short paragraphs maximum. Use plain text, no markdown.',
+    ask:       'You are a well-rounded strength and conditioning coach. Answer any training, nutrition, technique, or recovery question concisely. 2–4 short paragraphs maximum. Use plain text, no markdown.',
+  };
+
+  if (!_chatHistory[tab]) _chatHistory[tab] = [];
+  _chatHistory[tab].push({ role: 'user', content: text });
+  if (_chatHistory[tab].length > 10) _chatHistory[tab] = _chatHistory[tab].slice(-10);
+
+  let reply = '';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': getApiKey(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: systemMap[tab] || systemMap.ask,
+        messages: _chatHistory[tab],
+      }),
+    });
+    const data = await resp.json();
+    reply = (data.content?.[0]?.text || '').trim() || 'No response received.';
+  } catch(e) {
+    reply = 'Connection error: ' + e.message;
+  }
+
+  const thinkEl = document.getElementById(thinkId);
+  if (thinkEl) {
+    thinkEl.className = 'chat-msg ai';
+    thinkEl.textContent = reply;
+  }
+  _chatHistory[tab].push({ role: 'assistant', content: reply });
+  if (_chatHistory[tab].length > 10) _chatHistory[tab] = _chatHistory[tab].slice(-10);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  sendBtn.disabled = false;
+  inputEl.focus();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+document.querySelectorAll('.chat-input').forEach(function(el) {
+  el.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      var tab = this.id.replace('chat-input-', '');
+      sendChat(tab);
+    }
+  });
+});
+
+/* ── API key modal ───────────────────────────────── */
+function promptForKey(force) {
+  const modal    = document.getElementById('keyModal');
+  const inputEl  = document.getElementById('keyInput');
+  const saveBtn  = document.getElementById('keySaveBtn');
+  const existing = getApiKey();
+  if (!force && existing) return; // already set, skip
+  inputEl.value      = '';
+  saveBtn.disabled   = true;
+  modal.classList.remove('hidden');
+  setTimeout(function() { inputEl.focus(); }, 100);
+}
+
+function saveKey() {
+  const val = document.getElementById('keyInput').value.trim();
+  if (!val || val.length < 10) return;
+  localStorage.setItem('anthropic_key', val);
+  document.getElementById('keyModal').classList.add('hidden');
+  document.getElementById('keyInput').value = '';
+}
+
+function forgetKey() {
+  localStorage.removeItem('anthropic_key');
+  promptForKey(true);
+}
+
+// Guard generateSession and sendChat — show modal if key missing
+const _origStartGenerate = startGenerate;
+startGenerate = function() {
+  if (!getApiKey()) { promptForKey(true); return; }
+  _origStartGenerate();
+};
+
+const _origSendChat = sendChat;
+sendChat = function(tab) {
+  if (!getApiKey()) { promptForKey(true); return; }
+  _origSendChat(tab);
+};
+
+// Show on first load if no key stored
+if (!getApiKey()) promptForKey(false);
 </script>
 </body>
 </html>
