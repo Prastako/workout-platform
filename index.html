@@ -266,7 +266,202 @@ html, body {
 .side-sym-r { transform: rotate(180deg); }
 
 /* ══════════════════════════════════════════════════
-   PLACEHOLDER SCREENS (Bricks 3+)
+   CONFIGURE SCREEN
+══════════════════════════════════════════════════ */
+.cfg-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 16px 32px; }
+
+/* Day banner */
+.cfg-banner {
+  margin: 20px 0 24px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.cfg-banner-day {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600;
+}
+.cfg-banner-muscles {
+  font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3);
+}
+
+/* Banner color variants */
+.cfg-banner.push { border-color: var(--push-b); background: var(--push-t); }
+.cfg-banner.push .cfg-banner-day { color: var(--push); }
+.cfg-banner.pull { border-color: var(--pull-b); background: var(--pull-t); }
+.cfg-banner.pull .cfg-banner-day { color: var(--pull); }
+.cfg-banner.legs { border-color: var(--legs-b); background: var(--legs-t); }
+.cfg-banner.legs .cfg-banner-day { color: var(--legs); }
+
+/* Section labels */
+.cfg-label {
+  font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 10px;
+}
+
+/* Checkbox option groups */
+.opt-group { margin-bottom: 20px; }
+.opt-group-label {
+  font-size: .55rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); opacity: .6; margin-bottom: 8px;
+}
+.opt-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.opt-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 9px; padding: 9px 10px;
+  cursor: pointer; user-select: none;
+  transition: background .15s, border-color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt-item.checked { border-color: var(--border-strong); }
+.opt-item.checked.push { background: var(--push-t); border-color: var(--push-b); }
+.opt-item.checked.pull { background: var(--pull-t); border-color: var(--pull-b); }
+.opt-item.checked.legs { background: var(--legs-t); border-color: var(--legs-b); }
+
+.opt-box {
+  width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px;
+  border-radius: 3px; border: 1px solid var(--border-strong);
+  background: var(--surface); display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s;
+}
+.opt-item.checked .opt-box { border-color: transparent; }
+.opt-item.checked.push .opt-box { background: var(--push); }
+.opt-item.checked.pull .opt-box { background: var(--pull); }
+.opt-item.checked.legs .opt-box { background: var(--legs); }
+.opt-tick {
+  font-size: 9px; color: #131110; font-weight: 900;
+  display: none; line-height: 1;
+}
+.opt-item.checked .opt-tick { display: block; }
+
+.opt-text {
+  font-size: .7rem; font-weight: 500; color: var(--ink3);
+  line-height: 1.35; transition: color .15s;
+}
+.opt-item.checked .opt-text { color: var(--ink2); }
+
+/* Custom duration input */
+.dur-custom {
+  flex: 1.2; position: relative;
+}
+.dur-custom input {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 6px; text-align: center;
+  font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 700;
+  color: var(--ink3); outline: none;
+  transition: background .15s, border-color .15s, color .15s;
+  -webkit-appearance: none;
+}
+.dur-custom input::placeholder { color: var(--ink3); opacity: .45; font-weight: 400; }
+.dur-custom input:focus { border-color: var(--border-strong); color: var(--ink); }
+.dur-custom input.active.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.dur-custom input.active.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.dur-custom input.active.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+
+/* ══════════════════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════════════════ */
+.loading-screen {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; padding: 32px;
+}
+.loading-sym {
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: 1.1rem; letter-spacing: .08em;
+  color: var(--ink3); opacity: .55;
+  user-select: none;
+  width: 260px; text-align: center; overflow: hidden;
+}
+.loading-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600; color: var(--ink2);
+}
+.loading-status {
+  font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); width: 220px; text-align: center;
+}
+.loading-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--ink3); opacity: .3;
+  display: inline-block; margin: 0 2px;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: .2s; }
+.loading-dot:nth-child(3) { animation-delay: .4s; }
+@keyframes dotPulse {
+  0%,100% { opacity: .2; transform: scale(1); }
+  50%      { opacity: .8; transform: scale(1.5); }
+}
+
+/* Text input */
+.cfg-textarea {
+  width: 100%; background: var(--surface2);
+  border: 1px solid var(--border-strong); border-radius: 12px;
+  padding: 14px; color: var(--ink);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; line-height: 1.55;
+  resize: none; min-height: 90px;
+  outline: none; transition: border-color .15s;
+  margin-bottom: 8px;
+}
+.cfg-textarea::placeholder { color: var(--ink3); }
+.cfg-textarea:focus { border-color: var(--border-strong); }
+
+.cfg-hint {
+  font-size: .62rem; color: var(--ink3); margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* Generate button */
+.gen-btn {
+  width: 100%; padding: 16px;
+  border-radius: 13px; border: 1px solid;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem; font-weight: 700; letter-spacing: .05em;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: opacity .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.gen-btn:active { transform: scale(.98); opacity: .85; }
+.gen-btn.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.gen-btn.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.gen-btn.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+
+/* Corner glyphs on generate button */
+.gen-btn .btn-corner {
+  position: absolute; font-family: 'DM Sans', sans-serif;
+  font-weight: 900; font-size: .68rem; line-height: 1;
+  opacity: .35; pointer-events: none;
+}
+.gen-btn .btn-corner.tl { top: 6px;    left: 8px;  }
+.gen-btn .btn-corner.tr { top: 6px;    right: 8px;  transform: scaleX(-1); }
+.gen-btn .btn-corner.bl { bottom: 6px; left: 8px;  transform: scaleY(-1); }
+.gen-btn .btn-corner.br { bottom: 6px; right: 8px; transform: scale(-1,-1); }
+
+/* Duration pills */
+.duration-row {
+  display: flex; gap: 8px; margin-bottom: 24px;
+}
+.dur-pill {
+  flex: 1; text-align: center;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 6px;
+  font-size: .72rem; font-weight: 700; color: var(--ink3);
+  cursor: pointer; user-select: none;
+  transition: background .15s, border-color .15s, color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.dur-pill.active.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.dur-pill.active.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.dur-pill.active.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+
+/* ══════════════════════════════════════════════════
+   PLACEHOLDER SCREENS (Bricks 5+)
 ══════════════════════════════════════════════════ */
 .placeholder {
   flex: 1; display: flex; flex-direction: column;
@@ -330,14 +525,14 @@ html, body {
             <div class="tile-sub">back · biceps<br>lats</div>
           </div>
 
-          <!-- Legs + Core -->
+          <!-- Legs -->
           <div class="tile tile-legs" onclick="goTo('screen-configure','legs')">
             <span class="tile-corner tl">꧁</span>
             <span class="tile-corner tr">꧁</span>
             <span class="tile-corner bl">꧂</span>
             <span class="tile-corner br">꧂</span>
-            <div class="tile-name">Legs<br>+ Core</div>
-            <div class="tile-sub">quads · glutes<br>hamstrings · abs</div>
+            <div class="tile-name">Legs</div>
+            <div class="tile-sub">quads · glutes<br>hamstrings</div>
           </div>
 
           <!-- Catalog — placeholder slot -->
@@ -364,33 +559,136 @@ html, body {
   </div>
 
   <!-- ══════════════════════════════════════════════════
-       SCREEN: CONFIGURE (Brick 3 placeholder)
+       SCREEN: CONFIGURE (Brick 3)
   ══════════════════════════════════════════════════ -->
   <div class="screen" id="screen-configure">
     <div class="hdr-nav">
       <button class="back-btn" onclick="goBack()">Home</button>
       <div class="hdr-title" id="configTitle">Push Day</div>
     </div>
-    <div class="placeholder">
-      <div class="placeholder-sym">⊹ · ⊹</div>
-      <div class="placeholder-label">Session configure</div>
-      <div class="placeholder-hint">Brick 3 — natural language input,<br>quick-tap chips, generate button.</div>
+    <div class="cfg-scroll">
+
+      <!-- Day banner -->
+      <div class="cfg-banner push" id="cfgBanner">
+        <div class="cfg-banner-day" id="cfgBannerDay">Push Day</div>
+        <div class="cfg-banner-muscles" id="cfgBannerMuscles">chest · shoulders · triceps</div>
+      </div>
+
+      <!-- Duration -->
+      <div class="cfg-label">Duration</div>
+      <div class="duration-row" id="durationRow">
+        <div class="dur-pill push" data-mins="45" onclick="setDuration(this)">45 min</div>
+        <div class="dur-pill push active" data-mins="90" onclick="setDuration(this)">90 min</div>
+        <div class="dur-pill push" data-mins="120" onclick="setDuration(this)">120 min</div>
+        <div class="dur-custom">
+          <input type="number" id="customDur" min="20" max="240"
+            placeholder="Custom min"
+            oninput="setCustomDuration(this)"
+            onfocus="clearPills()">
+        </div>
+      </div>
+
+      <!-- Options: Focus -->
+      <div class="cfg-label">Options</div>
+
+      <div class="opt-group">
+        <div class="opt-group-label">Focus</div>
+        <div class="opt-grid" id="optFocus">
+          <div class="opt-item push" data-text="Focus on heavy compound movements, low reps." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Heavy compound</div>
+          </div>
+          <div class="opt-item push" data-text="Include isolation exercises for muscle detail work." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Isolation focus</div>
+          </div>
+          <div class="opt-item push" data-text="Use strength rep ranges: 3-5 reps per set." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Strength (3–5 reps)</div>
+          </div>
+          <div class="opt-item push" data-text="Use hypertrophy rep ranges: 8-12 reps per set." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Hypertrophy (8–12)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options: Adjustments -->
+      <div class="opt-group">
+        <div class="opt-group-label">Adjustments</div>
+        <div class="opt-grid" id="optAdjust">
+          <div class="opt-item push" id="optCore" data-text="Include 2 core exercises." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">+ Core exercises</div>
+          </div>
+          <div class="opt-item push" data-text="No equipment — bodyweight and calisthenics only." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">No equipment</div>
+          </div>
+          <div class="opt-item push" data-text="Keep to 4 main exercises maximum." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Fewer exercises</div>
+          </div>
+          <div class="opt-item push" data-text="Low intensity recovery session, keep weights light." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Recovery pace</div>
+          </div>
+          <div class="opt-item push" data-text="Include supersets to save time and increase intensity." onclick="toggleOpt(this)">
+            <div class="opt-box"><span class="opt-tick">✓</span></div>
+            <div class="opt-text">Include supersets</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options: Target (dynamic per day) -->
+      <div class="opt-group">
+        <div class="opt-group-label">Target</div>
+        <div class="opt-grid" id="optTarget">
+          <!-- Populated by JS based on day type -->
+        </div>
+      </div>
+
+      <!-- Free text -->
+      <div class="cfg-label">Anything specific?</div>
+      <textarea
+        class="cfg-textarea"
+        id="cfgNote"
+        placeholder="e.g. I want to focus on lats and skip direct bicep work today…"
+        rows="3"
+      ></textarea>
+      <div class="cfg-hint">Leave blank for a standard session.</div>
+
+      <!-- Generate -->
+      <button class="gen-btn push" id="genBtn" onclick="startGenerate()">
+        <span class="btn-corner tl">꧁</span>
+        <span class="btn-corner tr">꧁</span>
+        <span class="btn-corner bl">꧂</span>
+        <span class="btn-corner br">꧂</span>
+        Generate workout
+      </button>
+
     </div>
   </div>
 
   <!-- ══════════════════════════════════════════════════
-       SCREEN: SESSION (Brick 5 placeholder)
+       SCREEN: SESSION (loading state → Brick 5)
   ══════════════════════════════════════════════════ -->
   <div class="screen" id="screen-session">
     <div class="hdr-nav">
       <button class="back-btn" onclick="goBack()">Configure</button>
       <div class="hdr-title" id="sessionTitle">Push Day</div>
     </div>
-    <div class="placeholder">
-      <div class="placeholder-sym">⊹ · ⊹</div>
-      <div class="placeholder-label">Session screen</div>
-      <div class="placeholder-hint">Brick 5 — warmup / main / cooldown<br>exercise rows, regenerate buttons.</div>
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loading-sym" id="loadingSym">⊹₊˚‧︵‿₊୨ᰔ୧₊‿︵‧˚₊⊹</div>
+      <div class="loading-label" id="loadingLabel">Building your workout</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+      </div>
+      <div class="loading-status" id="loadingStatus">Selecting exercises</div>
     </div>
+    <div id="sessionContent" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;"></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════
@@ -414,24 +712,63 @@ html, body {
 /* ── State ───────────────────────────────────────── */
 const DAY_CONFIG = {
   push: {
-    label: 'Push Day',
-    color: 'push',
+    label:   'Push Day',
+    color:   'push',
     muscles: 'chest · shoulders · triceps',
+    targets: [
+      { text: 'Upper chest focus',  prompt: 'Emphasise upper chest with incline movements.' },
+      { text: 'Shoulder emphasis',  prompt: 'Prioritise shoulder volume — lateral and rear delts.' },
+      { text: 'Tricep detail',      prompt: 'Include extra tricep isolation work.' },
+      { text: 'Chest-only session', prompt: 'Focus exclusively on chest exercises.' },
+    ],
   },
   pull: {
-    label: 'Pull Day',
-    color: 'pull',
+    label:   'Pull Day',
+    color:   'pull',
     muscles: 'back · biceps · lats',
+    targets: [
+      { text: 'Lat width focus',    prompt: 'Prioritise lat width — pulldowns and pull-ups.' },
+      { text: 'Rear delt emphasis', prompt: 'Include extra rear delt and face pull work.' },
+      { text: 'Bicep detail',       prompt: 'Add extra bicep isolation exercises.' },
+      { text: 'Back thickness',     prompt: 'Focus on rowing movements for back thickness.' },
+    ],
   },
   legs: {
-    label: 'Legs + Core',
-    color: 'legs',
-    muscles: 'quads · glutes · hamstrings · abs',
+    label:   'Legs Day',
+    color:   'legs',
+    muscles: 'quads · glutes · hamstrings',
+    targets: [
+      { text: 'Quad focus',         prompt: 'Prioritise quad development — squats and leg press.' },
+      { text: 'Glute emphasis',     prompt: 'Emphasise glute activation — hip thrusts and RDLs.' },
+      { text: 'Hamstring focus',    prompt: 'Include extra hamstring work — curls and RDLs.' },
+      { text: 'Calf work included', prompt: 'Add calf raises to the session.' },
+    ],
   },
 };
 
-let currentDay  = null;
-let screenStack = ['screen-home'];
+const LOADING_FRAMES = [
+  '⊹₊˚‧︵‿₊୨ᰔ୧₊‿︵‧˚₊⊹',
+  '⊹₊˚‧︵‿₊୨✦୧₊‿︵‧˚₊⊹',
+  '✦₊˚‧︵‿₊୨◈୧₊‿︵‧˚₊✦',
+  '✧₊˚‧︵‿₊୨✧୧₊‿︵‧˚₊✧',
+  '·₊˚‧︵‿₊୨·୧₊‿︵‧˚₊·',
+  '✧₊˚‧︵‿₊୨◈୧₊‿︵‧˚₊✧',
+  '✦₊˚‧︵‿₊୨✦୧₊‿︵‧˚₊✦',
+];
+const LOADING_STATUSES = [
+  'Selecting exercises',
+  'Structuring warmup',
+  'Balancing muscle groups',
+  'Adding technique cues',
+  'Finalising cooldown',
+];
+
+let currentDay    = null;
+let currentDurMin = 90;
+let screenStack   = ['screen-home'];
+let _loadTimer    = null;
+let _loadFrame    = 0;
+let _loadStatus   = 0;
 
 /* ── Greeting + date ─────────────────────────────── */
 (function() {
@@ -443,41 +780,166 @@ let screenStack = ['screen-home'];
     new Date().toLocaleDateString(undefined, opts).toUpperCase();
 })();
 
+/* ── Configure screen setup ──────────────────────── */
+function setupConfigure(dayType) {
+  const cfg = DAY_CONFIG[dayType];
+  const c   = cfg.color;
+
+  document.getElementById('cfgBannerDay').textContent     = cfg.label;
+  document.getElementById('cfgBannerMuscles').textContent = cfg.muscles;
+  document.getElementById('cfgBanner').className          = 'cfg-banner ' + c;
+  document.getElementById('configTitle').textContent      = cfg.label;
+
+  // Duration — reset to 90, recolor
+  currentDurMin = 90;
+  document.querySelectorAll('.dur-pill').forEach(el => {
+    el.className = 'dur-pill ' + c + (parseInt(el.dataset.mins) === 90 ? ' active' : '');
+  });
+  const ci = document.getElementById('customDur');
+  ci.value = ''; ci.className = '';
+
+  // Opt-items — recolor and uncheck
+  document.querySelectorAll('.opt-item').forEach(el => {
+    el.className = 'opt-item ' + c;
+  });
+
+  // Target options — rebuild per day type
+  const tgt = document.getElementById('optTarget');
+  tgt.innerHTML = '';
+  cfg.targets.forEach(function(t) {
+    var item = document.createElement('div');
+    item.className    = 'opt-item ' + c;
+    item.dataset.text = t.prompt;
+    item.onclick      = function() { toggleOpt(this); };
+    item.innerHTML    = '<div class="opt-box"><span class="opt-tick">✓</span></div>' +
+                        '<div class="opt-text">' + t.text + '</div>';
+    tgt.appendChild(item);
+  });
+
+  document.getElementById('genBtn').className = 'gen-btn ' + c;
+  document.getElementById('cfgNote').value = '';
+  document.getElementById('cfgNote').placeholder =
+      dayType === 'push' ? 'e.g. Skip flat bench today, focus on overhead pressing…'
+    : dayType === 'pull' ? 'e.g. Prioritise lats and skip direct bicep work…'
+    :                      'e.g. My left knee is sore, avoid deep squats today…';
+}
+
+/* ── Duration pills ──────────────────────────────── */
+function setDuration(el) {
+  currentDurMin = parseInt(el.dataset.mins);
+  const c = DAY_CONFIG[currentDay].color;
+  document.querySelectorAll('.dur-pill').forEach(p => {
+    p.className = 'dur-pill ' + c + (p === el ? ' active' : '');
+  });
+  const ci = document.getElementById('customDur');
+  ci.value = ''; ci.className = '';
+}
+
+function clearPills() {
+  const c = DAY_CONFIG[currentDay].color;
+  document.querySelectorAll('.dur-pill').forEach(p => { p.className = 'dur-pill ' + c; });
+}
+
+function setCustomDuration(input) {
+  const v = parseInt(input.value);
+  const c = DAY_CONFIG[currentDay].color;
+  if (v >= 20 && v <= 240) {
+    currentDurMin = v;
+    input.className = 'active ' + c;
+  } else {
+    currentDurMin = 90;
+    input.className = '';
+  }
+}
+
+/* ── Checkbox options ────────────────────────────── */
+function toggleOpt(el) {
+  const c = DAY_CONFIG[currentDay].color;
+  el.classList.toggle('checked');
+  if (el.classList.contains('checked')) el.classList.add(c);
+  else el.classList.remove(c);
+}
+
+function getCheckedText() {
+  return Array.from(document.querySelectorAll('.opt-item.checked'))
+    .map(el => el.dataset.text).filter(Boolean).join(' ');
+}
+
+/* ── Build prompt context ────────────────────────── */
+function buildPromptContext() {
+  const cfg      = DAY_CONFIG[currentDay];
+  const freeText = document.getElementById('cfgNote').value.trim();
+  const optText  = getCheckedText();
+  const modifier = [optText, freeText].filter(Boolean).join(' ');
+  return {
+    dayType:  currentDay,
+    dayLabel: cfg.label,
+    muscles:  cfg.muscles,
+    duration: currentDurMin,
+    modifier: modifier || null,
+  };
+}
+
+/* ── Loading animation ───────────────────────────── */
+function startLoadingAnim() {
+  _loadFrame = 0; _loadStatus = 0;
+  const symEl = document.getElementById('loadingSym');
+  const stEl  = document.getElementById('loadingStatus');
+  function tick() {
+    if (symEl) symEl.textContent = LOADING_FRAMES[_loadFrame % LOADING_FRAMES.length];
+    _loadFrame++;
+    if (_loadFrame % 6 === 0) {
+      _loadStatus = (_loadStatus + 1) % LOADING_STATUSES.length;
+      if (stEl) stEl.textContent = LOADING_STATUSES[_loadStatus];
+    }
+    _loadTimer = setTimeout(tick, 320);
+  }
+  tick();
+}
+
+function stopLoadingAnim() {
+  clearTimeout(_loadTimer);
+  _loadTimer = null;
+}
+
+/* ── Generate ────────────────────────────────────── */
+function startGenerate() {
+  const ctx = buildPromptContext();
+  window._sessionCtx = ctx;
+  const cfg = DAY_CONFIG[currentDay];
+  const titleEl = document.getElementById('sessionTitle');
+  if (titleEl) titleEl.textContent = cfg.label;
+  goTo('screen-session', null);
+  startLoadingAnim();
+}
+
 /* ── Navigation ──────────────────────────────────── */
 function goTo(screenId, dayType) {
-  const current = screenStack[screenStack.length - 1];
+  const current   = screenStack[screenStack.length - 1];
   const currentEl = document.getElementById(current);
   const nextEl    = document.getElementById(screenId);
   if (!nextEl || screenId === current) return;
 
-  // Set day context before transition
   if (dayType) {
     currentDay = dayType;
-    const cfg = DAY_CONFIG[dayType];
-    const titleEl = document.getElementById('configTitle');
-    if (titleEl) titleEl.textContent = cfg.label;
+    setupConfigure(dayType);
   }
 
-  // Animate out current, animate in next
   currentEl.classList.add('exit-left');
   currentEl.classList.remove('active');
   nextEl.classList.add('active');
-
   setTimeout(() => currentEl.classList.remove('exit-left'), 200);
-
   screenStack.push(screenId);
 }
 
 function goBack() {
   if (screenStack.length <= 1) return;
+  stopLoadingAnim();
   const current = screenStack.pop();
   const prev    = screenStack[screenStack.length - 1];
-
   const currentEl = document.getElementById(current);
   const prevEl    = document.getElementById(prev);
-
   currentEl.classList.remove('active');
-  // Slide back in from left — reverse direction
   prevEl.style.transform = 'translateX(-24px)';
   prevEl.classList.add('active');
   requestAnimationFrame(() => {
@@ -492,22 +954,22 @@ function goBack() {
   }, 240);
 }
 
-/* ── Recent sessions (local storage) ────────────── */
+/* ── Recent sessions ─────────────────────────────── */
 function loadRecent() {
   try {
     const sessions = JSON.parse(localStorage.getItem('workout_sessions') || '[]');
     const list = document.getElementById('recentList');
     if (!sessions.length) return;
     list.innerHTML = '';
-    sessions.slice(0, 3).forEach(s => {
-      const item = document.createElement('div');
+    sessions.slice(0, 3).forEach(function(s) {
+      var item = document.createElement('div');
       item.className = 'recent-item';
-      item.innerHTML = `
-        <div class="recent-left">
-          <div class="recent-name">${s.label}</div>
-          <div class="recent-meta">${s.date} · ${s.exerciseCount} exercises</div>
-        </div>
-        <div class="recent-arrow">→</div>`;
+      item.innerHTML =
+        '<div class="recent-left">' +
+          '<div class="recent-name">' + s.label + '</div>' +
+          '<div class="recent-meta">' + s.date + ' · ' + s.exerciseCount + ' exercises</div>' +
+        '</div>' +
+        '<div class="recent-arrow">→</div>';
       list.appendChild(item);
     });
   } catch(e) {}
