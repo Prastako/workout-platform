@@ -874,6 +874,98 @@ html, body {
   background: none; border: none; color: var(--ink3);
   font-size: .72rem; padding: 10px;
 }
+/* ══════════════════════════════════════════════════
+   EXERCISE BOTTOM SHEET (Brick 6)
+══════════════════════════════════════════════════ */
+.ex-sheet-backdrop {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(19,17,16,.82);
+  display: flex; align-items: flex-end;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.ex-sheet-backdrop.hidden { display: none; }
+.ex-sheet {
+  width: 100%; background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  border-top: 1px solid var(--border-strong);
+  max-height: 78vh; display: flex; flex-direction: column;
+  transform: translateY(0);
+  transition: transform .28s cubic-bezier(.32,1,.5,1);
+  will-change: transform;
+}
+.ex-sheet.slide-out { transform: translateY(100%); }
+.ex-sheet-header {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+  padding: 10px 16px 0; flex-shrink: 0;
+}
+.ex-sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--border-strong); border-radius: 2px;
+}
+.ex-sheet-close {
+  position: absolute; right: 12px; top: 4px;
+  background: none; border: none; cursor: pointer; font-family: inherit;
+  font-size: .72rem; color: var(--ink3); font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent; padding: 8px;
+}
+.ex-sheet-viewer {
+  position: relative; width: 100%; height: 220px;
+  background: var(--bg); flex-shrink: 0; overflow: hidden;
+}
+#exViewerCanvas { width: 100%; height: 100%; display: block; }
+.ex-viewer-loading {
+  position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center;
+  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); pointer-events: none;
+}
+.ex-tier-badge {
+  position: absolute; bottom: 10px; left: 12px;
+  font-size: .55rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--full); background: rgba(232,200,122,.12);
+  border: 1px solid rgba(232,200,122,.28);
+  border-radius: 6px; padding: 3px 8px;
+}
+.ex-sheet-scroll {
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  flex: 1; padding: 18px 20px max(env(safe-area-inset-bottom,0px),24px);
+}
+.ex-sheet-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600; color: var(--ink);
+  line-height: 1.25; margin-bottom: 10px;
+}
+.ex-sheet-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px;
+}
+.ex-sheet-chip {
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3); background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px;
+}
+.ex-sheet-chip.accent { color: var(--ink2); border-color: var(--border-strong); }
+.ex-sheet-sec-title {
+  font-size: .58rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 10px; margin-top: 16px; opacity: .7;
+}
+.ex-sheet-steps { display: flex; flex-direction: column; gap: 8px; }
+.ex-sheet-step { display: flex; gap: 10px; align-items: flex-start; }
+.ex-sheet-step-num {
+  font-family: 'Courier New', monospace; font-size: .65rem;
+  color: var(--ink3); margin-top: 2px; flex-shrink: 0; min-width: 16px;
+}
+.ex-sheet-step-text { font-size: .82rem; color: var(--ink2); line-height: 1.6; }
+.ex-sheet-cues { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.ex-sheet-cue {
+  font-size: .8rem; color: var(--ink2); line-height: 1.55;
+  padding-left: 12px; border-left: 2px solid var(--border-strong);
+}
+.ex-sheet-empty {
+  font-size: .8rem; color: var(--ink3); font-style: italic;
+  text-align: center; padding: 16px 0;
+}
 </style>
 </head>
 <body>
@@ -1407,6 +1499,29 @@ html, body {
     </div>
   </div>
 
+  <!-- ══ EXERCISE BOTTOM SHEET (Brick 6) ══════════════ -->
+  <div class="ex-sheet-backdrop hidden" id="exerciseSheet">
+    <div class="ex-sheet slide-out" id="exSheetInner">
+      <div class="ex-sheet-header">
+        <div class="ex-sheet-handle"></div>
+        <button class="ex-sheet-close" onclick="closeExerciseSheet()">close</button>
+      </div>
+      <div class="ex-sheet-viewer">
+        <canvas id="exViewerCanvas"></canvas>
+        <div class="ex-viewer-loading" id="exViewerLoading">⊹₊˚‧ loading viewer ‧˚₊⊹</div>
+        <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
+      </div>
+      <div class="ex-sheet-scroll" id="exSheetScroll">
+        <div class="ex-sheet-name" id="exSheetName"></div>
+        <div class="ex-sheet-meta" id="exSheetMeta"></div>
+        <div class="ex-sheet-sec-title">Instructions</div>
+        <div class="ex-sheet-steps" id="exSheetSteps"></div>
+        <div class="ex-sheet-sec-title" id="exCueTitle" style="display:none">Technique cues</div>
+        <div class="ex-sheet-cues" id="exSheetCues" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /.app -->
 
 <script>
@@ -1817,8 +1932,328 @@ function renderSession(workout, ctx) {
   document.getElementById('sessionTitle').addEventListener('mouseup',    cancelLongPress);
 }
 
+/* ══════════════════════════════════════════════════
+   BRICK 6 — EXERCISE BOTTOM SHEET
+══════════════════════════════════════════════════ */
+
+const GLB_URL    = 'https://raw.githubusercontent.com/Prastako/workout-platform/main/MALE.glb';
+const THREE_CDN  = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+const GLTF_CDN   = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
+const ORBIT_CDN  = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+
+// catalog muscle name (lowercase) → anchor key(s)
+const MUSCLE_MAP = {
+  chest:['chest'], pectorals:['chest'], pecs:['chest'],
+  'pectoralis major':['chest'], 'pectoralis minor':['chest'],
+  abs:['abs'], abdominals:['abs'], core:['abs'], 'rectus abdominis':['abs'],
+  lats:['lats_L','lats_R'], 'latissimus dorsi':['lats_L','lats_R'],
+  shoulders:['shoulder_L','shoulder_R'], deltoids:['shoulder_L','shoulder_R'],
+  'anterior deltoid':['shoulder_L','shoulder_R'], 'front delt':['shoulder_L','shoulder_R'],
+  'lateral deltoid':['shoulder_L','shoulder_R'], 'side delt':['shoulder_L','shoulder_R'],
+  'rear deltoid':['shoulder_L','shoulder_R'], 'posterior deltoid':['shoulder_L','shoulder_R'],
+  biceps:['bicep_L','bicep_R'], bicep:['bicep_L','bicep_R'],
+  'biceps brachii':['bicep_L','bicep_R'],
+  triceps:['tricep_L','tricep_R'], tricep:['tricep_L','tricep_R'],
+  'triceps brachii':['tricep_L','tricep_R'],
+  traps:['traps'], trapezius:['traps'],
+  glutes:['glutes'], 'gluteus maximus':['glutes'], 'gluteus medius':['glutes'],
+  quads:['quads_L','quads_R'], quadriceps:['quads_L','quads_R'],
+  'rectus femoris':['quads_L','quads_R'], 'vastus lateralis':['quads_L','quads_R'],
+  hamstrings:['hamstring_L','hamstring_R'], hamstring:['hamstring_L','hamstring_R'],
+  'biceps femoris':['hamstring_L','hamstring_R'],
+  calves:['calves_L','calves_R'], calf:['calves_L','calves_R'],
+  gastrocnemius:['calves_L','calves_R'], soleus:['calves_L','calves_R'],
+};
+
+const ANCHOR_POINTS = {
+  chest:       {x:0,       y:1.445, z:+0.04},
+  abs:         {x:0,       y:1.199, z:+0.04},
+  lats_L:      {x:+0.12,  y:1.380, z:-0.02},
+  lats_R:      {x:-0.12,  y:1.380, z:-0.02},
+  shoulder_L:  {x:+0.20,  y:1.540, z:0},
+  shoulder_R:  {x:-0.20,  y:1.540, z:0},
+  bicep_L:     {x:+0.067, y:1.830, z:+0.02},
+  bicep_R:     {x:-0.067, y:1.830, z:+0.02},
+  tricep_L:    {x:+0.067, y:1.830, z:-0.03},
+  tricep_R:    {x:-0.067, y:1.830, z:-0.03},
+  traps:       {x:0,      y:1.476, z:-0.03},
+  glutes:      {x:0,      y:1.018, z:-0.05},
+  quads_L:     {x:+0.080, y:0.750, z:+0.02},
+  quads_R:     {x:-0.080, y:0.750, z:+0.02},
+  hamstring_L: {x:+0.080, y:0.750, z:-0.04},
+  hamstring_R: {x:-0.080, y:0.750, z:-0.04},
+  calves_L:    {x:+0.060, y:0.320, z:-0.03},
+  calves_R:    {x:-0.060, y:0.320, z:-0.03},
+};
+
+var _viewer = {
+  ready: false, loading: false, loopActive: false,
+  scene: null, camera: null, renderer: null, controls: null,
+  overlays: {}, listenersAttached: false,
+  _pendingPrimary: null, _pendingSecondary: null,
+};
+var _threeLoaded = false;
+var _sheetDragStartY = null, _sheetDragOnCanvas = false;
+
+function _muscleKeysFor(names) {
+  var keys = [];
+  (names || []).forEach(function(n) {
+    var k = MUSCLE_MAP[n.toLowerCase().trim()];
+    if (k) k.forEach(function(key) { if (keys.indexOf(key) === -1) keys.push(key); });
+  });
+  return keys;
+}
+
+function _loadScript(url) {
+  return new Promise(function(resolve, reject) {
+    var s = document.createElement('script');
+    s.src = url; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+function _ensureThree() {
+  if (_threeLoaded) return Promise.resolve();
+  return _loadScript(THREE_CDN)
+    .then(function() { return _loadScript(GLTF_CDN); })
+    .then(function() { return _loadScript(ORBIT_CDN); })
+    .then(function() { _threeLoaded = true; });
+}
+
+function _initViewerScene() {
+  var canvas = document.getElementById('exViewerCanvas');
+  var W = canvas.parentElement.offsetWidth || 320;
+  var H = 220;
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  var scene  = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, W / H, 0.01, 100);
+  camera.position.set(0, 0.95, 3.8);
+  scene.add(new THREE.AmbientLight(0x8a7c6c, 0.55));
+  var key  = new THREE.DirectionalLight(0xfff4e8, 1.4); key.position.set(1.5, 3.5, 2.5);  scene.add(key);
+  var fill = new THREE.DirectionalLight(0x8899bb, 0.4); fill.position.set(-2, 1.5, -1);   scene.add(fill);
+  var rim  = new THREE.DirectionalLight(0xaab8cc, 0.35); rim.position.set(0, 2.5, -3);    scene.add(rim);
+  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 0.95, 0);
+  controls.enablePan = false;
+  controls.minDistance = 1.5; controls.maxDistance = 5.5;
+  controls.enableDamping = true; controls.dampingFactor = 0.1;
+  controls.update();
+  // Overlay spheres
+  var sphGeo  = new THREE.SphereGeometry(0.038, 12, 8);
+  var overlays = {};
+  Object.keys(ANCHOR_POINTS).forEach(function(key) {
+    var pt  = ANCHOR_POINTS[key];
+    var mat = new THREE.MeshStandardMaterial({
+      color: 0x303030, emissive: 0x000000,
+      roughness: 0.4, metalness: 0.0,
+      transparent: true, opacity: 0,
+    });
+    var mesh = new THREE.Mesh(sphGeo, mat);
+    mesh.position.set(pt.x, pt.y, pt.z);
+    mesh.visible = false;
+    scene.add(mesh);
+    overlays[key] = mesh;
+  });
+  _viewer.scene = scene; _viewer.camera = camera;
+  _viewer.renderer = renderer; _viewer.controls = controls;
+  _viewer.overlays = overlays;
+}
+
+function _loadModel() {
+  return new Promise(function(resolve, reject) {
+    var loader = new THREE.GLTFLoader();
+    loader.load(GLB_URL, function(gltf) {
+      var model = gltf.scene;
+      model.scale.setScalar(0.01);
+      model.traverse(function(node) {
+        if (node.isSkinnedMesh) {
+          node.frustumCulled = false;
+          node.material = new THREE.MeshStandardMaterial({
+            color: 0xe8e0d8, roughness: 0.72, metalness: 0.02,
+          });
+        }
+      });
+      _viewer.scene.add(model);
+      resolve();
+    }, undefined, reject);
+  });
+}
+
+function _setOverlays(primaryKeys, secondaryKeys) {
+  Object.keys(_viewer.overlays).forEach(function(key) {
+    var mesh = _viewer.overlays[key];
+    var isPrimary   = primaryKeys.indexOf(key)   !== -1;
+    var isSecondary = secondaryKeys.indexOf(key) !== -1;
+    if (isPrimary) {
+      mesh.visible = true;
+      mesh.material.color.setHex(0xff6030);
+      mesh.material.emissive.setHex(0xff3010);
+      mesh.material.emissiveIntensity = 1.2;
+      mesh.material.opacity = 0.92;
+    } else if (isSecondary) {
+      mesh.visible = true;
+      mesh.material.color.setHex(0xc07820);
+      mesh.material.emissive.setHex(0x906010);
+      mesh.material.emissiveIntensity = 0.55;
+      mesh.material.opacity = 0.60;
+    } else {
+      mesh.visible = false;
+      mesh.material.opacity = 0;
+    }
+  });
+}
+
+function _resizeViewer() {
+  if (!_viewer.renderer) return;
+  var W = document.getElementById('exViewerCanvas').parentElement.offsetWidth;
+  if (!W) return;
+  _viewer.renderer.setSize(W, 220);
+  _viewer.camera.aspect = W / 220;
+  _viewer.camera.updateProjectionMatrix();
+}
+
+function _startViewerLoop() {
+  if (_viewer.loopActive) return;
+  _viewer.loopActive = true;
+  (function loop() {
+    if (!_viewer.loopActive) return;
+    requestAnimationFrame(loop);
+    if (_viewer.controls) _viewer.controls.update();
+    if (_viewer.renderer) _viewer.renderer.render(_viewer.scene, _viewer.camera);
+  })();
+}
+
 function openExercise(name) {
-  // Brick 6 — bottom sheet stub
+  var realName = name.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  var lower    = realName.toLowerCase();
+
+  // Catalog lookup
+  var entry = null;
+  if (window._catalog) {
+    for (var i = 0; i < _catalog.length; i++) {
+      if (_catalog[i].name && _catalog[i].name.toLowerCase() === lower) { entry = _catalog[i]; break; }
+    }
+  }
+
+  // Sets/reps from current workout
+  var setsReps = '';
+  if (window._currentWorkout) {
+    var all = (_currentWorkout.warmup||[]).concat(_currentWorkout.main||[]).concat(_currentWorkout.cooldown||[]);
+    for (var j = 0; j < all.length; j++) {
+      var ex = all[j];
+      if (ex.name && ex.name.toLowerCase() === lower) {
+        if (ex.sets && ex.reps) setsReps = ex.sets + ' × ' + ex.reps;
+        else if (ex.duration)   setsReps = ex.duration;
+        break;
+      }
+    }
+  }
+
+  // Populate text
+  document.getElementById('exSheetName').textContent = realName;
+  var chips = '';
+  if (setsReps) chips += '<span class="ex-sheet-chip accent">' + escHtml(setsReps) + '</span>';
+  if (entry) {
+    if (entry.equipment) chips += '<span class="ex-sheet-chip">' + escHtml(entry.equipment) + '</span>';
+    if (entry.level)     chips += '<span class="ex-sheet-chip">' + escHtml(entry.level)     + '</span>';
+    if (entry.mechanic)  chips += '<span class="ex-sheet-chip">' + escHtml(entry.mechanic)  + '</span>';
+  }
+  document.getElementById('exSheetMeta').innerHTML = chips;
+
+  var tier = entry ? entry.visual_tier : null;
+  document.getElementById('exTierBadge').style.display = (tier === 'flagged') ? 'block' : 'none';
+
+  var instr = entry && entry.instructions;
+  document.getElementById('exSheetSteps').innerHTML = (instr && instr.length)
+    ? instr.map(function(step, i) {
+        return '<div class="ex-sheet-step">' +
+          '<span class="ex-sheet-step-num">' + (i+1) + '</span>' +
+          '<span class="ex-sheet-step-text">' + escHtml(step) + '</span>' +
+          '</div>';
+      }).join('')
+    : '<div class="ex-sheet-empty">No instructions available.</div>';
+
+  var cues = (entry && tier === 'full') ? entry.technique_cues : null;
+  if (cues && cues.length) {
+    document.getElementById('exSheetCues').innerHTML =
+      cues.map(function(c) { return '<div class="ex-sheet-cue">' + escHtml(c) + '</div>'; }).join('');
+    document.getElementById('exSheetCues').style.display   = 'flex';
+    document.getElementById('exCueTitle').style.display    = 'block';
+  } else {
+    document.getElementById('exSheetCues').style.display   = 'none';
+    document.getElementById('exCueTitle').style.display    = 'none';
+  }
+  document.getElementById('exSheetScroll').scrollTop = 0;
+
+  // Slide sheet up
+  var backdrop = document.getElementById('exerciseSheet');
+  var sheet    = document.getElementById('exSheetInner');
+  sheet.classList.add('slide-out');
+  backdrop.classList.remove('hidden');
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() { sheet.classList.remove('slide-out'); });
+  });
+
+  // Pull-to-dismiss (attached once)
+  if (!_viewer.listenersAttached) {
+    sheet.addEventListener('touchstart', function(e) {
+      _sheetDragOnCanvas = (e.target.id === 'exViewerCanvas');
+      _sheetDragStartY   = _sheetDragOnCanvas ? null : e.touches[0].clientY;
+    }, { passive: true });
+    sheet.addEventListener('touchmove', function(e) {
+      if (_sheetDragOnCanvas || _sheetDragStartY === null) return;
+      if (e.touches[0].clientY - _sheetDragStartY > 80) closeExerciseSheet();
+    }, { passive: true });
+    sheet.addEventListener('touchend', function() {
+      _sheetDragStartY = null; _sheetDragOnCanvas = false;
+    }, { passive: true });
+    _viewer.listenersAttached = true;
+  }
+
+  // Three.js viewer
+  var primary   = entry ? _muscleKeysFor(entry.primary_muscles)   : [];
+  var secondary = entry ? _muscleKeysFor(entry.secondary_muscles) : [];
+  _viewer._pendingPrimary   = primary;
+  _viewer._pendingSecondary = secondary;
+
+  var loadingEl = document.getElementById('exViewerLoading');
+  if (_viewer.ready) {
+    loadingEl.style.display = 'none';
+    _resizeViewer();
+    _setOverlays(primary, secondary);
+    _startViewerLoop();
+  } else if (!_viewer.loading) {
+    _viewer.loading = true;
+    loadingEl.style.display = 'flex';
+    _ensureThree()
+      .then(function() { _initViewerScene(); return _loadModel(); })
+      .then(function() {
+        _viewer.ready   = true;
+        _viewer.loading = false;
+        loadingEl.style.display = 'none';
+        _resizeViewer();
+        _setOverlays(_viewer._pendingPrimary || [], _viewer._pendingSecondary || []);
+        _startViewerLoop();
+      })
+      .catch(function(err) {
+        console.warn('Viewer init failed:', err);
+        _viewer.loading = false;
+        loadingEl.textContent = '⊹ viewer unavailable';
+      });
+  }
+  // else: still loading — pending overlays will apply when ready
+}
+
+function closeExerciseSheet() {
+  var sheet = document.getElementById('exSheetInner');
+  sheet.classList.add('slide-out');
+  _viewer.loopActive = false;
+  setTimeout(function() {
+    document.getElementById('exerciseSheet').classList.add('hidden');
+  }, 300);
 }
 
 function toggleDone(rowId) {
