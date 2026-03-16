@@ -533,23 +533,34 @@ html, body {
 .regen-btn.spinning { animation: spinOnce .5s linear; }
 @keyframes spinOnce { to { transform: rotate(360deg); } }
 
-.ex-swipe-wrap {
-  position: relative; overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-.ex-swipe-wrap:last-child { border-bottom: none; }
-
 .ex-row {
   display: flex; align-items: center;
   gap: 10px; padding: 13px 0;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: opacity .25s, transform .22s ease;
-  background: var(--bg);
-  will-change: transform;
+  border-bottom: 1px solid var(--border);
+  -webkit-tap-highlight-color: transparent;
 }
-.ex-row.done { opacity: .35; }
+.ex-row:last-child { border-bottom: none; }
+.ex-row.done { opacity: .38; }
 
-.ex-row-left { flex: 1; min-width: 0; }
+/* Left-side checkbox */
+.ex-check {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border-radius: 50%; border: 1.5px solid var(--border-strong);
+  background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s;
+}
+.ex-row.done .ex-check { background: var(--ink3); border-color: transparent; }
+.ex-check-tick {
+  font-size: 9px; color: var(--bg); font-weight: 900;
+  display: none; line-height: 1; pointer-events: none;
+}
+.ex-row.done .ex-check-tick { display: block; }
+
+.ex-row-body {
+  flex: 1; min-width: 0; cursor: pointer;
+}
 .ex-name {
   font-size: .88rem; font-weight: 500; color: var(--ink);
   line-height: 1.35;
@@ -573,7 +584,7 @@ html, body {
   border-radius: 8px; border: 1px solid var(--border);
   background: var(--surface2); color: var(--ink3);
   display: flex; align-items: center; justify-content: center;
-  font-size: .72rem; cursor: pointer;
+  font-size: .82rem; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: border-color .15s, color .15s;
 }
@@ -821,6 +832,48 @@ html, body {
   background: var(--surface2); border: 1px solid var(--border);
   border-radius: 8px; padding: 12px;
 }
+/* ══════════════════════════════════════════════════
+   EXIT SESSION MODAL
+══════════════════════════════════════════════════ */
+.exit-modal-backdrop {
+  position: fixed; inset: 0; z-index: 150;
+  background: rgba(19,17,16,.75);
+  display: flex; align-items: flex-end;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.exit-modal-backdrop.hidden { display: none; }
+.exit-modal {
+  width: 100%; background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  border-radius: 20px 20px 0 0;
+  padding: 28px 24px max(env(safe-area-inset-bottom, 0px), 28px);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.exit-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: var(--ink);
+  text-align: center; margin-bottom: 4px;
+}
+.exit-modal-sub {
+  font-size: .78rem; color: var(--ink3); text-align: center;
+  line-height: 1.6; margin-bottom: 4px;
+}
+.exit-modal-btn {
+  width: 100%; padding: 15px;
+  border-radius: 14px; font-family: inherit;
+  font-size: .85rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s;
+}
+.exit-modal-btn.danger {
+  background: var(--surface2); border: 1px solid var(--border-strong); color: var(--ink2);
+}
+.exit-modal-btn.danger:active { background: rgba(255,255,255,.08); }
+.exit-modal-btn.cancel {
+  background: none; border: none; color: var(--ink3);
+  font-size: .72rem; padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -1060,7 +1113,7 @@ html, body {
   ══════════════════════════════════════════════════ -->
   <div class="screen" id="screen-session">
     <div class="hdr-nav">
-      <button class="back-btn" onclick="goBack()">Configure</button>
+      <button class="back-btn" onclick="confirmExitSession()">Configure</button>
       <div class="hdr-title" id="sessionTitle">Push Day</div>
     </div>
     <div class="loading-screen" id="loadingScreen">
@@ -1328,6 +1381,16 @@ html, body {
     </div><!-- /.guides-scroll -->
   </div>
 
+  <!-- ══ EXIT SESSION MODAL ════════════════════════════ -->
+  <div class="exit-modal-backdrop hidden" id="exitModal">
+    <div class="exit-modal">
+      <div class="exit-modal-title">Exit session?</div>
+      <div class="exit-modal-sub">Your current session will be lost.<br>You'll return to configure a new one.</div>
+      <button class="exit-modal-btn danger" onclick="doExitSession()">Exit session</button>
+      <button class="exit-modal-btn cancel" onclick="document.getElementById('exitModal').classList.add('hidden')">Keep going</button>
+    </div>
+  </div>
+
   <!-- ══ DEBUG PANEL ═══════════════════════════════════ -->
   <div class="debug-backdrop hidden" id="debugPanel">
     <div class="debug-sheet">
@@ -1559,13 +1622,20 @@ function stopLoadingAnim() {
 /* ── Generate ────────────────────────────────────── */
 function startGenerate() {
   const ctx = buildPromptContext();
-  window._sessionCtx = ctx;
+  window._sessionCtx     = ctx;
+  window._currentWorkout = null;
   const cfg = DAY_CONFIG[currentDay];
   const titleEl = document.getElementById('sessionTitle');
   if (titleEl) titleEl.textContent = cfg.label;
+  // Reset session screen to loading state
+  const loadingEl = document.getElementById('loadingScreen');
+  const contentEl = document.getElementById('sessionContent');
+  loadingEl.style.display = '';
+  contentEl.style.display = 'none';
+  contentEl.innerHTML     = '';
   goTo('screen-session', null);
   startLoadingAnim();
-  generateSession(); // Brick 4
+  generateSession();
 }
 
 /* ── Brick 4: Claude API session generation ──────── */
@@ -1681,16 +1751,17 @@ function renderSession(workout, ctx) {
     const id     = 'ex-' + (exIdx++);
     const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
     const muscle = (ex.primary_muscle || '');
-    return '<div class="ex-swipe-wrap" id="wrap-' + id + '">' +
-      '<div class="ex-row" id="' + id + '" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
-        '<div class="ex-row-left">' +
-          '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
-          (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
-          (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
-        '</div>' +
-        '<span class="ex-sets">' + escHtml(detail) + '</span>' +
-        '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
+    return '<div class="ex-row" id="' + id + '">' +
+      '<div class="ex-check" onclick="toggleDone(\'' + id + '\')">' +
+        '<span class="ex-check-tick">✓</span>' +
       '</div>' +
+      '<div class="ex-row-body" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
+        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+        (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
+        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+      '</div>' +
+      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+      '<div class="ex-info-btn" onclick="openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
     '</div>';
   }
 
@@ -1735,8 +1806,9 @@ function renderSession(workout, ctx) {
   contentEl.innerHTML     = html;
   contentEl.style.display = 'block';
 
-  // Init swipe on all rows
-  contentEl.querySelectorAll('.ex-row').forEach(initSwipe);
+  contentEl.querySelectorAll('.ex-row').forEach(function(el) {
+    // Brick 6: attach bottom sheet listeners here
+  });
 
   // Long-press on section title to open debug panel
   document.getElementById('sessionTitle').addEventListener('touchstart', startLongPress);
@@ -1746,7 +1818,31 @@ function renderSession(workout, ctx) {
 }
 
 function openExercise(name) {
-  // Brick 6 — bottom sheet (stub)
+  // Brick 6 — bottom sheet stub
+}
+
+function toggleDone(rowId) {
+  const el = document.getElementById(rowId);
+  if (el) el.classList.toggle('done');
+}
+
+function confirmExitSession() {
+  // If still loading (no workout yet), exit immediately
+  if (!window._currentWorkout) { doExitSession(); return; }
+  document.getElementById('exitModal').classList.remove('hidden');
+}
+
+function doExitSession() {
+  document.getElementById('exitModal').classList.add('hidden');
+  stopLoadingAnim();
+  // Reset session screen for next use
+  const loadingEl = document.getElementById('loadingScreen');
+  const contentEl = document.getElementById('sessionContent');
+  loadingEl.style.display = '';
+  contentEl.style.display = 'none';
+  contentEl.innerHTML     = '';
+  window._currentWorkout  = null;
+  goBack();
 }
 
 var _longPressTimer = null;
@@ -1765,32 +1861,6 @@ function showDebugPanel() {
   document.getElementById('debugPanel').classList.remove('hidden');
 }
 
-function initSwipe(el) {
-  var startX = 0, startY = 0, dx = 0, tracking = false;
-  el.addEventListener('touchstart', function(e) {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    dx = 0; tracking = true;
-    el.style.transition = 'none';
-  }, { passive: true });
-  el.addEventListener('touchmove', function(e) {
-    if (!tracking) return;
-    var curDx = e.touches[0].clientX - startX;
-    var curDy = e.touches[0].clientY - startY;
-    if (Math.abs(curDy) > Math.abs(curDx) + 5) { tracking = false; return; }
-    dx = curDx;
-    if (dx > 0) dx = 0;
-    el.style.transform = 'translateX(' + Math.max(dx, -80) + 'px)';
-  }, { passive: true });
-  el.addEventListener('touchend', function() {
-    if (!tracking) return;
-    tracking = false;
-    el.style.transition = 'transform .22s ease, opacity .25s';
-    el.style.transform  = 'translateX(0)';
-    if (dx < -60) el.classList.toggle('done');
-    dx = 0;
-  });
-}
 
 async function regenSection(sectionKey) {
   const ctx     = window._sessionCtx;
@@ -1902,16 +1972,17 @@ async function regenSection(sectionKey) {
     const id     = prefix + (localIdx++);
     const detail = isMain ? (ex.sets + ' × ' + ex.reps) : (ex.duration || '');
     const muscle = ex.primary_muscle || '';
-    return '<div class="ex-swipe-wrap" id="wrap-' + id + '">' +
-      '<div class="ex-row" id="' + id + '" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
-        '<div class="ex-row-left">' +
-          '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
-          (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
-          (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
-        '</div>' +
-        '<span class="ex-sets">' + escHtml(detail) + '</span>' +
-        '<div class="ex-info-btn" onclick="event.stopPropagation();openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
+    return '<div class="ex-row" id="' + id + '">' +
+      '<div class="ex-check" onclick="toggleDone(\'' + id + '\')">' +
+        '<span class="ex-check-tick">✓</span>' +
       '</div>' +
+      '<div class="ex-row-body" onclick="openExercise(\'' + escHtml(ex.name) + '\')">' +
+        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+        (muscle ? '<div class="ex-muscle-label">' + escHtml(muscle) + '</div>' : '') +
+        (ex.notes ? '<div class="ex-notes">' + escHtml(ex.notes) + '</div>' : '') +
+      '</div>' +
+      '<span class="ex-sets">' + escHtml(detail) + '</span>' +
+      '<div class="ex-info-btn" onclick="openExercise(\'' + escHtml(ex.name) + '\')">›</div>' +
     '</div>';
   }
 
@@ -1934,7 +2005,6 @@ async function regenSection(sectionKey) {
   }
 
   rowsEl.innerHTML = newHTML;
-  rowsEl.querySelectorAll('.ex-row').forEach(initSwipe);
   sectionEl.classList.remove('regenning');
   if (btn) { btn.disabled = false; btn.classList.remove('spinning'); }
 }
