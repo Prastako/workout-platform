@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#131110">
+<title>Workout</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════════ */
+:root {
+  --bg:       #131110;
+  --surface:  #1c1916;
+  --surface2: #26221e;
+  --ink:      #f7f0e6;
+  --ink2:     #c8b8a8;
+  --ink3:     #8c7c6c;
+  --border:        rgba(255,255,255,.08);
+  --border-strong: rgba(255,255,255,.16);
+  --shadow:        rgba(0,0,0,.5);
+
+  /* Day type accents */
+  --push:   #92c0f0;
+  --push-t: rgba(146,192,240,.10);
+  --push-b: rgba(146,192,240,.28);
+
+  --pull:   #f0aaaa;
+  --pull-t: rgba(240,170,170,.10);
+  --pull-b: rgba(240,170,170,.28);
+
+  --legs:   #9eddb0;
+  --legs-t: rgba(158,221,176,.10);
+  --legs-b: rgba(158,221,176,.28);
+
+  --cat:    #c8b8a8;
+  --cat-t:  rgba(200,184,168,.07);
+  --cat-b:  rgba(200,184,168,.18);
+}
+
+/* ══════════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box; margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  height: 100%; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ══════════════════════════════════════════════════
+   APP SHELL — screen stack
+══════════════════════════════════════════════════ */
+.app {
+  height: 100%; display: flex; flex-direction: column;
+  max-width: 480px; margin: 0 auto; position: relative; overflow: hidden;
+}
+
+/* Screens sit in a stack, only .active is visible */
+.screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transform: translateX(24px);
+  transition: opacity .22s ease, transform .22s ease;
+  overflow: hidden;
+}
+.screen.active {
+  opacity: 1; pointer-events: all; transform: translateX(0);
+}
+.screen.exit-left {
+  opacity: 0; transform: translateX(-24px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* ══════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════ */
+.hdr {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0 6px;
+  padding-top: max(env(safe-area-inset-top, 0px), 10px);
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  flex-shrink: 0;
+}
+.hdr-sym {
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: 1.1rem; letter-spacing: .07em;
+  color: var(--ink3); opacity: .55;
+  user-select: none;
+}
+.hdr-sub {
+  font-size: .45rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink3); opacity: .3;
+}
+
+/* Back button row — shown on sub-screens */
+.hdr-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: max(env(safe-area-inset-top, 0px), 10px) 16px 10px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.back-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: .7rem;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); display: flex; align-items: center; gap: 6px;
+  padding: 4px 0; transition: color .15s;
+}
+.back-btn:active { color: var(--ink); }
+.back-btn::before { content: '←'; font-size: .85rem; }
+.hdr-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--ink);
+}
+.hdr-accent { /* colored dot for day type */ }
+
+/* ══════════════════════════════════════════════════
+   SCROLL AREA
+══════════════════════════════════════════════════ */
+.scroll {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 0 0 max(env(safe-area-inset-bottom, 0px), 24px);
+}
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+/* ══════════════════════════════════════════════════
+   HOME SCREEN
+══════════════════════════════════════════════════ */
+.home-header {
+  padding: 32px 20px 20px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.home-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 600; color: var(--ink);
+  line-height: 1.15;
+}
+.home-date {
+  font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3);
+}
+
+/* Day tiles grid */
+.tiles {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; padding: 0 16px;
+}
+.tile {
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 22px 14px 18px;
+  position: relative; overflow: hidden;
+  cursor: pointer; user-select: none;
+  transition: background .18s, border-color .18s, transform .12s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+.tile:active { transform: scale(.97); }
+
+/* Corner glyphs — same system as translator */
+.tile-corner {
+  position: absolute; font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: .72rem; line-height: 1; pointer-events: none;
+  transition: color .2s, opacity .2s;
+}
+.tile-corner.tl { top: 7px;  left: 9px; }
+.tile-corner.tr { top: 7px;  right: 9px;  transform: scaleX(-1); }
+.tile-corner.bl { bottom: 7px; left: 9px;  transform: scaleY(-1); }
+.tile-corner.br { bottom: 7px; right: 9px; transform: scale(-1,-1); }
+
+.tile-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  text-align: center; line-height: 1.1;
+}
+.tile-sub {
+  font-size: .55rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); text-align: center; line-height: 1.6;
+}
+.tile-action {
+  font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+  margin-top: 4px;
+  border-radius: 4px; padding: 3px 10px;
+  border: 1px solid;
+  font-weight: 700;
+}
+
+/* Day type color application */
+.tile-push  { border-color: var(--push-b); }
+.tile-push:active { background: var(--push-t); }
+.tile-push  .tile-corner { color: var(--push); opacity: .35; }
+.tile-push  .tile-name   { color: var(--push); }
+.tile-push  .tile-action { color: var(--push); border-color: var(--push-b); background: var(--push-t); }
+
+.tile-pull  { border-color: var(--pull-b); }
+.tile-pull:active { background: var(--pull-t); }
+.tile-pull  .tile-corner { color: var(--pull); opacity: .35; }
+.tile-pull  .tile-name   { color: var(--pull); }
+.tile-pull  .tile-action { color: var(--pull); border-color: var(--pull-b); background: var(--pull-t); }
+
+.tile-legs  { border-color: var(--legs-b); }
+.tile-legs:active { background: var(--legs-t); }
+.tile-legs  .tile-corner { color: var(--legs); opacity: .35; }
+.tile-legs  .tile-name   { color: var(--legs); }
+.tile-legs  .tile-action { color: var(--legs); border-color: var(--legs-b); background: var(--legs-t); }
+
+.tile-cat   { border-color: var(--cat-b); }
+.tile-cat:active { background: var(--cat-t); }
+.tile-cat   .tile-corner { color: var(--cat); opacity: .25; }
+.tile-cat   .tile-name   { color: var(--cat); }
+.tile-cat   .tile-action { color: var(--cat); border-color: var(--cat-b); background: var(--cat-t); }
+
+/* Full-width catalog tile */
+.tile-full { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; padding: 16px 18px; }
+.tile-full .tile-name { font-size: 1rem; }
+.tile-full .tile-sub  { text-align: left; }
+.tile-full .tile-name-wrap { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+
+/* ══════════════════════════════════════════════════
+   RECENT SESSIONS (home bottom section)
+══════════════════════════════════════════════════ */
+.section-label {
+  padding: 24px 20px 10px;
+  font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3);
+}
+.recent-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.recent-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.recent-left { display: flex; flex-direction: column; gap: 3px; }
+.recent-name {
+  font-size: .85rem; font-weight: 500; color: var(--ink2);
+}
+.recent-meta {
+  font-size: .6rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink3);
+}
+.recent-arrow { color: var(--ink3); font-size: .75rem; opacity: .5; }
+
+/* Empty recent state */
+.recent-empty {
+  padding: 16px; text-align: center;
+  font-size: .72rem; color: var(--ink3); line-height: 1.7;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════
+   SIDEBAR BORDER COLS (decorative, home only)
+══════════════════════════════════════════════════ */
+.home-wrap {
+  flex: 1; display: flex; overflow: hidden;
+}
+.border-col {
+  width: 18px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.side-sym {
+  writing-mode: vertical-rl;
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: .62rem; color: var(--ink3); opacity: .22;
+  letter-spacing: .35em; user-select: none; pointer-events: none;
+}
+.side-sym-r { transform: rotate(180deg); }
+
+/* ══════════════════════════════════════════════════
+   PLACEHOLDER SCREENS (Bricks 3+)
+══════════════════════════════════════════════════ */
+.placeholder {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding: 32px; text-align: center;
+}
+.placeholder-sym {
+  font-family: 'DM Sans', sans-serif; font-weight: 900;
+  font-size: 1rem; color: var(--ink3); opacity: .4; letter-spacing: .08em;
+}
+.placeholder-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--ink2);
+}
+.placeholder-hint {
+  font-size: .72rem; color: var(--ink3); line-height: 1.65;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══ HEADER ═══════════════════════════════════════ -->
+  <div class="hdr" id="mainHdr">
+    <span class="hdr-sym">⊹₊˚‧︵‿₊୨ᰔ୧₊‿︵‧˚₊⊹</span>
+    <span class="hdr-sub">workout</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SCREEN: HOME
+  ══════════════════════════════════════════════════ -->
+  <div class="screen active" id="screen-home">
+    <div class="home-wrap">
+      <div class="border-col">
+        <span class="side-sym">꧁·𓆩·✧·𓆪·꧂</span>
+      </div>
+      <div class="scroll">
+        <div class="home-header">
+          <div class="home-greeting" id="greeting">Good morning.</div>
+          <div class="home-date" id="homeDate"></div>
+        </div>
+
+        <div class="tiles">
+          <!-- Push -->
+          <div class="tile tile-push" onclick="goTo('screen-configure','push')">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name">Push</div>
+            <div class="tile-sub">chest · shoulders<br>triceps</div>
+            <div class="tile-action">Generate ↗</div>
+          </div>
+
+          <!-- Pull -->
+          <div class="tile tile-pull" onclick="goTo('screen-configure','pull')">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name">Pull</div>
+            <div class="tile-sub">back · biceps<br>lats</div>
+            <div class="tile-action">Generate ↗</div>
+          </div>
+
+          <!-- Legs + Core -->
+          <div class="tile tile-legs" onclick="goTo('screen-configure','legs')">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name">Legs<br>+ Core</div>
+            <div class="tile-sub">quads · glutes<br>hamstrings · abs</div>
+            <div class="tile-action">Generate ↗</div>
+          </div>
+
+          <!-- Catalog — placeholder slot -->
+          <div class="tile tile-cat" onclick="goTo('screen-catalog',null)">
+            <span class="tile-corner tl">꧁</span>
+            <span class="tile-corner tr">꧁</span>
+            <span class="tile-corner bl">꧂</span>
+            <span class="tile-corner br">꧂</span>
+            <div class="tile-name">Catalog</div>
+            <div class="tile-sub">browse all<br>exercises</div>
+            <div class="tile-action">Browse ↗</div>
+          </div>
+        </div>
+
+        <div class="section-label">Recent sessions</div>
+        <div class="recent-list" id="recentList">
+          <div class="recent-empty">No sessions yet.<br>Generate your first workout above.</div>
+        </div>
+
+      </div><!-- /.scroll -->
+      <div class="border-col">
+        <span class="side-sym side-sym-r">꧁·𓆩·✧·𓆪·꧂</span>
+      </div>
+    </div><!-- /.home-wrap -->
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SCREEN: CONFIGURE (Brick 3 placeholder)
+  ══════════════════════════════════════════════════ -->
+  <div class="screen" id="screen-configure">
+    <div class="hdr-nav">
+      <button class="back-btn" onclick="goBack()">Home</button>
+      <div class="hdr-title" id="configTitle">Push Day</div>
+    </div>
+    <div class="placeholder">
+      <div class="placeholder-sym">⊹ · ⊹</div>
+      <div class="placeholder-label">Session configure</div>
+      <div class="placeholder-hint">Brick 3 — natural language input,<br>quick-tap chips, generate button.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SCREEN: SESSION (Brick 5 placeholder)
+  ══════════════════════════════════════════════════ -->
+  <div class="screen" id="screen-session">
+    <div class="hdr-nav">
+      <button class="back-btn" onclick="goBack()">Configure</button>
+      <div class="hdr-title" id="sessionTitle">Push Day</div>
+    </div>
+    <div class="placeholder">
+      <div class="placeholder-sym">⊹ · ⊹</div>
+      <div class="placeholder-label">Session screen</div>
+      <div class="placeholder-hint">Brick 5 — warmup / main / cooldown<br>exercise rows, regenerate buttons.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SCREEN: CATALOG (Brick 7 placeholder)
+  ══════════════════════════════════════════════════ -->
+  <div class="screen" id="screen-catalog">
+    <div class="hdr-nav">
+      <button class="back-btn" onclick="goBack()">Home</button>
+      <div class="hdr-title">Catalog</div>
+    </div>
+    <div class="placeholder">
+      <div class="placeholder-sym">⊹ · ⊹</div>
+      <div class="placeholder-label">Exercise catalog</div>
+      <div class="placeholder-hint">Brick 7 — filter by muscle group,<br>type, movement, equipment.</div>
+    </div>
+  </div>
+
+</div><!-- /.app -->
+
+<script>
+/* ── State ───────────────────────────────────────── */
+const DAY_CONFIG = {
+  push: {
+    label: 'Push Day',
+    color: 'push',
+    muscles: 'chest · shoulders · triceps',
+  },
+  pull: {
+    label: 'Pull Day',
+    color: 'pull',
+    muscles: 'back · biceps · lats',
+  },
+  legs: {
+    label: 'Legs + Core',
+    color: 'legs',
+    muscles: 'quads · glutes · hamstrings · abs',
+  },
+};
+
+let currentDay  = null;
+let screenStack = ['screen-home'];
+
+/* ── Greeting + date ─────────────────────────────── */
+(function() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
+  document.getElementById('greeting').textContent = greet;
+  const opts = { weekday:'long', month:'long', day:'numeric' };
+  document.getElementById('homeDate').textContent =
+    new Date().toLocaleDateString(undefined, opts).toUpperCase();
+})();
+
+/* ── Navigation ──────────────────────────────────── */
+function goTo(screenId, dayType) {
+  const current = screenStack[screenStack.length - 1];
+  const currentEl = document.getElementById(current);
+  const nextEl    = document.getElementById(screenId);
+  if (!nextEl || screenId === current) return;
+
+  // Set day context before transition
+  if (dayType) {
+    currentDay = dayType;
+    const cfg = DAY_CONFIG[dayType];
+    const titleEl = document.getElementById('configTitle');
+    if (titleEl) titleEl.textContent = cfg.label;
+  }
+
+  // Animate out current, animate in next
+  currentEl.classList.add('exit-left');
+  currentEl.classList.remove('active');
+  nextEl.classList.add('active');
+
+  setTimeout(() => currentEl.classList.remove('exit-left'), 200);
+
+  screenStack.push(screenId);
+}
+
+function goBack() {
+  if (screenStack.length <= 1) return;
+  const current = screenStack.pop();
+  const prev    = screenStack[screenStack.length - 1];
+
+  const currentEl = document.getElementById(current);
+  const prevEl    = document.getElementById(prev);
+
+  currentEl.classList.remove('active');
+  // Slide back in from left — reverse direction
+  prevEl.style.transform = 'translateX(-24px)';
+  prevEl.classList.add('active');
+  requestAnimationFrame(() => {
+    prevEl.style.transition = 'opacity .22s ease, transform .22s ease';
+    prevEl.style.transform  = 'translateX(0)';
+    prevEl.style.opacity    = '1';
+  });
+  setTimeout(() => {
+    prevEl.style.transition = '';
+    prevEl.style.transform  = '';
+    prevEl.style.opacity    = '';
+  }, 240);
+}
+
+/* ── Recent sessions (local storage) ────────────── */
+function loadRecent() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem('workout_sessions') || '[]');
+    const list = document.getElementById('recentList');
+    if (!sessions.length) return;
+    list.innerHTML = '';
+    sessions.slice(0, 3).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'recent-item';
+      item.innerHTML = `
+        <div class="recent-left">
+          <div class="recent-name">${s.label}</div>
+          <div class="recent-meta">${s.date} · ${s.exerciseCount} exercises</div>
+        </div>
+        <div class="recent-arrow">→</div>`;
+      list.appendChild(item);
+    });
+  } catch(e) {}
+}
+loadRecent();
+</script>
+</body>
+</html>
