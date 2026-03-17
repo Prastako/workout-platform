@@ -654,14 +654,16 @@ html, body {
 .cat-search::placeholder { color: var(--ink3); opacity: .5; }
 .cat-search:focus { border-color: var(--border-strong); }
 
-.cat-filter-row {
-  display: flex; align-items: center; gap: 5px;
-  overflow-x: auto; padding: 0 16px 12px;
-  flex-shrink: 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+.cat-filters {
+  padding: 0 16px 4px; flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 10px;
 }
-.cat-filter-row::-webkit-scrollbar { display: none; }
+.cat-filter-section { display: flex; flex-direction: column; gap: 6px; }
+.cat-filter-section-label {
+  font-size: .52rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); opacity: .5; font-weight: 500;
+}
+.cat-filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 
 .cat-filter-chip {
   display: inline-flex; align-items: center;
@@ -673,17 +675,12 @@ html, body {
   transition: background .15s, border-color .15s, color .15s;
 }
 .cat-filter-chip.active {
-  background: var(--surface2); border-color: var(--border-strong); color: var(--ink);
+  border-color: var(--border-strong); color: var(--ink);
 }
 .cat-filter-chip.active.day-push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
 .cat-filter-chip.active.day-pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
 .cat-filter-chip.active.day-legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
 .cat-filter-chip.active.day-full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
-
-.cat-filter-sep {
-  color: var(--ink3); opacity: .25; font-size: .7rem;
-  flex-shrink: 0; padding: 0 2px; user-select: none;
-}
 
 .cat-results-bar {
   font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
@@ -1518,25 +1515,39 @@ html, body {
         autocapitalize="off" spellcheck="false">
     </div>
 
-    <!-- Filter chips -->
-    <div class="cat-filter-row" id="catFilterRow">
-      <!-- Day (single-select) -->
-      <div class="cat-filter-chip day-push" data-group="day" data-day="push" onclick="catSelectDay(this)">Push</div>
-      <div class="cat-filter-chip day-pull" data-group="day" data-day="pull" onclick="catSelectDay(this)">Pull</div>
-      <div class="cat-filter-chip day-legs" data-group="day" data-day="legs" onclick="catSelectDay(this)">Legs</div>
-      <div class="cat-filter-chip day-full" data-group="day" data-day="full" onclick="catSelectDay(this)">Full</div>
-      <span class="cat-filter-sep">·</span>
-      <!-- Mechanic (multi-toggle) -->
-      <div class="cat-filter-chip cat-mechanic-chip" data-value="compound" onclick="catToggleChip(this)">Compound</div>
-      <div class="cat-filter-chip cat-mechanic-chip" data-value="isolation" onclick="catToggleChip(this)">Isolation</div>
-      <span class="cat-filter-sep">·</span>
-      <!-- Equipment (multi-toggle) -->
-      <div class="cat-filter-chip cat-equip-chip" data-value="barbell" onclick="catToggleChip(this)">Barbell</div>
-      <div class="cat-filter-chip cat-equip-chip" data-value="dumbbell" onclick="catToggleChip(this)">Dumbbell</div>
-      <div class="cat-filter-chip cat-equip-chip" data-value="cable" onclick="catToggleChip(this)">Cable</div>
-      <div class="cat-filter-chip cat-equip-chip" data-value="machine" onclick="catToggleChip(this)">Machine</div>
-      <div class="cat-filter-chip cat-equip-chip" data-value="bodyweight" onclick="catToggleChip(this)">Bodyweight</div>
-      <div class="cat-filter-chip cat-equip-chip" data-value="kettlebell" onclick="catToggleChip(this)">Kettlebell</div>
+    <!-- Filters -->
+    <div class="cat-filters" id="catFilters">
+
+      <div class="cat-filter-section">
+        <div class="cat-filter-section-label">Day type</div>
+        <div class="cat-filter-chips">
+          <div class="cat-filter-chip day-push" data-group="day" data-day="push" onclick="catSelectDay(this)">Push</div>
+          <div class="cat-filter-chip day-pull" data-group="day" data-day="pull" onclick="catSelectDay(this)">Pull</div>
+          <div class="cat-filter-chip day-legs" data-group="day" data-day="legs" onclick="catSelectDay(this)">Legs</div>
+          <div class="cat-filter-chip day-full" data-group="day" data-day="full" onclick="catSelectDay(this)">Full</div>
+        </div>
+      </div>
+
+      <div class="cat-filter-section">
+        <div class="cat-filter-section-label">Mechanic</div>
+        <div class="cat-filter-chips">
+          <div class="cat-filter-chip cat-mechanic-chip" data-value="compound" onclick="catSelectMechanic(this)">Compound</div>
+          <div class="cat-filter-chip cat-mechanic-chip" data-value="isolation" onclick="catSelectMechanic(this)">Isolation</div>
+        </div>
+      </div>
+
+      <div class="cat-filter-section">
+        <div class="cat-filter-section-label">Equipment</div>
+        <div class="cat-filter-chips">
+          <div class="cat-filter-chip cat-equip-chip" data-value="barbell" onclick="catToggleChip(this)">Barbell</div>
+          <div class="cat-filter-chip cat-equip-chip" data-value="dumbbell" onclick="catToggleChip(this)">Dumbbell</div>
+          <div class="cat-filter-chip cat-equip-chip" data-value="cable" onclick="catToggleChip(this)">Cable</div>
+          <div class="cat-filter-chip cat-equip-chip" data-value="machine" onclick="catToggleChip(this)">Machine</div>
+          <div class="cat-filter-chip cat-equip-chip" data-value="bodyweight" onclick="catToggleChip(this)">Bodyweight</div>
+          <div class="cat-filter-chip cat-equip-chip" data-value="kettlebell" onclick="catToggleChip(this)">Kettlebell</div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Results count -->
@@ -3133,7 +3144,14 @@ function initCatalogScreen() {
 function catSelectDay(el) {
   var wasActive = el.classList.contains('active');
   document.querySelectorAll('[data-group="day"]').forEach(function(c) { c.classList.remove('active'); });
-  if (!wasActive) el.classList.add('active'); // tap active day = deselect (toggle off)
+  if (!wasActive) el.classList.add('active');
+  runCatalogSearch();
+}
+
+function catSelectMechanic(el) {
+  var wasActive = el.classList.contains('active');
+  document.querySelectorAll('.cat-mechanic-chip').forEach(function(c) { c.classList.remove('active'); });
+  if (!wasActive) el.classList.add('active');
   runCatalogSearch();
 }
 
