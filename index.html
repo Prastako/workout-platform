@@ -911,14 +911,31 @@ html, body {
   letter-spacing: .1em; text-transform: uppercase;
   -webkit-tap-highlight-color: transparent; padding: 7px 14px;
 }
-.ex-sheet-viewer {
-  position: relative; width: 100%; height: 220px;
+.ex-mannequin {
+  position: relative; width: 100%; height: 200px;
   background: var(--bg); flex-shrink: 0; overflow: hidden;
 }
-.ex-anim-wrap { position: relative; width: 100%; height: 100%; background: var(--bg); }
+#exViewerCanvas { width: 100%; height: 100%; display: block; }
+.ex-viewer-loading {
+  position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center;
+  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); pointer-events: none;
+}
+.ex-photo-strip {
+  position: relative; width: 100%; height: 82px;
+  flex-shrink: 0; overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+.ex-photo-label {
+  position: absolute; bottom: 6px; left: 10px; z-index: 1;
+  font-size: .52rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); opacity: .5; pointer-events: none;
+}
+.ex-anim-wrap { position: relative; width: 100%; height: 100%; }
 .ex-anim-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; object-position: center;
+  object-fit: cover; object-position: center top;
   transition: opacity .42s ease-in-out;
 }
 .ex-tier-badge {
@@ -1506,12 +1523,17 @@ html, body {
         <div class="ex-sheet-handle"></div>
         <button class="ex-sheet-close" onclick="closeExerciseSheet()">close</button>
       </div>
-      <div class="ex-sheet-viewer" id="exSheetViewer" style="display:none">
+      <div class="ex-mannequin" id="exMannequin">
+        <canvas id="exViewerCanvas"></canvas>
+        <div class="ex-viewer-loading" id="exViewerLoading">⊹₊˚‧ loading viewer ‧˚₊⊹</div>
+        <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
+      </div>
+      <div class="ex-photo-strip" id="exPhotoStrip" style="display:none">
         <div class="ex-anim-wrap">
           <img id="exAnimImgA" class="ex-anim-img" src="" alt="" style="opacity:1">
           <img id="exAnimImgB" class="ex-anim-img" src="" alt="" style="opacity:0">
         </div>
-        <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
+        <span class="ex-photo-label">exercise reference</span>
       </div>
       <div class="ex-sheet-scroll" id="exSheetScroll">
         <div class="ex-sheet-name" id="exSheetName"></div>
@@ -2112,12 +2134,12 @@ function _setOverlays(primaryKeys, secondaryKeys) {
 // Option C — exercise image crossfade animation (active). _setOverlays dormant (Option A/D reserve).
 function _startImageAnim(entry) {
   _stopImageAnim();
-  var urls    = entry && entry.image_urls;
-  var viewer  = document.getElementById('exSheetViewer');
-  var imgA    = document.getElementById('exAnimImgA');
-  var imgB    = document.getElementById('exAnimImgB');
-  if (!urls || urls.length < 2) { viewer.style.display = 'none'; return; }
-  viewer.style.display = 'block';
+  var urls  = entry && entry.image_urls;
+  var strip = document.getElementById('exPhotoStrip');
+  var imgA  = document.getElementById('exAnimImgA');
+  var imgB  = document.getElementById('exAnimImgB');
+  if (!urls || urls.length < 2) { strip.style.display = 'none'; return; }
+  strip.style.display = 'block';
   imgA.src = urls[0]; imgB.src = urls[1];
   imgA.style.opacity = '1'; imgB.style.opacity = '0';
   _animFrame = 0;
@@ -2255,7 +2277,32 @@ function openExercise(name) {
       _viewer.listenersAttached = true;
     }
 
-    // Image crossfade animation
+    // Three.js mannequin (primary visual)
+    var loadingEl = document.getElementById('exViewerLoading');
+    if (_viewer.ready) {
+      loadingEl.style.display = 'none';
+      _resizeViewer();
+      _startViewerLoop();
+    } else if (!_viewer.loading) {
+      _viewer.loading = true;
+      loadingEl.style.display = 'flex';
+      _ensureThree()
+        .then(function() { _initViewerScene(); return _loadModel(); })
+        .then(function() {
+          _viewer.ready   = true;
+          _viewer.loading = false;
+          loadingEl.style.display = 'none';
+          _resizeViewer();
+          _startViewerLoop();
+        })
+        .catch(function(err) {
+          console.warn('Viewer init failed:', err);
+          _viewer.loading = false;
+          loadingEl.textContent = '⊹ viewer unavailable';
+        });
+    }
+
+    // Photo strip (secondary reference)
     _startImageAnim(entry);
   } // end _doOpen
 
@@ -2273,6 +2320,7 @@ function openExercise(name) {
 function closeExerciseSheet() {
   var sheet = document.getElementById('exSheetInner');
   sheet.classList.add('slide-out');
+  _viewer.loopActive = false;
   _stopImageAnim();
   setTimeout(function() {
     document.getElementById('exerciseSheet').classList.add('hidden');
