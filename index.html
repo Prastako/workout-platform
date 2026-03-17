@@ -1524,7 +1524,7 @@ html, body {
           <div class="cat-filter-chip day-push" data-group="day" data-day="push" onclick="catSelectDay(this)">Push</div>
           <div class="cat-filter-chip day-pull" data-group="day" data-day="pull" onclick="catSelectDay(this)">Pull</div>
           <div class="cat-filter-chip day-legs" data-group="day" data-day="legs" onclick="catSelectDay(this)">Legs</div>
-          <div class="cat-filter-chip day-full" data-group="day" data-day="full" onclick="catSelectDay(this)">Full</div>
+          <div class="cat-filter-chip" data-group="day" data-day="core" onclick="catSelectDay(this)">Core</div>
         </div>
       </div>
 
@@ -3199,8 +3199,13 @@ function runCatalogSearch() {
 
   var results = window._catalog.filter(function(ex) {
     if (day) {
-      var types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
-      if (!types.includes(day)) return false;
+      if (day === 'core') {
+        var types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
+        if (!types.includes('core')) return false;
+      } else {
+        var types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
+        if (!types.includes(day)) return false;
+      }
     }
     if (mechanics.length && mechanics.indexOf(ex.mechanic) === -1) return false;
     if (equips.length && equips.indexOf(ex.equipment) === -1) return false;
