@@ -915,13 +915,7 @@ html, body {
   position: relative; width: 100%; height: 220px;
   background: var(--bg); flex-shrink: 0; overflow: hidden;
 }
-#exViewerCanvas { width: 100%; height: 100%; display: block; }
-.ex-viewer-loading {
-  position: absolute; inset: 0; display: flex;
-  align-items: center; justify-content: center;
-  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink3); pointer-events: none;
-}
+#exBodySVG { display: block; width: 100%; height: 100%; }
 .ex-tier-badge {
   position: absolute; bottom: 10px; left: 12px;
   font-size: .55rem; letter-spacing: .14em; text-transform: uppercase;
@@ -1508,8 +1502,44 @@ html, body {
         <button class="ex-sheet-close" onclick="closeExerciseSheet()">close</button>
       </div>
       <div class="ex-sheet-viewer">
-        <canvas id="exViewerCanvas"></canvas>
-        <div class="ex-viewer-loading" id="exViewerLoading">⊹₊˚‧ loading viewer ‧˚₊⊹</div>
+        <svg id="exBodySVG" viewBox="0 0 360 222" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Labels -->
+          <text x="90"  y="9" text-anchor="middle" font-size="7" letter-spacing="2" font-family="DM Sans,sans-serif" fill="#4a403a">FRONT</text>
+          <text x="270" y="9" text-anchor="middle" font-size="7" letter-spacing="2" font-family="DM Sans,sans-serif" fill="#4a403a">BACK</text>
+          <line x1="180" y1="0" x2="180" y2="222" stroke="#26221e" stroke-width="1.5"/>
+
+          <!-- ═══ FRONT ═══ -->
+          <circle cx="90" cy="24" r="12" fill="#2d2724"/>
+          <path fill="#2d2724" d="M 68,42 C 62,42 56,45 52,56 L 50,90 L 52,98 L 54,132 L 57,136 L 67,134 L 66,178 L 65,210 L 77,210 L 79,178 L 87,138 L 93,138 L 101,178 L 103,210 L 115,210 L 114,178 L 113,134 L 123,136 L 126,132 L 128,98 L 130,90 L 128,56 C 124,45 118,42 112,42 L 108,40 C 102,38 96,37 90,37 C 84,37 78,38 72,40 Z"/>
+
+          <!-- Front overlays -->
+          <path id="svg-shoulder_L" fill="none" d="M 52,56 C 56,45 62,42 68,42 L 68,54 L 60,62 L 52,58 Z"/>
+          <path id="svg-shoulder_R" fill="none" d="M 112,42 C 118,42 124,45 128,56 L 120,58 L 112,54 Z"/>
+          <path id="svg-chest"      fill="none" d="M 70,42 L 110,42 L 110,54 L 108,82 L 72,82 L 70,54 Z"/>
+          <path id="svg-abs"        fill="none" d="M 72,82 L 108,82 L 106,126 L 74,126 Z"/>
+          <path id="svg-bicep_L"    fill="none" d="M 52,58 L 60,62 L 58,95 L 50,90 Z"/>
+          <path id="svg-bicep_R"    fill="none" d="M 120,58 L 128,56 L 130,90 L 122,95 Z"/>
+          <path id="svg-quads_L"    fill="none" d="M 67,138 L 87,138 L 85,178 L 66,175 Z"/>
+          <path id="svg-quads_R"    fill="none" d="M 93,138 L 113,138 L 114,175 L 95,178 Z"/>
+
+          <!-- ═══ BACK ═══ -->
+          <circle cx="270" cy="24" r="12" fill="#2d2724"/>
+          <path fill="#2d2724" d="M 248,42 C 242,42 236,45 232,56 L 230,90 L 232,98 L 234,132 L 237,136 L 247,134 L 246,178 L 245,210 L 257,210 L 259,178 L 267,138 L 273,138 L 281,178 L 283,210 L 295,210 L 294,178 L 293,134 L 303,136 L 306,132 L 308,98 L 310,90 L 308,56 C 304,45 298,42 292,42 L 288,40 C 282,38 276,37 270,37 C 264,37 258,38 252,40 Z"/>
+
+          <!-- Back overlays -->
+          <path id="svg-traps"       fill="none" d="M 250,44 L 290,44 L 292,68 L 270,75 L 248,68 Z"/>
+          <path id="svg-lats_L"      fill="none" d="M 248,68 L 270,75 L 268,115 L 237,100 C 234,88 234,75 238,68 Z"/>
+          <path id="svg-lats_R"      fill="none" d="M 292,68 C 306,75 306,88 303,100 L 272,115 L 270,75 Z"/>
+          <path id="svg-tricep_L"    fill="none" d="M 232,58 L 248,62 L 244,98 L 230,92 Z"/>
+          <path id="svg-tricep_R"    fill="none" d="M 292,62 L 308,58 L 310,92 L 296,98 Z"/>
+          <path id="svg-glutes"      fill="none" d="M 247,134 L 293,134 L 293,158 L 247,158 Z"/>
+          <path id="svg-hamstring_L" fill="none" d="M 247,158 L 270,158 L 268,198 L 245,194 Z"/>
+          <path id="svg-hamstring_R" fill="none" d="M 270,158 L 293,158 L 295,194 L 272,198 Z"/>
+          <path id="svg-calves_L"    fill="none" d="M 246,198 L 265,198 L 263,212 L 244,212 Z"/>
+          <path id="svg-calves_R"    fill="none" d="M 275,198 L 294,198 L 296,212 L 273,212 Z"/>
+
+        </svg>
         <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
       </div>
       <div class="ex-sheet-scroll" id="exSheetScroll">
@@ -2107,6 +2137,24 @@ function _setOverlays(primaryKeys, secondaryKeys) {
   });
 }
 
+// SVG muscle highlighter — Option B (active). _setOverlays above is dormant (Option A/C reserve).
+function _svgSetMuscles(primaryKeys, secondaryKeys) {
+  Object.keys(ANCHOR_POINTS).forEach(function(key) {
+    var el = document.getElementById('svg-' + key);
+    if (!el) return;
+    if (primaryKeys.indexOf(key) !== -1) {
+      el.setAttribute('fill', '#e8622a');
+      el.setAttribute('fill-opacity', '0.82');
+    } else if (secondaryKeys.indexOf(key) !== -1) {
+      el.setAttribute('fill', '#c07820');
+      el.setAttribute('fill-opacity', '0.50');
+    } else {
+      el.setAttribute('fill', 'none');
+      el.setAttribute('fill-opacity', '0');
+    }
+  });
+}
+
 function _resizeViewer() {
   if (!_viewer.renderer) return;
   var W = document.getElementById('exViewerCanvas').parentElement.offsetWidth;
@@ -2220,38 +2268,10 @@ function openExercise(name) {
       _viewer.listenersAttached = true;
     }
 
-    // Three.js viewer
+    // SVG muscle overlay
     var primary   = entry ? _muscleKeysFor(entry.primary_muscles)   : [];
     var secondary = entry ? _muscleKeysFor(entry.secondary_muscles) : [];
-    _viewer._pendingPrimary   = primary;
-    _viewer._pendingSecondary = secondary;
-
-    var loadingEl = document.getElementById('exViewerLoading');
-    if (_viewer.ready) {
-      loadingEl.style.display = 'none';
-      _resizeViewer();
-      _setOverlays(primary, secondary);
-      _startViewerLoop();
-    } else if (!_viewer.loading) {
-      _viewer.loading = true;
-      loadingEl.style.display = 'flex';
-      _ensureThree()
-        .then(function() { _initViewerScene(); return _loadModel(); })
-        .then(function() {
-          _viewer.ready   = true;
-          _viewer.loading = false;
-          loadingEl.style.display = 'none';
-          _resizeViewer();
-          _setOverlays(_viewer._pendingPrimary || [], _viewer._pendingSecondary || []);
-          _startViewerLoop();
-        })
-        .catch(function(err) {
-          console.warn('Viewer init failed:', err);
-          _viewer.loading = false;
-          loadingEl.textContent = '⊹ viewer unavailable';
-        });
-    }
-    // else: still loading — _pendingPrimary/Secondary will be applied when ready
+    _svgSetMuscles(primary, secondary);
   } // end _doOpen
 
   // If catalog not yet loaded (e.g. opened from history), fetch then open
