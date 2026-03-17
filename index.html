@@ -367,6 +367,108 @@ html, body {
 }
 .opt-item.checked .opt-text { color: var(--ink2); }
 
+/* ── Configure: Axis accordion ─────────────────────── */
+.cfg-axes { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+
+.cfg-axis {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 11px; overflow: hidden;
+  transition: border-color .15s;
+}
+.cfg-axis.open { border-color: var(--border-strong); }
+
+.cfg-axis-header {
+  display: flex; align-items: center;
+  padding: 11px 13px; cursor: pointer; gap: 8px;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.cfg-axis-label {
+  font-size: .55rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink3); flex: 1; font-weight: 500;
+}
+.cfg-axis-value {
+  font-size: .67rem; font-weight: 600; color: var(--ink3);
+  transition: color .15s;
+}
+.cfg-axis.push .cfg-axis-value { color: var(--push); }
+.cfg-axis.pull .cfg-axis-value { color: var(--pull); }
+.cfg-axis.legs .cfg-axis-value { color: var(--legs); }
+.cfg-axis.full .cfg-axis-value { color: var(--full); }
+
+.cfg-axis-chevron {
+  font-size: .7rem; color: var(--ink3); opacity: .45;
+  transition: transform .2s ease; line-height: 1; margin-left: 2px;
+}
+.cfg-axis.open .cfg-axis-chevron { transform: rotate(90deg); }
+
+.cfg-axis-panel {
+  max-height: 0; overflow: hidden;
+  transition: max-height .26s cubic-bezier(.4,0,.2,1), padding .26s;
+  padding: 0 10px;
+}
+.cfg-axis.open .cfg-axis-panel { max-height: 110px; padding: 0 10px 10px; }
+
+.cfg-axis-opts { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.cfg-axis-opt {
+  padding: 6px 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer;
+  font-size: .65rem; font-weight: 500; color: var(--ink3);
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.cfg-axis-opt.selected { color: var(--ink); border-color: var(--border-strong); background: var(--surface2); }
+.cfg-axis-opt.selected.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.cfg-axis-opt.selected.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.cfg-axis-opt.selected.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+.cfg-axis-opt.selected.full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
+
+/* ── Core toggle ─────────────────────────────────── */
+.cfg-core-row { margin-bottom: 20px; }
+.cfg-core-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 9px 14px;
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s;
+}
+.cfg-core-btn.active.push { background: var(--push-t); border-color: var(--push-b); }
+.cfg-core-btn.active.pull { background: var(--pull-t); border-color: var(--pull-b); }
+.cfg-core-btn.active.legs { background: var(--legs-t); border-color: var(--legs-b); }
+.cfg-core-btn.active.full { background: var(--full-t); border-color: var(--full-b); }
+.cfg-core-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border-strong); opacity: .5;
+  transition: background .15s, opacity .15s; flex-shrink: 0;
+}
+.cfg-core-btn.active .cfg-core-dot { opacity: 1; }
+.cfg-core-btn.active.push .cfg-core-dot { background: var(--push); }
+.cfg-core-btn.active.pull .cfg-core-dot { background: var(--pull); }
+.cfg-core-btn.active.legs .cfg-core-dot { background: var(--legs); }
+.cfg-core-btn.active.full .cfg-core-dot { background: var(--full); }
+.cfg-core-text {
+  font-size: .67rem; font-weight: 500; color: var(--ink3);
+  transition: color .15s;
+}
+.cfg-core-btn.active .cfg-core-text { color: var(--ink2); }
+
+/* ── Emphasis chips (multi-select) ───────────────── */
+.cfg-emphasis { margin-bottom: 20px; }
+.cfg-emphasis-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.cfg-chip {
+  padding: 6px 12px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer;
+  font-size: .65rem; font-weight: 500; color: var(--ink3);
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.cfg-chip.checked.push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.cfg-chip.checked.pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.cfg-chip.checked.legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+.cfg-chip.checked.full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
+
 /* Custom duration input */
 .dur-custom {
   flex: 1.2; position: relative;
@@ -1157,63 +1259,100 @@ html, body {
         </div>
       </div>
 
-      <!-- Options: Focus -->
+      <!-- Options: Axis accordion rows -->
       <div class="cfg-label">Options</div>
+      <div class="cfg-axes" id="cfgAxes">
 
-      <div class="opt-group">
-        <div class="opt-group-label">Focus</div>
-        <div class="opt-grid" id="optFocus">
-          <div class="opt-item push" data-text="Focus on heavy compound movements, low reps." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Heavy compound</div>
+        <div class="cfg-axis" id="axis-goal" data-default="Mixed">
+          <div class="cfg-axis-header" onclick="toggleAxis('axis-goal')">
+            <span class="cfg-axis-label">Goal</span>
+            <span class="cfg-axis-value" id="axis-goal-val">Mixed</span>
+            <span class="cfg-axis-chevron">›</span>
           </div>
-          <div class="opt-item push" data-text="Include isolation exercises for muscle detail work." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Isolation focus</div>
+          <div class="cfg-axis-panel">
+            <div class="cfg-axis-opts">
+              <div class="cfg-axis-opt selected" data-prompt="" onclick="selectAxisOpt(this,'axis-goal')">Mixed</div>
+              <div class="cfg-axis-opt" data-prompt="Use strength rep ranges: 3–5 reps per set, heavier loads." onclick="selectAxisOpt(this,'axis-goal')">Strength</div>
+              <div class="cfg-axis-opt" data-prompt="Use hypertrophy rep ranges: 8–12 reps per set." onclick="selectAxisOpt(this,'axis-goal')">Hypertrophy</div>
+              <div class="cfg-axis-opt" data-prompt="Use muscular endurance rep ranges: 15–20 reps, short rest periods." onclick="selectAxisOpt(this,'axis-goal')">Endurance</div>
+            </div>
           </div>
-          <div class="opt-item push" data-text="Use strength rep ranges: 3-5 reps per set." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Strength (3–5 reps)</div>
+        </div>
+
+        <div class="cfg-axis" id="axis-style" data-default="Balanced">
+          <div class="cfg-axis-header" onclick="toggleAxis('axis-style')">
+            <span class="cfg-axis-label">Style</span>
+            <span class="cfg-axis-value" id="axis-style-val">Balanced</span>
+            <span class="cfg-axis-chevron">›</span>
           </div>
-          <div class="opt-item push" data-text="Use hypertrophy rep ranges: 8-12 reps per set." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Hypertrophy (8–12)</div>
+          <div class="cfg-axis-panel">
+            <div class="cfg-axis-opts">
+              <div class="cfg-axis-opt selected" data-prompt="" onclick="selectAxisOpt(this,'axis-style')">Balanced</div>
+              <div class="cfg-axis-opt" data-prompt="Focus on heavy compound movements, minimize isolation exercises." onclick="selectAxisOpt(this,'axis-style')">Compound heavy</div>
+              <div class="cfg-axis-opt" data-prompt="Include significant isolation exercises for muscle detail work." onclick="selectAxisOpt(this,'axis-style')">Isolation heavy</div>
+            </div>
           </div>
+        </div>
+
+        <div class="cfg-axis" id="axis-volume" data-default="Standard">
+          <div class="cfg-axis-header" onclick="toggleAxis('axis-volume')">
+            <span class="cfg-axis-label">Volume</span>
+            <span class="cfg-axis-value" id="axis-volume-val">Standard</span>
+            <span class="cfg-axis-chevron">›</span>
+          </div>
+          <div class="cfg-axis-panel">
+            <div class="cfg-axis-opts">
+              <div class="cfg-axis-opt selected" data-prompt="" onclick="selectAxisOpt(this,'axis-volume')">Standard</div>
+              <div class="cfg-axis-opt" data-prompt="Keep to 4 main exercises maximum, shorter session." onclick="selectAxisOpt(this,'axis-volume')">Fewer</div>
+              <div class="cfg-axis-opt" data-prompt="Include extra sets and exercises for higher overall volume." onclick="selectAxisOpt(this,'axis-volume')">High</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cfg-axis" id="axis-pace" data-default="Normal">
+          <div class="cfg-axis-header" onclick="toggleAxis('axis-pace')">
+            <span class="cfg-axis-label">Pace</span>
+            <span class="cfg-axis-value" id="axis-pace-val">Normal</span>
+            <span class="cfg-axis-chevron">›</span>
+          </div>
+          <div class="cfg-axis-panel">
+            <div class="cfg-axis-opts">
+              <div class="cfg-axis-opt selected" data-prompt="" onclick="selectAxisOpt(this,'axis-pace')">Normal</div>
+              <div class="cfg-axis-opt" data-prompt="Low intensity recovery session, keep weights light and volume reduced." onclick="selectAxisOpt(this,'axis-pace')">Deload</div>
+              <div class="cfg-axis-opt" data-prompt="Structure exercises as supersets to save time and increase intensity." onclick="selectAxisOpt(this,'axis-pace')">Supersets</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cfg-axis" id="axis-equip" data-default="Full gym">
+          <div class="cfg-axis-header" onclick="toggleAxis('axis-equip')">
+            <span class="cfg-axis-label">Equipment</span>
+            <span class="cfg-axis-value" id="axis-equip-val">Full gym</span>
+            <span class="cfg-axis-chevron">›</span>
+          </div>
+          <div class="cfg-axis-panel">
+            <div class="cfg-axis-opts">
+              <div class="cfg-axis-opt selected" data-prompt="" onclick="selectAxisOpt(this,'axis-equip')">Full gym</div>
+              <div class="cfg-axis-opt" data-prompt="No equipment — bodyweight and calisthenics only." onclick="selectAxisOpt(this,'axis-equip')">Bodyweight</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Core / Abs toggle -->
+      <div class="cfg-core-row">
+        <div class="cfg-core-btn" id="coreToggle" onclick="toggleCore()">
+          <div class="cfg-core-dot"></div>
+          <span class="cfg-core-text">+ Core / Abs</span>
         </div>
       </div>
 
-      <!-- Options: Adjustments -->
-      <div class="opt-group">
-        <div class="opt-group-label">Adjustments</div>
-        <div class="opt-grid" id="optAdjust">
-          <div class="opt-item push" id="optCore" data-text="Include 2 core exercises." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">+ Core exercises</div>
-          </div>
-          <div class="opt-item push" data-text="No equipment — bodyweight and calisthenics only." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">No equipment</div>
-          </div>
-          <div class="opt-item push" data-text="Keep to 4 main exercises maximum." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Fewer exercises</div>
-          </div>
-          <div class="opt-item push" data-text="Low intensity recovery session, keep weights light." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Recovery pace</div>
-          </div>
-          <div class="opt-item push" data-text="Include supersets to save time and increase intensity." onclick="toggleOpt(this)">
-            <div class="opt-box"><span class="opt-tick">✓</span></div>
-            <div class="opt-text">Include supersets</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Options: Target (dynamic per day) -->
-      <div class="opt-group">
-        <div class="opt-group-label">Target</div>
-        <div class="opt-grid" id="optTarget">
-          <!-- Populated by JS based on day type -->
+      <!-- Emphasis chips (multi-select, dynamic per day type) -->
+      <div class="cfg-emphasis" id="cfgEmphasis">
+        <div class="cfg-label">Emphasis</div>
+        <div class="cfg-emphasis-chips" id="emphasisChips">
+          <!-- Populated by setupConfigure() -->
         </div>
       </div>
 
@@ -1681,22 +1820,23 @@ function setupConfigure(dayType) {
   const ci = document.getElementById('customDur');
   ci.value = ''; ci.className = '';
 
-  // Opt-items — recolor and uncheck
-  document.querySelectorAll('.opt-item').forEach(el => {
-    el.className = 'opt-item ' + c;
-  });
+  // Axes — reset all to defaults and close panels
+  resetAxes();
 
-  // Target options — rebuild per day type
-  const tgt = document.getElementById('optTarget');
-  tgt.innerHTML = '';
+  // Core toggle — reset
+  const coreBtn = document.getElementById('coreToggle');
+  coreBtn.classList.remove('active', 'push', 'pull', 'legs', 'full');
+
+  // Emphasis chips — rebuild per day type
+  const chipsEl = document.getElementById('emphasisChips');
+  chipsEl.innerHTML = '';
   cfg.targets.forEach(function(t) {
-    var item = document.createElement('div');
-    item.className    = 'opt-item ' + c;
-    item.dataset.text = t.prompt;
-    item.onclick      = function() { toggleOpt(this); };
-    item.innerHTML    = '<div class="opt-box"><span class="opt-tick">✓</span></div>' +
-                        '<div class="opt-text">' + t.text + '</div>';
-    tgt.appendChild(item);
+    var chip = document.createElement('div');
+    chip.className    = 'cfg-chip';
+    chip.dataset.prompt = t.prompt;
+    chip.onclick      = function() { toggleChip(this); };
+    chip.textContent  = t.text;
+    chipsEl.appendChild(chip);
   });
 
   document.getElementById('genBtn').className = 'gen-btn ' + c;
@@ -1736,25 +1876,90 @@ function setCustomDuration(input) {
   }
 }
 
-/* ── Checkbox options ────────────────────────────── */
-function toggleOpt(el) {
-  const c = DAY_CONFIG[currentDay].color;
-  el.classList.toggle('checked');
-  if (el.classList.contains('checked')) el.classList.add(c);
-  else el.classList.remove(c);
+/* ── Axis accordion ──────────────────────────────── */
+function toggleAxis(id) {
+  var el = document.getElementById(id);
+  var isOpen = el.classList.contains('open');
+  document.querySelectorAll('.cfg-axis.open').forEach(function(a) { a.classList.remove('open'); });
+  if (!isOpen) el.classList.add('open');
 }
 
-function getCheckedText() {
-  return Array.from(document.querySelectorAll('.opt-item.checked'))
-    .map(el => el.dataset.text).filter(Boolean).join(' ');
+function selectAxisOpt(opt, axisId) {
+  var axis = document.getElementById(axisId);
+  var c = DAY_CONFIG[currentDay].color;
+  axis.querySelectorAll('.cfg-axis-opt').forEach(function(o) {
+    o.classList.remove('selected', 'push', 'pull', 'legs', 'full');
+  });
+  opt.classList.add('selected');
+  var isDefault = opt.textContent.trim() === axis.dataset.default;
+  if (!isDefault) opt.classList.add(c);
+  var valEl = document.getElementById(axisId + '-val');
+  if (valEl) valEl.textContent = opt.textContent.trim();
+  axis.classList.remove('push', 'pull', 'legs', 'full');
+  if (!isDefault) axis.classList.add(c);
+  setTimeout(function() { axis.classList.remove('open'); }, 160);
+}
+
+function resetAxes() {
+  document.querySelectorAll('.cfg-axis').forEach(function(axis) {
+    axis.classList.remove('open', 'push', 'pull', 'legs', 'full');
+    var defaultText = axis.dataset.default;
+    axis.querySelectorAll('.cfg-axis-opt').forEach(function(opt) {
+      opt.classList.remove('selected', 'push', 'pull', 'legs', 'full');
+      if (opt.textContent.trim() === defaultText) opt.classList.add('selected');
+    });
+    var valEl = document.getElementById(axis.id + '-val');
+    if (valEl) valEl.textContent = defaultText;
+  });
+}
+
+function getAxisText() {
+  var parts = [];
+  document.querySelectorAll('.cfg-axis').forEach(function(axis) {
+    var sel = axis.querySelector('.cfg-axis-opt.selected');
+    if (sel && sel.dataset.prompt) parts.push(sel.dataset.prompt);
+  });
+  return parts.join(' ');
+}
+
+/* ── Core toggle ─────────────────────────────────── */
+function toggleCore() {
+  var btn = document.getElementById('coreToggle');
+  var c = DAY_CONFIG[currentDay].color;
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active', 'push', 'pull', 'legs', 'full');
+  } else {
+    btn.classList.add('active', c);
+  }
+}
+
+function isCoreActive() {
+  return document.getElementById('coreToggle').classList.contains('active');
+}
+
+/* ── Emphasis chips ───────────────────────────────── */
+function toggleChip(el) {
+  var c = DAY_CONFIG[currentDay].color;
+  if (el.classList.contains('checked')) {
+    el.classList.remove('checked', 'push', 'pull', 'legs', 'full');
+  } else {
+    el.classList.add('checked', c);
+  }
+}
+
+function getChipText() {
+  return Array.from(document.querySelectorAll('.cfg-chip.checked'))
+    .map(function(el) { return el.dataset.prompt; }).filter(Boolean).join(' ');
 }
 
 /* ── Build prompt context ────────────────────────── */
 function buildPromptContext() {
   const cfg      = DAY_CONFIG[currentDay];
   const freeText = document.getElementById('cfgNote').value.trim();
-  const optText  = getCheckedText();
-  const modifier = [optText, freeText].filter(Boolean).join(' ');
+  const axisText = getAxisText();
+  const chipText = getChipText();
+  const coreText = isCoreActive() ? 'Include 2 core and ab exercises.' : '';
+  const modifier = [axisText, chipText, coreText, freeText].filter(Boolean).join(' ');
   return {
     dayType:  currentDay,
     dayLabel: cfg.label,
@@ -1763,6 +1968,7 @@ function buildPromptContext() {
     modifier: modifier || null,
   };
 }
+
 
 /* ── Loading animation ───────────────────────────── */
 function startLoadingAnim() {
@@ -1823,8 +2029,8 @@ async function generateSession() {
     }
   }
 
-  // 2. Filter by day_type; full body uses push/pull/legs pool; include core if optCore is checked
-  const coreChecked = document.getElementById('optCore')?.classList.contains('checked');
+  // 2. Filter by day_type; full body uses push/pull/legs pool; include core if core toggle active
+  const coreChecked = isCoreActive();
   const isFullBody  = ctx.dayType === 'full';
   let filtered = catalog.filter(function(ex) {
     const types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
