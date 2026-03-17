@@ -636,6 +636,108 @@ html, body {
 .regen-btn.spinning .regen-sym { animation: spinOnce .5s linear; }
 @keyframes spinOnce { to { transform: rotate(360deg); } }
 
+/* ══════════════════════════════════════════════════
+   CATALOG SCREEN
+══════════════════════════════════════════════════ */
+.cat-search-wrap {
+  padding: 0 16px 10px; flex-shrink: 0;
+}
+.cat-search {
+  width: 100%; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; box-sizing: border-box;
+  font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 400;
+  color: var(--ink); outline: none;
+  transition: border-color .15s;
+  -webkit-appearance: none;
+}
+.cat-search::placeholder { color: var(--ink3); opacity: .5; }
+.cat-search:focus { border-color: var(--border-strong); }
+
+.cat-filter-row {
+  display: flex; align-items: center; gap: 5px;
+  overflow-x: auto; padding: 0 16px 12px;
+  flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cat-filter-row::-webkit-scrollbar { display: none; }
+
+.cat-filter-chip {
+  display: inline-flex; align-items: center;
+  padding: 6px 12px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer;
+  font-size: .64rem; font-weight: 500; color: var(--ink3);
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.cat-filter-chip.active {
+  background: var(--surface2); border-color: var(--border-strong); color: var(--ink);
+}
+.cat-filter-chip.active.day-push { background: var(--push-t); border-color: var(--push-b); color: var(--push); }
+.cat-filter-chip.active.day-pull { background: var(--pull-t); border-color: var(--pull-b); color: var(--pull); }
+.cat-filter-chip.active.day-legs { background: var(--legs-t); border-color: var(--legs-b); color: var(--legs); }
+.cat-filter-chip.active.day-full { background: var(--full-t); border-color: var(--full-b); color: var(--full); }
+
+.cat-filter-sep {
+  color: var(--ink3); opacity: .25; font-size: .7rem;
+  flex-shrink: 0; padding: 0 2px; user-select: none;
+}
+
+.cat-results-bar {
+  font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3); padding: 0 16px 8px; flex-shrink: 0;
+}
+
+.cat-list {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 0 16px 32px;
+}
+
+.cat-ex-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.cat-ex-row:last-child { border-bottom: none; }
+.cat-ex-row:active .cat-ex-arrow { color: var(--ink2); }
+
+.cat-ex-body { flex: 1; min-width: 0; }
+.cat-ex-right {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.cat-ex-meta {
+  font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); opacity: .6; text-align: right; max-width: 90px;
+  line-height: 1.4;
+}
+.cat-ex-arrow {
+  font-size: 1.1rem; color: var(--ink3); opacity: .4; line-height: 1;
+}
+
+.cat-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; padding: 60px 20px;
+}
+.cat-empty-sym {
+  font-size: .9rem; color: var(--ink3); opacity: .35;
+  font-family: 'DM Sans', sans-serif; font-weight: 900; letter-spacing: .1em;
+}
+.cat-empty-label {
+  font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3); opacity: .4;
+}
+.cat-empty-hint {
+  font-size: .7rem; color: var(--ink3); opacity: .35;
+  text-align: center; line-height: 1.6; max-width: 220px;
+}
+.cat-loading {
+  padding: 40px 0; text-align: center;
+  font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3); opacity: .4;
+}
+
 .ex-row {
   display: flex; align-items: center;
   gap: 10px; padding: 13px 0;
@@ -1400,18 +1502,55 @@ html, body {
   </div>
 
   <!-- ══════════════════════════════════════════════════
-       SCREEN: CATALOG (Brick 7 placeholder)
+       SCREEN: CATALOG (Brick 7)
   ══════════════════════════════════════════════════ -->
   <div class="screen" id="screen-catalog">
     <div class="hdr-nav">
       <button class="back-btn" onclick="goBack()">Home</button>
       <div class="hdr-title">Catalog</div>
     </div>
-    <div class="placeholder">
-      <div class="placeholder-sym">⊹ · ⊹</div>
-      <div class="placeholder-label">Exercise catalog</div>
-      <div class="placeholder-hint">Brick 7 — filter by muscle group,<br>type, movement, equipment.</div>
+
+    <!-- Search -->
+    <div class="cat-search-wrap">
+      <input class="cat-search" id="catSearch" type="search"
+        placeholder="⊹  search by name or muscle…"
+        oninput="runCatalogSearch()" autocomplete="off" autocorrect="off"
+        autocapitalize="off" spellcheck="false">
     </div>
+
+    <!-- Filter chips -->
+    <div class="cat-filter-row" id="catFilterRow">
+      <!-- Day (single-select) -->
+      <div class="cat-filter-chip day-push" data-group="day" data-day="push" onclick="catSelectDay(this)">Push</div>
+      <div class="cat-filter-chip day-pull" data-group="day" data-day="pull" onclick="catSelectDay(this)">Pull</div>
+      <div class="cat-filter-chip day-legs" data-group="day" data-day="legs" onclick="catSelectDay(this)">Legs</div>
+      <div class="cat-filter-chip day-full" data-group="day" data-day="full" onclick="catSelectDay(this)">Full</div>
+      <span class="cat-filter-sep">·</span>
+      <!-- Mechanic (multi-toggle) -->
+      <div class="cat-filter-chip cat-mechanic-chip" data-value="compound" onclick="catToggleChip(this)">Compound</div>
+      <div class="cat-filter-chip cat-mechanic-chip" data-value="isolation" onclick="catToggleChip(this)">Isolation</div>
+      <span class="cat-filter-sep">·</span>
+      <!-- Equipment (multi-toggle) -->
+      <div class="cat-filter-chip cat-equip-chip" data-value="barbell" onclick="catToggleChip(this)">Barbell</div>
+      <div class="cat-filter-chip cat-equip-chip" data-value="dumbbell" onclick="catToggleChip(this)">Dumbbell</div>
+      <div class="cat-filter-chip cat-equip-chip" data-value="cable" onclick="catToggleChip(this)">Cable</div>
+      <div class="cat-filter-chip cat-equip-chip" data-value="machine" onclick="catToggleChip(this)">Machine</div>
+      <div class="cat-filter-chip cat-equip-chip" data-value="bodyweight" onclick="catToggleChip(this)">Bodyweight</div>
+      <div class="cat-filter-chip cat-equip-chip" data-value="kettlebell" onclick="catToggleChip(this)">Kettlebell</div>
+    </div>
+
+    <!-- Results count -->
+    <div class="cat-results-bar" id="catResultsBar" style="display:none"></div>
+
+    <!-- List -->
+    <div class="cat-list" id="catList">
+      <div class="cat-empty">
+        <div class="cat-empty-sym">⊹₊˚‧︵‿₊⊹</div>
+        <div class="cat-empty-label">1,223 exercises</div>
+        <div class="cat-empty-hint">Search by name or muscle,<br>or tap a filter to browse.</div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ══════════════════════════════════════════════════
@@ -2836,6 +2975,8 @@ function goTo(screenId, dayType) {
     setupConfigure(dayType);
   }
 
+  if (screenId === 'screen-catalog') initCatalogScreen(); // reset on every open
+
   currentEl.classList.add('exit-left');
   currentEl.classList.remove('active');
   nextEl.classList.add('active');
@@ -2965,6 +3106,130 @@ async function sendChat(tab) {
 
 function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Brick 7: Catalog screen ─────────────────────── */
+var _catLoading = false;
+
+function initCatalogScreen() {
+  document.getElementById('catSearch').value = '';
+  // Reset day chips — none active
+  document.querySelectorAll('[data-group="day"]').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  // Reset toggle chips
+  document.querySelectorAll('.cat-mechanic-chip, .cat-equip-chip').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.getElementById('catResultsBar').style.display = 'none';
+  document.getElementById('catList').innerHTML =
+    '<div class="cat-empty">' +
+      '<div class="cat-empty-sym">⊹₊˚‧︵‿₊⊹</div>' +
+      '<div class="cat-empty-label">1,223 exercises</div>' +
+      '<div class="cat-empty-hint">Search by name or muscle,<br>or tap a filter to browse.</div>' +
+    '</div>';
+}
+
+function catSelectDay(el) {
+  var wasActive = el.classList.contains('active');
+  document.querySelectorAll('[data-group="day"]').forEach(function(c) { c.classList.remove('active'); });
+  if (!wasActive) el.classList.add('active'); // tap active day = deselect (toggle off)
+  runCatalogSearch();
+}
+
+function catToggleChip(el) {
+  el.classList.toggle('active');
+  runCatalogSearch();
+}
+
+function runCatalogSearch() {
+  var query    = document.getElementById('catSearch').value.trim().toLowerCase();
+  var dayEl    = document.querySelector('[data-group="day"].active');
+  var day      = dayEl ? dayEl.dataset.day : null;
+  var mechanics = Array.from(document.querySelectorAll('.cat-mechanic-chip.active')).map(function(e) { return e.dataset.value; });
+  var equips    = Array.from(document.querySelectorAll('.cat-equip-chip.active')).map(function(e) { return e.dataset.value; });
+
+  var hasFilter = query || day || mechanics.length || equips.length;
+  if (!hasFilter) {
+    document.getElementById('catResultsBar').style.display = 'none';
+    document.getElementById('catList').innerHTML =
+      '<div class="cat-empty">' +
+        '<div class="cat-empty-sym">⊹₊˚‧︵‿₊⊹</div>' +
+        '<div class="cat-empty-label">1,223 exercises</div>' +
+        '<div class="cat-empty-hint">Search by name or muscle,<br>or tap a filter to browse.</div>' +
+      '</div>';
+    return;
+  }
+
+  if (!window._catalog) {
+    if (_catLoading) return;
+    _catLoading = true;
+    document.getElementById('catList').innerHTML = '<div class="cat-loading">⊹ loading…</div>';
+    fetch(CATALOG_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        window._catalog = data;
+        _catLoading = false;
+        runCatalogSearch();
+      })
+      .catch(function() {
+        _catLoading = false;
+        document.getElementById('catList').innerHTML = '<div class="cat-loading">failed to load catalog</div>';
+      });
+    return;
+  }
+
+  var results = window._catalog.filter(function(ex) {
+    if (day) {
+      var types = Array.isArray(ex.day_type) ? ex.day_type : [ex.day_type];
+      if (!types.includes(day)) return false;
+    }
+    if (mechanics.length && mechanics.indexOf(ex.mechanic) === -1) return false;
+    if (equips.length && equips.indexOf(ex.equipment) === -1) return false;
+    if (query) {
+      var name    = (ex.name || '').toLowerCase();
+      var muscles = (ex.primary_muscles || []).join(' ').toLowerCase();
+      if (name.indexOf(query) === -1 && muscles.indexOf(query) === -1) return false;
+    }
+    return true;
+  });
+
+  renderCatalogList(results);
+}
+
+function renderCatalogList(results) {
+  var bar  = document.getElementById('catResultsBar');
+  var list = document.getElementById('catList');
+
+  bar.style.display = '';
+  bar.textContent   = results.length + (results.length === 1 ? ' exercise' : ' exercises');
+
+  if (!results.length) {
+    list.innerHTML =
+      '<div class="cat-empty">' +
+        '<div class="cat-empty-sym">⊹ · ⊹</div>' +
+        '<div class="cat-empty-label">No matches</div>' +
+        '<div class="cat-empty-hint">Try a different filter or search term.</div>' +
+      '</div>';
+    return;
+  }
+
+  var cap = results.slice(0, 200);
+  list.innerHTML = cap.map(function(ex) {
+    var muscles = (ex.primary_muscles || []).slice(0, 2).join(' · ');
+    var meta    = [ex.equipment, ex.mechanic].filter(Boolean).join(' · ');
+    var safeName = escHtml(ex.name);
+    return '<div class="cat-ex-row" data-name="' + safeName + '" onclick="openExercise(this.dataset.name)">' +
+      '<div class="cat-ex-body">' +
+        '<div class="ex-name">' + safeName + '</div>' +
+        (muscles ? '<div class="ex-muscle-label">' + escHtml(muscles) + '</div>' : '') +
+      '</div>' +
+      '<div class="cat-ex-right">' +
+        (meta ? '<div class="cat-ex-meta">' + escHtml(meta) + '</div>' : '') +
+        '<span class="cat-ex-arrow">›</span>' +
+      '</div>' +
+    '</div>';
+  }).join('') + (results.length > 200 ? '<div class="cat-results-bar" style="padding:16px 0;text-align:center">showing first 200 — refine your search to narrow results</div>' : '');
 }
 
 document.querySelectorAll('.chat-input').forEach(function(el) {
