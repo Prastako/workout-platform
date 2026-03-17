@@ -889,9 +889,9 @@ html, body {
   width: 100%; background: var(--surface);
   border-radius: 20px 20px 0 0;
   border-top: 1px solid var(--border-strong);
-  max-height: 78vh; display: flex; flex-direction: column;
+  height: 82vh; display: flex; flex-direction: column;
   transform: translateY(0);
-  transition: transform .65s cubic-bezier(.16,1,.3,1);
+  transition: transform .7s cubic-bezier(.76,0,.24,1);
   will-change: transform;
 }
 .ex-sheet.slide-out { transform: translateY(100%); }
@@ -937,11 +937,23 @@ html, body {
   color: var(--ink3); pointer-events: none;
 }
 #exTabDemo { background: var(--bg); }
-.ex-anim-wrap { position: relative; width: 100%; height: 100%; flex: 1; }
+.ex-anim-wrap { position: relative; width: 100%; height: 100%; flex: 1; cursor: pointer; }
 .ex-anim-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: contain; object-position: center;
-  transition: opacity .42s ease-in-out;
+  transition: opacity .38s ease-in-out;
+}
+.ex-demo-counter {
+  position: absolute; bottom: 12px; right: 14px; z-index: 2;
+  font-family: 'Courier New', monospace; font-size: .62rem;
+  color: var(--ink2); background: rgba(19,17,16,.62);
+  border-radius: 20px; padding: 3px 9px; letter-spacing: .06em;
+  pointer-events: none;
+}
+.ex-demo-hint {
+  position: absolute; bottom: 12px; left: 14px; z-index: 2;
+  font-size: .52rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3); opacity: .5; pointer-events: none;
 }
 #exTabGuide {
   overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -1543,9 +1555,11 @@ html, body {
         <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
       </div>
       <div class="ex-tab-panel" id="exTabDemo">
-        <div class="ex-anim-wrap">
+        <div class="ex-anim-wrap" onclick="_demoAdvance()">
           <img id="exAnimImgA" class="ex-anim-img" src="" alt="" style="opacity:1">
           <img id="exAnimImgB" class="ex-anim-img" src="" alt="" style="opacity:0">
+          <div class="ex-demo-counter" id="exDemoCounter">1/2</div>
+          <div class="ex-demo-hint">tap to advance</div>
         </div>
       </div>
       <div class="ex-tab-panel" id="exTabGuide">
@@ -2031,7 +2045,6 @@ var _viewer = {
 };
 var _threeLoaded = false;
 var _sheetDragStartY = null, _sheetDragOnCanvas = false;
-var _animTimer = null, _animFrame = 0;
 
 function _muscleKeysFor(names) {
   var keys = [];
@@ -2157,34 +2170,58 @@ function switchExTab(tab) {
   }
 }
 
-function _startImageAnim(entry) {
-  _stopImageAnim();
+var _demoUrls  = [];
+var _demoIndex = 0;
+var _demoFlip  = false; // which img is front
+
+function _initDemoTab(entry) {
   var urls    = entry && entry.image_urls;
   var demoBtn = document.getElementById('exDemoTabBtn');
-  var imgA    = document.getElementById('exAnimImgA');
-  var imgB    = document.getElementById('exAnimImgB');
-  if (!urls || urls.length < 2) { demoBtn.disabled = true; return; }
+  if (!urls || urls.length < 1) { demoBtn.disabled = true; _demoUrls = []; return; }
   demoBtn.disabled = false;
-  imgA.src = urls[0]; imgB.src = urls[1];
-  imgA.style.opacity = '1'; imgB.style.opacity = '0';
-  _animFrame = 0;
-  _animTimer = setInterval(function() {
-    _animFrame = _animFrame === 0 ? 1 : 0;
-    imgA.style.opacity = _animFrame === 0 ? '1' : '0';
-    imgB.style.opacity = _animFrame === 1 ? '1' : '0';
-  }, 900);
+  _demoUrls  = urls;
+  _demoIndex = 0;
+  _demoFlip  = false;
+  var imgA = document.getElementById('exAnimImgA');
+  var imgB = document.getElementById('exAnimImgB');
+  imgA.src = urls[0];
+  imgB.src = urls.length > 1 ? urls[1] : urls[0]; // preload next
+  imgA.style.opacity = '1';
+  imgB.style.opacity = '0';
+  _updateDemoCounter();
 }
 
-function _stopImageAnim() {
-  if (_animTimer) { clearInterval(_animTimer); _animTimer = null; }
+function _updateDemoCounter() {
+  var el = document.getElementById('exDemoCounter');
+  if (el) el.textContent = (_demoIndex + 1) + '/' + _demoUrls.length;
 }
+
+function _demoAdvance() {
+  if (_demoUrls.length < 2) return;
+  _demoIndex = (_demoIndex + 1) % _demoUrls.length;
+  _demoFlip  = !_demoFlip;
+  var imgA = document.getElementById('exAnimImgA');
+  var imgB = document.getElementById('exAnimImgB');
+  var front = _demoFlip ? imgB : imgA;
+  var back  = _demoFlip ? imgA : imgB;
+  // preload the one after next
+  var nextNext = (_demoIndex + 1) % _demoUrls.length;
+  back.src = _demoUrls[nextNext];
+  front.style.opacity = '1';
+  back.style.opacity  = '0';
+  _updateDemoCounter();
+}
+
+function _stopImageAnim() {} // kept for call-site compatibility
 
 function _resizeViewer() {
   if (!_viewer.renderer) return;
-  var W = document.getElementById('exViewerCanvas').parentElement.offsetWidth;
+  var canvas = document.getElementById('exViewerCanvas');
+  var W = canvas.parentElement.offsetWidth;
+  var H = canvas.parentElement.offsetHeight || 300;
   if (!W) return;
-  _viewer.renderer.setSize(W, 220);
-  _viewer.camera.aspect = W / 220;
+  _viewer.renderer.setSize(W, H);
+  _viewer.camera.aspect = W / H;
   _viewer.camera.updateProjectionMatrix();
 }
 
@@ -2330,8 +2367,8 @@ function openExercise(name) {
         });
     }
 
-    // Photo strip (secondary reference)
-    _startImageAnim(entry);
+    // Photo reference (tap-to-advance)
+    _initDemoTab(entry);
   } // end _doOpen
 
   // If catalog not yet loaded (e.g. opened from history), fetch then open
