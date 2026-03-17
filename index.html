@@ -530,7 +530,8 @@ html, body {
   transition: color .15s; flex-shrink: 0;
 }
 .regen-btn:active { color: var(--ink2); }
-.regen-btn.spinning { animation: spinOnce .5s linear; }
+.regen-sym { display: inline-block; }
+.regen-btn.spinning .regen-sym { animation: spinOnce .5s linear; }
 @keyframes spinOnce { to { transform: rotate(360deg); } }
 
 .ex-row {
@@ -890,7 +891,7 @@ html, body {
   border-top: 1px solid var(--border-strong);
   max-height: 78vh; display: flex; flex-direction: column;
   transform: translateY(0);
-  transition: transform .48s cubic-bezier(.16,1,.3,1);
+  transition: transform .65s cubic-bezier(.16,1,.3,1);
   will-change: transform;
 }
 .ex-sheet.slide-out { transform: translateY(100%); }
@@ -926,7 +927,7 @@ html, body {
 .ex-tab-btn.active { color: var(--ink); border-bottom-color: var(--ink2); }
 .ex-tab-btn:disabled { opacity: .28; cursor: default; }
 .ex-tab-panel { display: none; flex: 1; min-height: 0; position: relative; overflow: hidden; }
-.ex-tab-panel.active { display: block; }
+.ex-tab-panel.active { display: flex; flex-direction: column; }
 #exTab3d { background: var(--bg); }
 #exViewerCanvas { width: 100%; height: 100%; display: block; }
 .ex-viewer-loading {
@@ -936,7 +937,7 @@ html, body {
   color: var(--ink3); pointer-events: none;
 }
 #exTabDemo { background: var(--bg); }
-.ex-anim-wrap { position: relative; width: 100%; height: 100%; }
+.ex-anim-wrap { position: relative; width: 100%; height: 100%; flex: 1; }
 .ex-anim-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: contain; object-position: center;
@@ -1937,7 +1938,7 @@ function renderSession(workout, ctx) {
     return '<div class="session-section" id="section-' + sectionKey + '">' +
       '<div class="session-section-hdr">' +
         '<span class="session-section-title" style="color:' + accent + '">' + title + '</span>' +
-        '<button class="regen-btn" onclick="regenSection(\'' + sectionKey + '\')">↻ redo</button>' +
+        '<button class="regen-btn" onclick="regenSection(\'' + sectionKey + '\')"><span class="regen-sym">↻</span> redo</button>' +
       '</div>' +
       '<div class="section-rows" id="rows-' + sectionKey + '">' + inner + '</div>' +
       '<div class="session-regen-overlay"><span class="regen-spinner-sym">⊹</span></div>' +
