@@ -1837,11 +1837,13 @@ async function generateSession() {
   const nonFlagged = filtered.filter(function(ex) { return ex.visual_tier !== 'flagged'; });
   if (nonFlagged.length >= 10) filtered = nonFlagged;
 
-  // Order: full tier first, then heatmap_only, then flagged — cap at 160
-  const full     = filtered.filter(function(ex) { return ex.visual_tier === 'full'; });
-  const heatmap  = filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; });
-  const flagged  = filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; });
-  const pool     = full.concat(heatmap).concat(flagged).slice(0, 160);
+  // Order: full tier first, then heatmap_only, then null/unknown, then flagged — shuffle within each tier then cap at 160
+  function _shuffle(arr) { for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+  const full     = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'full'; }));
+  const heatmap  = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; }));
+  const flagged  = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; }));
+  const untiered = _shuffle(filtered.filter(function(ex) { return !ex.visual_tier || (ex.visual_tier !== 'full' && ex.visual_tier !== 'heatmap_only' && ex.visual_tier !== 'flagged'); }));
+  const pool     = full.concat(heatmap).concat(untiered).concat(flagged).slice(0, 160);
 
   // 3. Build compact exercise list for the prompt
   const exList = pool.map(function(ex) {
@@ -2479,10 +2481,12 @@ async function regenSection(sectionKey) {
   });
   const nonFlagged = filtered.filter(function(ex) { return ex.visual_tier !== 'flagged'; });
   if (nonFlagged.length >= 10) filtered = nonFlagged;
-  const full    = filtered.filter(function(ex) { return ex.visual_tier === 'full'; });
-  const heatmap = filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; });
-  const flagged = filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; });
-  const pool    = full.concat(heatmap).concat(flagged).slice(0, 120);
+  function _shuffle(arr) { for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+  const full     = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'full'; }));
+  const heatmap  = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'heatmap_only'; }));
+  const flagged  = _shuffle(filtered.filter(function(ex) { return ex.visual_tier === 'flagged'; }));
+  const untiered = _shuffle(filtered.filter(function(ex) { return !ex.visual_tier || (ex.visual_tier !== 'full' && ex.visual_tier !== 'heatmap_only' && ex.visual_tier !== 'flagged'); }));
+  const pool     = full.concat(heatmap).concat(untiered).concat(flagged).slice(0, 120);
 
   // Exclude exercises already in other sections
   const existing = [];
