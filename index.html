@@ -2388,12 +2388,10 @@ function closeExerciseSheet() {
   var backdrop = document.getElementById('exerciseSheet');
   var sheet    = document.getElementById('exSheetInner');
   sheet.classList.add('slide-out');
-  backdrop.classList.remove('visible');
   _viewer.loopActive = false;
   _stopImageAnim();
-  setTimeout(function() {
-    backdrop.classList.add('hidden');
-  }, 700);
+  setTimeout(function() { backdrop.classList.remove('visible'); }, 350);
+  setTimeout(function() { backdrop.classList.add('hidden'); },    750);
 }
 
 function toggleDone(rowId) {
