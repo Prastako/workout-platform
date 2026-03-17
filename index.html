@@ -1863,10 +1863,15 @@ async function generateSession() {
     '"cooldown":[{"name":"...","duration":"...","notes":"..."}]}\n\n' +
     'Rules:\n' +
     '- warmup: 3–4 dynamic movements, 30–60s each\n' +
-    '- main: ' + mainCount + ' exercises; group them by muscle (e.g. all chest exercises together, then shoulders, then triceps); each exercise must include a "primary_muscle" field (capitalised, e.g. "Chest")\n' +
+    '- main: ' + mainCount + ' exercises; group by muscle (all chest together, then shoulders, then triceps); each needs "primary_muscle" (capitalised, e.g. "Chest")\n' +
     '- cooldown: 2–3 static stretches, 45–60s each\n' +
     '- notes: one short coaching cue per exercise\n' +
-    '- sets/reps suited to ' + ctx.duration + ' min total';
+    '- sets/reps suited to ' + ctx.duration + ' min total\n' +
+    '- VARIETY: never select two exercises that train the same muscle head via the same movement pattern (e.g. no Incline Barbell Press + Incline Dumbbell Press — that is the same upper-chest pressing pattern twice)\n' +
+    '- MOVEMENT BALANCE: for each muscle group, spread across different movement patterns — e.g. for chest: one incline press, one flat press or fly, not two presses at the same angle\n' +
+    '- MUSCLE COMPLETENESS: select exercises that together hit the full muscle group — e.g. for biceps: include both a supinated curl (short head) and a hammer or incline curl (long head); for triceps: include both an overhead movement (long head) and a pushdown (lateral/medial head); for shoulders: cover anterior, lateral, and posterior delt across the session\n' +
+    '- EQUIPMENT VARIETY: do not repeat the same implement (e.g. barbell, dumbbell, cable) for every exercise in a muscle group unless the list offers no alternative\n' +
+    '- COMPOUND BEFORE ISOLATION: place compound multi-joint exercises before isolation work within each muscle group';
 
   // 5. Call Claude API
   let workout;
@@ -1883,6 +1888,7 @@ async function generateSession() {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 2000,
+        system: 'You are an expert strength and conditioning coach with deep knowledge of exercise science, muscle anatomy, and programme design. You design sessions that are balanced, progressive, and anatomically complete. You never repeat movement patterns or equipment within a session when variety is available. You understand that most muscle groups have multiple heads or regions (e.g. biceps long/short head, chest upper/lower/sternal, deltoid anterior/lateral/posterior, quads rectus femoris/vastus lateralis/medialis, hamstrings biceps femoris/semitendinosus) and you deliberately select exercises that collectively cover the full muscle group rather than hammering the same head repeatedly. You always think like a coach planning a real athlete\'s session.',
         messages: [{ role: 'user', content: prompt }],
       }),
     });
