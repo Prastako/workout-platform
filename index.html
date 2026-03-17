@@ -890,7 +890,7 @@ html, body {
   border-top: 1px solid var(--border-strong);
   max-height: 78vh; display: flex; flex-direction: column;
   transform: translateY(0);
-  transition: transform .28s cubic-bezier(.32,1,.5,1);
+  transition: transform .48s cubic-bezier(.16,1,.3,1);
   will-change: transform;
 }
 .ex-sheet.slide-out { transform: translateY(100%); }
@@ -911,10 +911,23 @@ html, body {
   letter-spacing: .1em; text-transform: uppercase;
   -webkit-tap-highlight-color: transparent; padding: 7px 14px;
 }
-.ex-mannequin {
-  position: relative; width: 100%; height: 200px;
-  background: var(--bg); flex-shrink: 0; overflow: hidden;
+.ex-tab-bar {
+  display: flex; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
 }
+.ex-tab-btn {
+  flex: 1; padding: 11px 0;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; cursor: pointer; font-family: inherit;
+  font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink3); -webkit-tap-highlight-color: transparent;
+  transition: color .15s, border-color .15s;
+}
+.ex-tab-btn.active { color: var(--ink); border-bottom-color: var(--ink2); }
+.ex-tab-btn:disabled { opacity: .28; cursor: default; }
+.ex-tab-panel { display: none; flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.ex-tab-panel.active { display: block; }
+#exTab3d { background: var(--bg); }
 #exViewerCanvas { width: 100%; height: 100%; display: block; }
 .ex-viewer-loading {
   position: absolute; inset: 0; display: flex;
@@ -922,21 +935,16 @@ html, body {
   font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
   color: var(--ink3); pointer-events: none;
 }
-.ex-photo-strip {
-  position: relative; width: 100%; height: 82px;
-  flex-shrink: 0; overflow: hidden;
-  border-top: 1px solid var(--border);
-}
-.ex-photo-label {
-  position: absolute; bottom: 6px; left: 10px; z-index: 1;
-  font-size: .52rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--ink3); opacity: .5; pointer-events: none;
-}
+#exTabDemo { background: var(--bg); }
 .ex-anim-wrap { position: relative; width: 100%; height: 100%; }
 .ex-anim-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
+  object-fit: contain; object-position: center;
   transition: opacity .42s ease-in-out;
+}
+#exTabGuide {
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 18px 20px max(env(safe-area-inset-bottom,0px),24px);
 }
 .ex-tier-badge {
   position: absolute; bottom: 10px; left: 12px;
@@ -1523,19 +1531,23 @@ html, body {
         <div class="ex-sheet-handle"></div>
         <button class="ex-sheet-close" onclick="closeExerciseSheet()">close</button>
       </div>
-      <div class="ex-mannequin" id="exMannequin">
+      <div class="ex-tab-bar">
+        <button class="ex-tab-btn active" data-tab="3d"    onclick="switchExTab('3d')">3D</button>
+        <button class="ex-tab-btn"        data-tab="Demo"  onclick="switchExTab('Demo')"  id="exDemoTabBtn">Demo</button>
+        <button class="ex-tab-btn"        data-tab="Guide" onclick="switchExTab('Guide')">Guide</button>
+      </div>
+      <div class="ex-tab-panel active" id="exTab3d">
         <canvas id="exViewerCanvas"></canvas>
         <div class="ex-viewer-loading" id="exViewerLoading">⊹₊˚‧ loading viewer ‧˚₊⊹</div>
         <div class="ex-tier-badge" id="exTierBadge" style="display:none">muscle data approximate</div>
       </div>
-      <div class="ex-photo-strip" id="exPhotoStrip" style="display:none">
+      <div class="ex-tab-panel" id="exTabDemo">
         <div class="ex-anim-wrap">
           <img id="exAnimImgA" class="ex-anim-img" src="" alt="" style="opacity:1">
           <img id="exAnimImgB" class="ex-anim-img" src="" alt="" style="opacity:0">
         </div>
-        <span class="ex-photo-label">exercise reference</span>
       </div>
-      <div class="ex-sheet-scroll" id="exSheetScroll">
+      <div class="ex-tab-panel" id="exTabGuide">
         <div class="ex-sheet-name" id="exSheetName"></div>
         <div class="ex-sheet-meta" id="exSheetMeta"></div>
         <div class="ex-sheet-sec-title">Instructions</div>
@@ -2132,14 +2144,26 @@ function _setOverlays(primaryKeys, secondaryKeys) {
 }
 
 // Option C — exercise image crossfade animation (active). _setOverlays dormant (Option A/D reserve).
+function switchExTab(tab) {
+  document.querySelectorAll('.ex-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.ex-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelector('.ex-tab-btn[data-tab="' + tab + '"]').classList.add('active');
+  document.getElementById('exTab' + tab).classList.add('active');
+  if (tab === '3d') {
+    if (_viewer.ready) { _resizeViewer(); _startViewerLoop(); }
+  } else {
+    _viewer.loopActive = false;
+  }
+}
+
 function _startImageAnim(entry) {
   _stopImageAnim();
-  var urls  = entry && entry.image_urls;
-  var strip = document.getElementById('exPhotoStrip');
-  var imgA  = document.getElementById('exAnimImgA');
-  var imgB  = document.getElementById('exAnimImgB');
-  if (!urls || urls.length < 2) { strip.style.display = 'none'; return; }
-  strip.style.display = 'block';
+  var urls    = entry && entry.image_urls;
+  var demoBtn = document.getElementById('exDemoTabBtn');
+  var imgA    = document.getElementById('exAnimImgA');
+  var imgB    = document.getElementById('exAnimImgB');
+  if (!urls || urls.length < 2) { demoBtn.disabled = true; return; }
+  demoBtn.disabled = false;
   imgA.src = urls[0]; imgB.src = urls[1];
   imgA.style.opacity = '1'; imgB.style.opacity = '0';
   _animFrame = 0;
@@ -2252,7 +2276,6 @@ function openExercise(name) {
       document.getElementById('exSheetCues').style.display   = 'none';
       document.getElementById('exCueTitle').style.display    = 'none';
     }
-    document.getElementById('exSheetScroll').scrollTop = 0;
 
     // Slide sheet up
     var backdrop = document.getElementById('exerciseSheet');
@@ -2276,6 +2299,10 @@ function openExercise(name) {
       hdr.addEventListener('touchend', function() { _sheetDragStartY = null; }, { passive: true });
       _viewer.listenersAttached = true;
     }
+
+    // Reset to 3D tab and scroll guide to top
+    switchExTab('3d');
+    document.getElementById('exTabGuide').scrollTop = 0;
 
     // Three.js mannequin (primary visual)
     var loadingEl = document.getElementById('exViewerLoading');
