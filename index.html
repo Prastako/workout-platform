@@ -880,11 +880,12 @@ html, body {
 ══════════════════════════════════════════════════ */
 .ex-sheet-backdrop {
   position: fixed; inset: 0; z-index: 300;
-  background: rgba(19,17,16,.82);
+  background: rgba(19,17,16,.72);
   display: flex; align-items: flex-end;
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity .4s ease;
 }
 .ex-sheet-backdrop.hidden { display: none; }
+.ex-sheet-backdrop.visible { opacity: 1; }
 .ex-sheet {
   width: 100%; background: var(--surface);
   border-radius: 20px 20px 0 0;
@@ -2321,6 +2322,7 @@ function openExercise(name) {
     sheet.classList.add('slide-out');
     backdrop.classList.remove('hidden');
     requestAnimationFrame(function() {
+      backdrop.classList.add('visible');
       requestAnimationFrame(function() { sheet.classList.remove('slide-out'); });
     });
 
@@ -2383,13 +2385,15 @@ function openExercise(name) {
 }
 
 function closeExerciseSheet() {
-  var sheet = document.getElementById('exSheetInner');
+  var backdrop = document.getElementById('exerciseSheet');
+  var sheet    = document.getElementById('exSheetInner');
   sheet.classList.add('slide-out');
+  backdrop.classList.remove('visible');
   _viewer.loopActive = false;
   _stopImageAnim();
   setTimeout(function() {
-    document.getElementById('exerciseSheet').classList.add('hidden');
-  }, 300);
+    backdrop.classList.add('hidden');
+  }, 700);
 }
 
 function toggleDone(rowId) {
