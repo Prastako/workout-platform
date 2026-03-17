@@ -836,7 +836,7 @@ html, body {
    EXIT SESSION MODAL
 ══════════════════════════════════════════════════ */
 .exit-modal-backdrop {
-  position: fixed; inset: 0; z-index: 150;
+  position: fixed; inset: 0; z-index: 400;
   background: rgba(19,17,16,.75);
   display: flex; align-items: flex-end;
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
@@ -904,11 +904,12 @@ html, body {
   background: var(--border-strong); border-radius: 2px;
 }
 .ex-sheet-close {
-  position: absolute; right: 12px; top: 4px;
-  background: none; border: none; cursor: pointer; font-family: inherit;
-  font-size: .72rem; color: var(--ink3); font-weight: 700;
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: var(--surface2); border: 1px solid var(--border-strong);
+  border-radius: 20px; cursor: pointer; font-family: inherit;
+  font-size: .65rem; color: var(--ink2); font-weight: 700;
   letter-spacing: .1em; text-transform: uppercase;
-  -webkit-tap-highlight-color: transparent; padding: 8px;
+  -webkit-tap-highlight-color: transparent; padding: 7px 14px;
 }
 .ex-sheet-viewer {
   position: relative; width: 100%; height: 220px;
@@ -1500,8 +1501,8 @@ html, body {
   </div>
 
   <!-- ══ EXERCISE BOTTOM SHEET (Brick 6) ══════════════ -->
-  <div class="ex-sheet-backdrop hidden" id="exerciseSheet">
-    <div class="ex-sheet slide-out" id="exSheetInner">
+  <div class="ex-sheet-backdrop hidden" id="exerciseSheet" onclick="closeExerciseSheet()">
+    <div class="ex-sheet slide-out" id="exSheetInner" onclick="event.stopPropagation()">
       <div class="ex-sheet-header">
         <div class="ex-sheet-handle"></div>
         <button class="ex-sheet-close" onclick="closeExerciseSheet()">close</button>
@@ -2128,123 +2129,140 @@ function _startViewerLoop() {
 
 function openExercise(name) {
   var realName = name.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-  var lower    = realName.toLowerCase();
+  var norm     = function(s) { return s.toLowerCase().replace(/\s+/g,' ').trim(); };
+  var lower    = norm(realName);
 
-  // Catalog lookup
-  var entry = null;
-  if (window._catalog) {
-    for (var i = 0; i < _catalog.length; i++) {
-      if (_catalog[i].name && _catalog[i].name.toLowerCase() === lower) { entry = _catalog[i]; break; }
-    }
-  }
-
-  // Sets/reps from current workout
-  var setsReps = '';
-  if (window._currentWorkout) {
-    var all = (_currentWorkout.warmup||[]).concat(_currentWorkout.main||[]).concat(_currentWorkout.cooldown||[]);
-    for (var j = 0; j < all.length; j++) {
-      var ex = all[j];
-      if (ex.name && ex.name.toLowerCase() === lower) {
-        if (ex.sets && ex.reps) setsReps = ex.sets + ' × ' + ex.reps;
-        else if (ex.duration)   setsReps = ex.duration;
-        break;
+  function _doOpen() {
+    // Catalog lookup — exact normalized match, then substring fallback
+    var entry = null;
+    if (window._catalog) {
+      for (var i = 0; i < _catalog.length; i++) {
+        if (_catalog[i].name && norm(_catalog[i].name) === lower) { entry = _catalog[i]; break; }
+      }
+      if (!entry) {
+        for (var i = 0; i < _catalog.length; i++) {
+          var cn = _catalog[i].name ? norm(_catalog[i].name) : '';
+          if (cn && (cn.indexOf(lower) !== -1 || lower.indexOf(cn) !== -1)) { entry = _catalog[i]; break; }
+        }
       }
     }
-  }
 
-  // Populate text
-  document.getElementById('exSheetName').textContent = realName;
-  var chips = '';
-  if (setsReps) chips += '<span class="ex-sheet-chip accent">' + escHtml(setsReps) + '</span>';
-  if (entry) {
-    if (entry.equipment) chips += '<span class="ex-sheet-chip">' + escHtml(entry.equipment) + '</span>';
-    if (entry.level)     chips += '<span class="ex-sheet-chip">' + escHtml(entry.level)     + '</span>';
-    if (entry.mechanic)  chips += '<span class="ex-sheet-chip">' + escHtml(entry.mechanic)  + '</span>';
-  }
-  document.getElementById('exSheetMeta').innerHTML = chips;
+    // Sets/reps from current workout
+    var setsReps = '';
+    if (window._currentWorkout) {
+      var all = (_currentWorkout.warmup||[]).concat(_currentWorkout.main||[]).concat(_currentWorkout.cooldown||[]);
+      for (var j = 0; j < all.length; j++) {
+        var ex = all[j];
+        if (ex.name && norm(ex.name) === lower) {
+          if (ex.sets && ex.reps) setsReps = ex.sets + ' × ' + ex.reps;
+          else if (ex.duration)   setsReps = ex.duration;
+          break;
+        }
+      }
+    }
 
-  var tier = entry ? entry.visual_tier : null;
-  document.getElementById('exTierBadge').style.display = (tier === 'flagged') ? 'block' : 'none';
+    // Populate text
+    document.getElementById('exSheetName').textContent = realName;
+    var chips = '';
+    if (setsReps) chips += '<span class="ex-sheet-chip accent">' + escHtml(setsReps) + '</span>';
+    if (entry) {
+      if (entry.equipment) chips += '<span class="ex-sheet-chip">' + escHtml(entry.equipment) + '</span>';
+      if (entry.level)     chips += '<span class="ex-sheet-chip">' + escHtml(entry.level)     + '</span>';
+      if (entry.mechanic)  chips += '<span class="ex-sheet-chip">' + escHtml(entry.mechanic)  + '</span>';
+    }
+    document.getElementById('exSheetMeta').innerHTML = chips;
 
-  var instr = entry && entry.instructions;
-  document.getElementById('exSheetSteps').innerHTML = (instr && instr.length)
-    ? instr.map(function(step, i) {
-        return '<div class="ex-sheet-step">' +
-          '<span class="ex-sheet-step-num">' + (i+1) + '</span>' +
-          '<span class="ex-sheet-step-text">' + escHtml(step) + '</span>' +
-          '</div>';
-      }).join('')
-    : '<div class="ex-sheet-empty">No instructions available.</div>';
+    var tier = entry ? entry.visual_tier : null;
+    document.getElementById('exTierBadge').style.display = (tier === 'flagged') ? 'block' : 'none';
 
-  var cues = (entry && tier === 'full') ? entry.technique_cues : null;
-  if (cues && cues.length) {
-    document.getElementById('exSheetCues').innerHTML =
-      cues.map(function(c) { return '<div class="ex-sheet-cue">' + escHtml(c) + '</div>'; }).join('');
-    document.getElementById('exSheetCues').style.display   = 'flex';
-    document.getElementById('exCueTitle').style.display    = 'block';
+    var instr = entry && entry.instructions;
+    document.getElementById('exSheetSteps').innerHTML = (instr && instr.length)
+      ? instr.map(function(step, idx) {
+          return '<div class="ex-sheet-step">' +
+            '<span class="ex-sheet-step-num">' + (idx+1) + '</span>' +
+            '<span class="ex-sheet-step-text">' + escHtml(step) + '</span>' +
+            '</div>';
+        }).join('')
+      : '<div class="ex-sheet-empty">No instructions available.</div>';
+
+    var cues = (entry && tier === 'full') ? entry.technique_cues : null;
+    if (cues && cues.length) {
+      document.getElementById('exSheetCues').innerHTML =
+        cues.map(function(c) { return '<div class="ex-sheet-cue">' + escHtml(c) + '</div>'; }).join('');
+      document.getElementById('exSheetCues').style.display   = 'flex';
+      document.getElementById('exCueTitle').style.display    = 'block';
+    } else {
+      document.getElementById('exSheetCues').style.display   = 'none';
+      document.getElementById('exCueTitle').style.display    = 'none';
+    }
+    document.getElementById('exSheetScroll').scrollTop = 0;
+
+    // Slide sheet up
+    var backdrop = document.getElementById('exerciseSheet');
+    var sheet    = document.getElementById('exSheetInner');
+    sheet.classList.add('slide-out');
+    backdrop.classList.remove('hidden');
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { sheet.classList.remove('slide-out'); });
+    });
+
+    // Pull-to-dismiss — header/handle only (scroll area swallows whole-sheet events)
+    if (!_viewer.listenersAttached) {
+      var hdr = document.querySelector('#exSheetInner .ex-sheet-header');
+      hdr.addEventListener('touchstart', function(e) {
+        _sheetDragStartY = e.touches[0].clientY;
+      }, { passive: true });
+      hdr.addEventListener('touchmove', function(e) {
+        if (_sheetDragStartY === null) return;
+        if (e.touches[0].clientY - _sheetDragStartY > 60) closeExerciseSheet();
+      }, { passive: true });
+      hdr.addEventListener('touchend', function() { _sheetDragStartY = null; }, { passive: true });
+      _viewer.listenersAttached = true;
+    }
+
+    // Three.js viewer
+    var primary   = entry ? _muscleKeysFor(entry.primary_muscles)   : [];
+    var secondary = entry ? _muscleKeysFor(entry.secondary_muscles) : [];
+    _viewer._pendingPrimary   = primary;
+    _viewer._pendingSecondary = secondary;
+
+    var loadingEl = document.getElementById('exViewerLoading');
+    if (_viewer.ready) {
+      loadingEl.style.display = 'none';
+      _resizeViewer();
+      _setOverlays(primary, secondary);
+      _startViewerLoop();
+    } else if (!_viewer.loading) {
+      _viewer.loading = true;
+      loadingEl.style.display = 'flex';
+      _ensureThree()
+        .then(function() { _initViewerScene(); return _loadModel(); })
+        .then(function() {
+          _viewer.ready   = true;
+          _viewer.loading = false;
+          loadingEl.style.display = 'none';
+          _resizeViewer();
+          _setOverlays(_viewer._pendingPrimary || [], _viewer._pendingSecondary || []);
+          _startViewerLoop();
+        })
+        .catch(function(err) {
+          console.warn('Viewer init failed:', err);
+          _viewer.loading = false;
+          loadingEl.textContent = '⊹ viewer unavailable';
+        });
+    }
+    // else: still loading — _pendingPrimary/Secondary will be applied when ready
+  } // end _doOpen
+
+  // If catalog not yet loaded (e.g. opened from history), fetch then open
+  if (!window._catalog) {
+    fetch(CATALOG_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) { window._catalog = data; _doOpen(); })
+      .catch(function() { _doOpen(); }); // open anyway without catalog
   } else {
-    document.getElementById('exSheetCues').style.display   = 'none';
-    document.getElementById('exCueTitle').style.display    = 'none';
+    _doOpen();
   }
-  document.getElementById('exSheetScroll').scrollTop = 0;
-
-  // Slide sheet up
-  var backdrop = document.getElementById('exerciseSheet');
-  var sheet    = document.getElementById('exSheetInner');
-  sheet.classList.add('slide-out');
-  backdrop.classList.remove('hidden');
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() { sheet.classList.remove('slide-out'); });
-  });
-
-  // Pull-to-dismiss (attached once)
-  if (!_viewer.listenersAttached) {
-    sheet.addEventListener('touchstart', function(e) {
-      _sheetDragOnCanvas = (e.target.id === 'exViewerCanvas');
-      _sheetDragStartY   = _sheetDragOnCanvas ? null : e.touches[0].clientY;
-    }, { passive: true });
-    sheet.addEventListener('touchmove', function(e) {
-      if (_sheetDragOnCanvas || _sheetDragStartY === null) return;
-      if (e.touches[0].clientY - _sheetDragStartY > 80) closeExerciseSheet();
-    }, { passive: true });
-    sheet.addEventListener('touchend', function() {
-      _sheetDragStartY = null; _sheetDragOnCanvas = false;
-    }, { passive: true });
-    _viewer.listenersAttached = true;
-  }
-
-  // Three.js viewer
-  var primary   = entry ? _muscleKeysFor(entry.primary_muscles)   : [];
-  var secondary = entry ? _muscleKeysFor(entry.secondary_muscles) : [];
-  _viewer._pendingPrimary   = primary;
-  _viewer._pendingSecondary = secondary;
-
-  var loadingEl = document.getElementById('exViewerLoading');
-  if (_viewer.ready) {
-    loadingEl.style.display = 'none';
-    _resizeViewer();
-    _setOverlays(primary, secondary);
-    _startViewerLoop();
-  } else if (!_viewer.loading) {
-    _viewer.loading = true;
-    loadingEl.style.display = 'flex';
-    _ensureThree()
-      .then(function() { _initViewerScene(); return _loadModel(); })
-      .then(function() {
-        _viewer.ready   = true;
-        _viewer.loading = false;
-        loadingEl.style.display = 'none';
-        _resizeViewer();
-        _setOverlays(_viewer._pendingPrimary || [], _viewer._pendingSecondary || []);
-        _startViewerLoop();
-      })
-      .catch(function(err) {
-        console.warn('Viewer init failed:', err);
-        _viewer.loading = false;
-        loadingEl.textContent = '⊹ viewer unavailable';
-      });
-  }
-  // else: still loading — pending overlays will apply when ready
 }
 
 function closeExerciseSheet() {
