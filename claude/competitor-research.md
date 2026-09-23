@@ -315,6 +315,19 @@
   3. Weekly sets per muscle, drawn on the atlas body. Improves progress views.
   4. A free tier that keeps logging and videos free and charges for the smart parts. A clear split for our paid tiers.
 
+#### MacroFactor (weight loss; picked for adaptive nutrition targets and a separate linked workout app, the closest model for NutriLog)
+
+- **What it is:** a nutrition coach app with an adaptive calorie algorithm, plus MacroFactor Workouts (launched January 2026) as a separate app. [V] [macrofactor.com](https://macrofactor.com/), [Workouts page](https://macrofactor.com/workouts/)
+- **Key systems:**
+  - Nutrition: an algorithm learns your real energy expenditure from your food logs and weight trend, and recalibrates calorie targets at regular check-ins; "adherence-neutral" (missed days are not punished). [V] [macrofactor.com](https://macrofactor.com/)
+  - Fast logging: barcode, AI food photo, receipt photo, voice. [V] [macrofactor.com](https://macrofactor.com/)
+  - Workouts: program from goal (strength or hypertrophy), experience, equipment, gym locations, schedule; rule-based auto-progression from RIR (explicitly not AI); smart substitutes; supersets, myoreps, partials, left/right weights; plate calculator; 900+ exercises with multi-angle videos by Jeff Nippard. [V] [Workouts page](https://macrofactor.com/workouts/)
+  - Link between the apps: body metrics, scale weight, progress photos, some habits and period tracking sync; no automatic training changes from nutrition yet, by choice. Data can be exported or deleted from either app. [V] [Workouts page](https://macrofactor.com/workouts/)
+- **Business model:** Workouts $11.99 per month, $7.99 per month for 6 months, $5.99 per month yearly, bundle discount with Nutrition, 7-day trial. [V] [Workouts page](https://macrofactor.com/workouts/)
+- **Ideas for us (NutriLog):**
+  1. Two separate apps that share only body data (weight, photos, measurements), with no automatic cross-effects at first. A low-risk model for the NutriLog link and for GDPR scope (each app holds only what it needs).
+  2. Rule-based, explainable progression instead of AI for load changes; AI stays for session design. Keeps AI costs down and results predictable.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -430,3 +443,7 @@ _Filled at the end._
 - https://alphaprogression.com/en
 - https://alphaprogression.com/en/blog/alpha-progression-guide
 - https://alphaprogression.com/en/glossary/reps-in-reserve (search listing)
+
+### MacroFactor
+- https://macrofactor.com/
+- https://macrofactor.com/workouts/
