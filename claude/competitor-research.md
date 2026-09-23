@@ -133,6 +133,27 @@
   2. Streaks that count any logged training, including outside activities, so a run does not break the chain. Improves retention.
   - Watch-based rep counting is error-prone per user reports; not worth it for us early.
 
+### Shred
+
+- **What it is:** coach-built strength programs personalized by AI, plus studio classes (HIIT, yoga, dance cardio). [V] [shred.app](https://www.shred.app/)
+- **Target user:** gym and home lifters from beginner up, with separate programs for men and women. [V] [shred.app](https://www.shred.app/)
+- **Key systems:**
+  - Onboarding: short assessment of goals, equipment, gym size (large, medium, small, hotel, home) and preferences. [V] [shred.app](https://www.shred.app/)
+  - Generation: human coaches write base programs (hypertrophy, strength, powerlifting, bodyweight, sculpting); AI fits them to schedule, space and goal. [V] [shred.app](https://www.shred.app/), [App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - Equipment switch: one tap rebuilds the workout for dumbbells, barbell, bands or bodyweight. [V] [shred.app](https://www.shred.app/). Users say saved equipment is not applied automatically and alternatives must be picked by hand. [U] [App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - Swaps: exercise alternates rebuilt on muscle-level metadata and training logic; saved alternates in training settings; a "Build Your Own" mode with filtering and swapping. [V] [App Store version history](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - Warm-up: dynamic warm-ups added in a recent version. [V] [App Store version history](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - Progression: suggested weight and tempo per set, automatic rest timing, weekly adjustment from strength or body changes. [V] [shred.app](https://www.shred.app/). Reviewers confirm starting suggestions for reps and weight. [V] per review snippet, [Garage Gym Reviews](https://www.garagegymreviews.com/shred-app-review) (page not readable here, so [U])
+  - Session screen: coach audio cues and form cues, videos, heart rate from Apple Watch or AirPods Pro with audio announcements. [V] [App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - After the session: AI-written workout summary. [V] [App Store version history](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+  - Progress and social: charts for weight, reps and records, comparison with other users, friend challenges, gym leaderboards, a live feed of friends' sessions, partner workouts. [V] [shred.app](https://www.shred.app/)
+- **Business model:** limited free tier; premium $12.99 per month (7-day trial), $99.99 per year, also a $9.99 weekly option. [V] [App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095). Third-party figures ($19.99 month, $119.99 year) differ. [I] prices vary by region or offer; confirm in the app.
+- **Pain points:** [U] videos need internet, stretching only as video classes, fixed 5-minute finisher. [App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)
+- **Ideas for us:**
+  1. Alternates chosen by muscle-level metadata (same target muscle and pattern), and remembered once picked ("saved alternates"). Improves swap and uses the atlas data we already have.
+  2. One tap "I only have dumbbells today" that rebuilds the session. We have an Equipment row; this puts it on the session screen. Improves swap.
+  3. A short auto-written summary after the session (what improved, what next time). Improves retention and progression.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -188,3 +209,8 @@ _Filled at the end._
 - https://www.garagegymreviews.com/trainwell-fitness-review
 - https://www.trainwell.net/blog/the-best-personal-trainer-app-for-working-out-at-home-and-traveling (search listing only)
 - https://sports-nerd.com/brand/trainwell/ (search listing only)
+
+### Shred
+- https://www.shred.app/
+- https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095
+- https://www.garagegymreviews.com/shred-app-review (search snippet only)
