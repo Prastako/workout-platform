@@ -1,7 +1,7 @@
 # Competitor research: how other fitness apps solve the functions we are designing
 
 - Research only. Nothing here is a decision until Jan approves it.
-- As of 2026-09-23. Work in progress: filled app by app, pushed after each app.
+- As of 2026-09-23. Complete: 11 listed apps and 14 extra platforms (Section 1), 15 functions compared (Section 2), top 10 (Section 3), open questions (Section 4).
 - Labels on every finding:
   - **[V]** verified, with source link
   - **[U]** user reports (reviews, forums), pain points only
@@ -689,11 +689,59 @@
 
 ## Section 3: Top 10 ideas
 
-_Filled at the end._
+- Ranked by benefit to the core idea: no decision paralysis in the gym, a ready session in 2 or 3 taps, the atlas as the "more information" layer.
+
+1. **Pre-filled last weight plus a simple "go heavier" suggestion** (accept or "not today", one-line reason).
+   - Improves: progression (6) and the session screen (5).
+   - Why first: it removes the most common in-gym decision ("what weight?").
+   - Seen in: Sensai, Ladder, Centr, Peloton, Fitbod.
+2. **Remembered configuration and a one-tap "today's session"** built from history.
+   - Improves: day type suggestion (1) and the configure screen (2).
+   - Seen in: Apple "Stay Consistent", th.fit, Ladder, Fitbod "My Plan".
+3. **Instant per-exercise swap** from a same-pattern, same-muscle list, for "today" or "always", with no AI call.
+   - Improves: swap (4).
+   - Seen in: Future, Juggernaut, Shred, Alpha Progression.
+4. **Set logging with an automatic rest timer, superset auto-scroll and autosave.**
+   - Improves: the session screen (5).
+   - Seen in: Hevy, Alpha Progression, Juggernaut V3, Trainerize.
+5. **One-tap rating after the session** (too easy to too hard) that shapes the next session.
+   - Improves: progression (6).
+   - Seen in: Freeletics, Trainwell, Juggernaut.
+6. **New catalog fields: movement pattern, muscle role and head, station or position.**
+   - Improves: catalog (9), and through it swap (4) and generation (3).
+   - Seen in: ExRx, Shred.
+7. **Saved limitations, a "never" list and "sore today" chips** applied to every generation.
+   - Improves: injuries (7) and generation (3).
+   - Seen in: Fitbod, Future, Juggernaut, Sensai.
+8. **Recovery heat map on the atlas body**, also used by the day suggestion.
+   - Improves: day type suggestion (1), progress views (14), the atlas.
+   - Seen in: Fitbod, Strong.
+9. **Guide in two depths: 3 short steps first, then full atlas detail, common mistakes, working muscles highlighted in 3D.**
+   - Improves: exercise guides (8).
+   - Seen in: MuscleWiki, Muscle & Motion, Peloton.
+10. **Automatic deload and return-from-break rules** (rule-based, explained).
+    - Improves: progression (6) and injury prevention (7).
+    - Seen in: Dr. Muscle, Alpha Progression, Fitbod.
+
+- **Next in line:**
+  - a short history slice and the never list in the AI prompt (3);
+  - a streak that counts outside training (14);
+  - a 4 to 5 question skippable onboarding (10);
+  - a free and paid split of "logging free, smart features paid" (15).
 
 ## Section 4: Open questions for Jan
 
-_Filled at the end._
+1. The repo `index.html` has no day type suggestion and no per-exercise swap, but the brief lists both. Is the test site newer than the repo? Which version should the comparison use?
+2. Should weight logging be optional (some users only tick "done"), or part of the standard flow? This decides how central ideas 1, 4 and 5 become.
+3. Who is the main user: beginners, or experienced lifters who know RPE and RIR? This decides how much effort input we ask for.
+4. Units and weight steps: kg only, or kg and lb? Should users set their gym's smallest plate or dumbbell step (Alpha Progression does this)?
+5. Will the platform stay a web app (PWA), or get a native app later? Lock-screen timers and Apple Health data need native.
+6. AI costs: keep "bring your own API key", move to a server key with limits per tier, or both?
+7. Health-related data (injuries, soreness, body weight): store it only on the device, or on the server with explicit consent?
+8. NutriLog: a separate app that shares only body data (MacroFactor model), or one app?
+9. Is a human coach tier ever in scope, or is the product AI-and-rules only?
+10. New catalog fields (pattern, muscle role and head, station) mean touching 1,223 entries. Who reviews the AI-filled values, and should this wait until the atlas night runs are finished?
+11. The Project docs were not reachable here. Anything in claude/platform-architecture.md that changes the platform impact notes in Section 2?
 
 ## Sources
 
