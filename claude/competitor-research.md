@@ -45,6 +45,32 @@
   3. A personal "never give me this" list that generation respects. Improves generation and injury handling.
   - Lesson: Future's AI-only tier did not last. Their value is accountability and a person; ours is speed and no decisions. Do not copy the coach model, copy the low-friction session mechanics.
 
+### Juggernaut AI (priority)
+
+- **What it is:** algorithmic strength programming for powerlifting and powerbuilding, designed by coach Chad Wesley Smith. No human coach in the loop. [V] [juggernautai.app](https://www.juggernautai.app/), [App Store](https://apps.apple.com/us/app/juggernautai/id1515756471)
+- **Target user:** beginner to advanced powerlifters, over 250,000 users (company claim). [V] [juggernautai.app](https://www.juggernautai.app/)
+- **Key systems:**
+  - Onboarding: sex, age, body size, current strength, experience, goal, days per week (2 to 6), optional competition date. [V] [JTS, How it works, 2021](https://www.jtsstrength.com/how-juggernautai-works/), [juggernautai.app](https://www.juggernautai.app/)
+  - Program generation: sets frequency per main lift, periodization style and volume landmarks from the inputs; picks accessories for your weak points. [V] [JTS](https://www.jtsstrength.com/how-juggernautai-works/), [App Store](https://apps.apple.com/us/app/juggernautai/id1515756471)
+  - Adaptation layers: before the session, during it, session to session, week to week, block to block, program to program. [V] [JTS](https://www.jtsstrength.com/how-juggernautai-works/)
+  - Readiness check-in before each session: sleep, mood, diet, recovery, bodyweight, fatigue per body part, injuries. Produces a readiness score. [V] [Garage Gym Experiment, 2022](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/). Since V3.0 the score is 0 to 100 with zones and the check-in takes half the time. [V] [V3.0 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here)
+  - Readiness effect: a sore body part lowers the load for that session only, not the whole block. [V] as reviewer description, [Garage Gym Reviews listing snippet](https://www.garagegymreviews.com/juggernautai-review) (page itself returned 404 when opened, so treat as [U])
+  - Per-set feedback: you log weight and RPE or RIR after each set; the next sets and next sessions adjust up or down. After the session you rate difficulty (5 to 10). [V] [Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/)
+  - Deloads and blocks: block periodization through hypertrophy, strength and peaking phases, with built-in deloads; you can shift the schedule so deloads land well. [V] [Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/). Exact deload rules are not public. Unverified.
+  - Swaps: swap an exercise for one day or for a whole block, from a list that keeps the same training purpose. Main lifts stay fixed. [V] [Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/), [AI Tools Bakery, Sep 2026](https://aitoolsbakery.com/blog/juggernautai-review/)
+  - Warm-up: generated per day from that day's lifts, about 10 minutes, skippable; warm-up ramp sets with plate math. [V] [Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/), [juggernautai.app](https://www.juggernautai.app/)
+  - Session screen (V3.0): full block view with past and upcoming weeks, rest timer set per lift type and shown on the phone lock screen, voice cues, beeps or silent, quick access to exercise history and lifetime maxes. [V] [V3.0 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here)
+  - Guide: over 300 technique videos with coaching cues; custom exercises allowed. [V] [juggernautai.app](https://www.juggernautai.app/)
+  - Progress views: year-long completion tracker, sleep and bodyweight trends, strength graphs, calendar grid. [V] [V3.0 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here)
+  - Wearables: no Apple Health or Garmin sync reported. [U] [AI Tools Bakery](https://aitoolsbakery.com/blog/juggernautai-review/). Unverified on the official site.
+- **Business model:** $34.99 per month or $349.99 per year, 2-week free trial. Annual plan adds a consultation with the head coach, seminars and e-books. [V] [juggernautai.app](https://www.juggernautai.app/)
+- **Pain points:** [U] volume can exceed what some users recover from; honest RPE is required or loads drift; warm-up suggestions sometimes clash with readiness limits; timer notification bugs; narrow scope (big three). [App Store](https://apps.apple.com/us/app/juggernautai/id1515756471), [AI Tools Bakery](https://aitoolsbakery.com/blog/juggernautai-review/)
+- **Ideas for us:**
+  1. Per-set effort tap (for example easy, right, hard, or RIR 0 to 3+) that sets the next weight for that exercise. Improves progression, our biggest gap.
+  2. A 10-second readiness check before generating (sleep, soreness per area, pain) that adjusts only today's session, or pre-selects "Deload". Improves configure and injury handling without adding decisions.
+  3. Swap list limited to exercises with the same purpose (same pattern and muscle), for today or for good. Improves swap.
+  - Watch-out: the whole system depends on honest effort ratings. Keep the input to one tap and show why the weight changed.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -72,3 +98,12 @@ _Filled at the end._
 - https://onbetterliving.com/future-app/
 - https://athletechnews.com/age-of-ai-human-personal-trainers-might-become-a-luxury-future-caliber/
 - https://athletechnews.com/future-pulls-the-plug-on-ai-personal-training-commits-to-human-coaches/
+
+### Juggernaut AI
+- https://www.juggernautai.app/
+- https://www.juggernautai.app/blog/juggernautai-v3-0-is-here
+- https://apps.apple.com/us/app/juggernautai/id1515756471
+- https://www.jtsstrength.com/how-juggernautai-works/
+- https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/
+- https://aitoolsbakery.com/blog/juggernautai-review/
+- https://www.garagegymreviews.com/juggernautai-review (search snippet only, page returned 404)
