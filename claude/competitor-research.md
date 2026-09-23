@@ -192,6 +192,25 @@
   2. Night-before reminder with tomorrow's suggested day type. Improves retention and the day type suggestion.
   3. Streak credit for training logged outside the app. Improves retention (same point as Trainwell's pain point).
 
+### Peloton (app, classes, Strength+)
+
+- **What it is:** instructor-led classes plus two self-guided layers: Personalized Plans (weekly class suggestions) and Strength+ (a separate gym app with a workout generator and weight logging). AI features are grouped as Peloton IQ. [V] [Plans blog](https://www.onepeloton.com/blog/personalized-workout-plan), [Strength+](https://www.onepeloton.com/strength-plus-app), [Peloton IQ](https://www.onepeloton.com/peloton-iq)
+- **Target user:** Peloton members and app users who want guidance, from beginner to advanced. [V] [Plans blog](https://www.onepeloton.com/blog/personalized-workout-plan)
+- **Key systems:**
+  - Plan onboarding: goal (stronger, weight, cardio, longevity), preferred activities, 1 to 6 days per week, preferred durations, experience level. [V] [Plans blog](https://www.onepeloton.com/blog/personalized-workout-plan)
+  - Weekly plan: new suggestions every Monday from preferences and class history (down to music and instructor). Days can be moved, classes swapped or skipped without penalty; tracker workouts from outside count. Beta Sep 2024, now for all App and All-Access members. [V] [Plans blog](https://www.onepeloton.com/blog/personalized-workout-plan)
+  - Strength+ generator: pick muscle focus or full body, length, level and available equipment (cables, racks, bench, free weights). [V] [Strength+](https://www.onepeloton.com/strength-plus-app)
+  - Strength+ programs: multi-week, self-paced, led by instructors (for example 4 weeks, 3 to 5 sessions a week). [V] [Strength+](https://www.onepeloton.com/strength-plus-app)
+  - Strength+ session: a movement breakdown video at the start of each block, coach demo during every exercise, audio technique cues, swap any exercise for a similar one, weight and rep logging, Apple Watch with rest timer and heart rate. [V] [Strength+](https://www.onepeloton.com/strength-plus-app), [App Store](https://apps.apple.com/us/app/peloton-strength/id6476712925)
+  - Weight recommendations: after several sessions in the same range or with rising reps, the app prompts during class to go heavier; you accept or defer; needs consistent logging. Session-trend based, not per set. [V] [Peloton Buddy, Jul 2025](https://www.pelobuddy.com/personalized-weight-strength-plus/)
+  - Peloton IQ (on newer hardware): camera counts reps and gives form tips, suggested weights, performance estimates from history, weekly summaries, data from Apple Health, Garmin or Fitbit. Included in All-Access at no extra charge. [V] [Peloton IQ](https://www.onepeloton.com/peloton-iq)
+- **Business model:** App Free, App One $12.99 per month (floor workouts incl. strength), App+ $28.99 per month (adds equipment classes), All-Access for hardware owners. Strength+ alone $9.99 per month with 14-day trial, included in App+ and All-Access, not in App One. [V] [Peloton Buddy, Dec 2025](https://www.pelobuddy.com/new-year-app-2026/), [Strength+](https://www.onepeloton.com/strength-plus-app)
+- **Pain points:** [U] a user reports previous weights and reps disappearing so they could not see what they did last time. [MWM listing of App Store reviews](https://mwm.ai/apps/peloton-strength/6476712925) (via search summary; not opened)
+- **Ideas for us:**
+  1. Weight increase suggestion shown during the session with "accept" or "not today", triggered when the same weight was hit for the target reps in recent sessions. Improves progression with a clear, reversible rule.
+  2. A short movement breakdown at the start of each block, then the demo during the set. Maps to the atlas: open the guide at block start, not only on tap. Improves the guide.
+  3. A weekly plan that simply suggests, and moving or skipping a day costs nothing. Fits our day type suggestion.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -265,3 +284,12 @@ _Filled at the end._
 - https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes
 - https://connectthewatts.com/2021/03/16/ifit-details-smartadjust-and-activepulse-features-to-automate-your-workouts/
 - https://www.ifit.com/membership (blocked, not read)
+
+### Peloton
+- https://www.onepeloton.com/blog/personalized-workout-plan
+- https://www.onepeloton.com/strength-plus-app
+- https://www.onepeloton.com/peloton-iq
+- https://apps.apple.com/us/app/peloton-strength/id6476712925
+- https://www.pelobuddy.com/personalized-weight-strength-plus/
+- https://www.pelobuddy.com/new-year-app-2026/
+- https://mwm.ai/apps/peloton-strength/6476712925 (search summary only)
