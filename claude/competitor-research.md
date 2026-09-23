@@ -247,6 +247,27 @@
   2. Two equipment variants of the same session (barbell or dumbbells) instead of a new generation. Improves swap.
   - Their retention comes from people (clubs, brotherhood), not features. Not something we can copy in the app.
 
+### Extra platforms
+
+- Picked by how relevant their system is to our app, not by fame. Researched lighter than the listed apps: the mechanism that matters for us, pricing, one to three ideas.
+
+#### Fitbod (personalized plans; picked because it is the closest match: it generates each gym session itself)
+
+- **What it is:** an app that generates every gym workout from your profile, your logged history and a per-muscle recovery model. Over 1,600 exercises with HD demo videos. [V] [Help: How Fitbod creates your workout](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+- **Key systems:**
+  - Profile ("My Plan"): goal, experience, equipment (gym profiles), split (Full Body, Upper/Lower, Push/Pull/Legs), duration, warm-ups and cool-downs on or off, cardio, exercise variability, supersets or circuits. [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+  - Selection: effectiveness data from millions of logged workouts, filtered by equipment and recovery; user feedback per exercise: "recommend more", "recommend less", "exclude". It also learns silently from skips, replacements, deletions and manual additions. [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+  - Duration: the number of exercises follows the chosen length (4 exercises about 27 to 51 min, 6 about 39 to 63 min). [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+  - Recovery model: each muscle group has a recovery percentage (0 to 100), full recovery up to 7 days, shown as a body heat map; fresher muscles are preferred; you can override a percentage; cardio from Apple Health or Strava counts. [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+  - Load: easy completion raises load or reps, a struggle lowers them; intensity and volume are deliberately varied between sessions (heavy and light days); estimated strength per exercise, periodic "max effort days", optional reps-in-reserve logging; lighter weights after a break. New users get conservative starting loads from population data. [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+  - In-app answer to "why less weight than last time?": planned light day, muscle still recovering, or return from a break. [V] [Help](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)
+- **Business model:** limited free workouts, then $12.99 to $15.99 per month or $79.99 to $95.99 per year. [V] [App Store](https://apps.apple.com/us/app/fitbod-gym-fitness-planner/id1041517543)
+- **Pain points:** [U] navigation during an active workout is limited. [App Store](https://apps.apple.com/us/app/fitbod-gym-fitness-planner/id1041517543)
+- **Ideas for us:**
+  1. Per-muscle recovery from logged sessions, shown on the atlas body model as a heat map, and used by the day type suggestion. Improves day type suggestion and fits the 3D model we already have.
+  2. Three-way feedback on any exercise (more, less, never) plus silent learning from swaps and skips. Improves generation.
+  3. Explain every lower recommendation in one line. Improves trust in progression.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -343,3 +364,7 @@ _Filled at the end._
 - https://www.sugarwod.com/2023/12/train-hard-app-launch-jason-khalipa/
 - https://my.playbookapp.io/trainhard/programs/th-daily/29843 (search listing only)
 - https://www.garagegymreviews.com/train-hard-app-review (search listing only)
+
+### Fitbod
+- https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout
+- https://apps.apple.com/us/app/fitbod-gym-fitness-planner/id1041517543
