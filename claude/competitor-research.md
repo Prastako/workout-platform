@@ -425,7 +425,267 @@
 
 ## Section 2: Per function of our app
 
-_Filled after all apps._
+- Effort scale: **S** = up to a day, **M** = a few days, **L** = weeks. Rough estimates for a single developer working with Claude.
+- Platform impact is judged without the platform plan doc (not reachable here). It names what each idea would need: **server** (a server function or sync), **GDPR** (personal data stored or sent), **tiers** (fits a paid tier).
+- [I] Several ideas touch health-related data (injuries, body weight, readiness). Under GDPR these are likely "data concerning health" (Article 9, needs explicit consent). This is an inference; confirm with a legal source before building.
+
+### 1. Day type suggestion from history
+
+- **Others:**
+  - Fitbod keeps a recovery % per muscle from logged sets and prefers fresh muscles. ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout))
+  - Dr. Muscle adds volume to a body part untrained for 5+ days. ([Dr. Muscle](https://dr-muscle.com/what-makes-dr-muscle-different/))
+  - Apple Fitness+ builds a "Stay Consistent" plan purely from history. ([Apple](https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios))
+  - Peloton sends a new weekly plan every Monday. ([Peloton](https://www.onepeloton.com/blog/personalized-workout-plan))
+  - iFIT reminds you the night before. ([iFIT](https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes))
+- **Ours:** next day in the Push, Pull, Legs rotation after the last logged day (per the brief; not in the repo code).
+- **Difference:** ours looks at the last label only; the others look at what each muscle actually did and how recently.
+- **Verdict: adapt.** Keep the rotation as the default. Add a recovery check: if the suggested muscles were trained in the last 48 hours (for example a Full Body yesterday), suggest the next fresh option and say why in one line.
+  - Benefit: fewer wrong suggestions, still 1 tap.
+  - Effort: S once sessions store their muscles; M with a per-muscle recovery model.
+  - Platform: GDPR (training history). Server only if history syncs across devices.
+
+### 2. Configure screen
+
+- **Others:**
+  - Peloton Strength+ generator: muscle focus, length, level, equipment. ([Peloton](https://www.onepeloton.com/strength-plus-app))
+  - Fitbod stores all of this once in a "My Plan" profile. ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout))
+  - Shred rebuilds with one tap for other equipment. ([Shred](https://www.shred.app/))
+  - Juggernaut asks a short readiness check first. ([V3 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here))
+  - th.fit and Ladder have no configuration at all. ([th.fit](https://th.fit/pages/workouts), [Ladder](https://www.joinladder.com/))
+- **Ours:** duration, five option rows, "+ Core / Abs", emphasis chips and free text, reset to defaults each time (repo: duration resets to 90).
+- **Difference:** ours is richer per session but forgets choices. The best "no decision" apps either remember or skip configuration.
+- **Verdict: adapt.** Remember the last choices per day type (or profile defaults) so "Generate" works as the second tap. Keep the options one tap away. Optionally add a 10-second readiness row (sleep, sore areas) that can pre-select "Deload".
+  - Benefit: protects the 2-to-3-tap promise.
+  - Effort: S.
+  - Platform: none if stored on the device; server for multi-device.
+
+### 3. Session generation
+
+- **Others:**
+  - Fitbod: effectiveness data, equipment, recovery; exercise count from duration; deliberate heavy and light days; learns from skips and swaps; "more, less, exclude" per exercise. ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout))
+  - Juggernaut: accessories picked for weak points; warm-up built from the day's lifts with ramp sets. ([JTS](https://www.jtsstrength.com/how-juggernautai-works/), [Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/))
+  - Trainerize AI: gets a small, fixed slice of client history (last 10 workouts, latest weight). ([Trainerize](https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder))
+  - Shred: coaches write base programs and AI fits them. ([Shred](https://www.shred.app/))
+  - Freeletics users complain about exercise order that jumps between standing, seated and lying. ([App Store](https://apps.apple.com/app/id654810212))
+- **Ours:** one Claude call per session from a shuffled catalog subset, with strong coaching rules (no repeated pattern, muscle head coverage, equipment variety, compound first). No history, no preferences.
+- **Difference:** our rules are more explicit about anatomy than most. What we lack is memory: nothing from past sessions or user preferences reaches the prompt.
+- **Verdict: adapt.** Add three things to the prompt:
+  1. A short history slice (last few sessions: exercises and loads).
+  2. The user's "never" list and limitations.
+  3. A rule to group exercises by station and body position.
+  - Also: warm-up built from the first main lifts, with lighter ramp sets.
+  - Benefit: sessions that follow on from each other.
+  - Effort: M.
+  - Platform: server (hold the API key and meter usage instead of a browser key), GDPR (history sent to the AI provider; state that it is not used for training, as Trainerize does), tiers (generation count).
+
+### 4. Swap or regenerate one exercise or one section
+
+- **Others:**
+  - Future: a flag swaps instantly. ([FAQ](https://faq.future.co/en/articles/12073331-what-should-i-expect-from-a-future-pro-workout))
+  - Juggernaut: swap for today or the whole block, from a same-purpose list. ([Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/))
+  - Shred: alternates from muscle-level metadata, saved alternates. ([App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095))
+  - Alpha Progression: "similar exercises" list; history carries over. ([Guide](https://alphaprogression.com/en/blog/alpha-progression-guide))
+  - Sensai: plain-language changes mid-session. ([SensAI](https://www.sensai.fit/blog/sensai-review-2026))
+  - Trainerize: only a manual edit. Freeletics users complain there is no swap at all.
+- **Ours:** "redo" per section by a new AI call (repo). Per-exercise swap is listed in the brief but not in the repo code.
+- **Difference:** the others swap single exercises instantly from a list with no AI call. Ours regenerates with AI, which is slower and costs money.
+- **Verdict: adapt.** Per-exercise swap from a deterministic list (same pattern, same primary muscle, available equipment), with "just today" or "always". Keep the AI "redo" for whole sections and add a "only dumbbells today" rebuild.
+  - Benefit: instant, free, predictable.
+  - Effort: S to M (needs the pattern field, see function 9).
+  - Platform: none; the "always" choice is a user preference (GDPR light).
+
+### 5. Session screen: logging, rest timers, supersets
+
+- **Others:**
+  - Previous values pre-filled: Sensai, Ladder; Centr shows the last 3; Hevy lets you choose last time anywhere or in this routine. ([App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099), [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review), [Hevy](https://www.hevyapp.com/features/))
+  - Rest timer: starts by itself, set per lift type, shown on the lock screen (Juggernaut V3, Alpha Progression, Sensai). ([V3 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here), [Alpha guide](https://alphaprogression.com/en/blog/alpha-progression-guide))
+  - Supersets: Hevy scrolls to the partner exercise after each set. ([Hevy](https://www.hevyapp.com/features/))
+  - Autosave: Trainerize saves stats without "Finish"; Freeletics users lose unsaved sessions. ([Trainerize](https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out))
+  - Audio cues for next move and rest end: Ladder, Future, Juggernaut. ([Ladder](https://www.joinladder.com/))
+- **Ours:** a done checkbox per exercise. No sets, weights or timers.
+- **Difference:** every tracker-type app logs sets. It is the base for progression.
+- **Verdict: adopt.** Set rows with pre-filled last weight and reps, an automatic rest timer (longer for compounds), superset auto-scroll, autosave.
+  - Benefit: large; also unlocks functions 6 and 14.
+  - Effort: M.
+  - [I] A web app cannot show iOS lock-screen live timers; sound or vibration and notifications are the likely limit. Confirm with a PWA test on iPhone.
+  - Platform: GDPR (training logs), server for sync. Keep logging free (the Alpha Progression and Hevy model).
+
+### 6. Progression between sessions
+
+- **Others:**
+  - Per set: Juggernaut RPE or RIR moves the next sets and sessions ([Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/)); Alpha Progression adjusts within the session ([Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)).
+  - Session trend: Peloton prompts "go heavier" after stable sessions, which you accept or defer ([Peloton Buddy](https://www.pelobuddy.com/personalized-weight-strength-plus/)); Fitbod raises after easy sessions, lowers after struggles, alternates heavy and light days ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)).
+  - Post-session rating: Freeletics 5 steps, Trainwell feedback, Juggernaut difficulty 5 to 10 ([Freeletics](https://www.freeletics.com/en/blog/posts/what-is-the-purpose-of-the-feedback-i-am-asked-to-give-after-each-workout/)).
+  - Deloads and breaks: Dr. Muscle halves the sets and takes about 10% off the weight when estimated 1RM drops, and runs light sessions after 10+ days off ([Dr. Muscle](https://dr-muscle.com/what-makes-dr-muscle-different/)); RP plans deload weeks and sets weekly volume from pump and soreness ([RP](https://rpstrength.com/pages/hypertrophy-app)).
+  - Rules, not AI: MacroFactor keeps progression rule-based on purpose ([MacroFactor](https://macrofactor.com/workouts/)).
+- **Ours:** none.
+- **Verdict: adopt, in two stages.**
+  - Stage 1 (rule-based, no AI):
+    - pre-fill the last weight;
+    - if all sets hit the top of the rep range, suggest the next weight step, with "accept" or "not today";
+    - one 5-step rating after the session;
+    - one line explaining every change.
+  - Stage 2:
+    - optional RIR per set;
+    - auto-deload rule;
+    - return-from-break rule;
+    - within-session adjustment.
+  - Benefit: fills the biggest gap and removes the "what weight?" decision.
+  - Effort: M (stage 1), M to L (stage 2).
+  - Platform: rules can run on the device; no AI cost. GDPR (logs). Tiers: the smart suggestions could be paid while logging stays free.
+
+### 7. Injuries, soreness and limitations
+
+- **Others:**
+  - Future: medical clearance, the coach excludes movements ([FAQ](https://faq.future.co/en/articles/12073374-what-if-i-have-an-injury-or-special-needs)).
+  - Juggernaut: readiness asks about injuries and soreness per body part and lowers load for that session only ([Garage Gym Experiment](https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/)).
+  - Sensai: remembers injuries, "knee hurts, swap lunges" mid-session, says it cannot diagnose ([SensAI](https://www.sensai.fit/blog/sensai-review-2026)).
+  - Fitbod: exclude an exercise, override recovery ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)).
+  - RP: asks about soreness and joint pain ([RP](https://rpstrength.com/pages/hypertrophy-app)).
+- **Ours:** the free-text box before generation (for example "left knee sore").
+- **Difference:** ours works per session only and must be typed each time.
+- **Verdict: adapt.**
+  - A saved limitations list (area plus movements to avoid) applied to every generation.
+  - A "never" list.
+  - Quick "sore today" chips.
+  - A plain disclaimer that the app does not diagnose.
+  - Benefit: safer sessions without typing.
+  - Effort: S to M.
+  - Platform: GDPR high: injury data is likely health data [I]. Prefer keeping it on the device, or ask explicit consent.
+
+### 8. Exercise guides
+
+- **Others:**
+  - Future and Ladder: video plus a coach's voice with form cues ([FAQ](https://faq.future.co/en/articles/12073331-what-should-i-expect-from-a-future-pro-workout)).
+  - Peloton Strength+: a movement breakdown at the start of each block, then a demo during every exercise ([Peloton](https://www.onepeloton.com/strength-plus-app)).
+  - MuscleWiki: 3 short steps, then the full how-to, then expert tips ([MuscleWiki](https://musclewiki.com/exercise/barbell-bench-press)).
+  - Muscle & Motion: 3D with active muscles highlighted and common mistakes ([M&M](https://www.muscleandmotion.com/)).
+  - Alpha Progression: setup, cues and common mistakes, low-resolution videos offline ([Alpha](https://alphaprogression.com/en)).
+  - Centr: demos show beginner to advanced versions ([GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)).
+  - Reached from the session: tap the exercise, same as ours.
+- **Ours:** exercise sheet with 3D, demo and guide tabs (steps and cues), from the atlas.
+- **Verdict: already have (core); adapt the details.**
+  - Put 3 short steps first (readable between sets), then the full atlas detail.
+  - Add a "common mistakes" block.
+  - Highlight the working muscles on the 3D model.
+  - Optionally open the guide automatically at the start of a new block.
+  - Benefit: the atlas becomes the "more information" layer at the right moment.
+  - Effort: S to M.
+  - Platform: none. Content must stay our own.
+
+### 9. Exercise catalog structure
+
+- **Others:**
+  - ExRx: Utility (basic or auxiliary), Mechanics, Force; muscles split into target, synergists and stabilizers, with muscle heads ([ExRx](https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress)).
+  - MuscleWiki: body map plus equipment categories and a joints view ([MuscleWiki](https://musclewiki.com/)).
+  - Shred: muscle-level metadata drives alternates ([App Store](https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095)).
+  - Alpha Progression: rates exercises by range of motion and stability ([Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)).
+  - Fitbod: uses effectiveness data from logs ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)).
+- **Ours:** primary and secondary muscles, equipment, mechanic, force, level, day type. No movement pattern, no muscle role or head, no station or position.
+- **Difference:** our generation rules talk about patterns and heads, but the catalog does not store them, so the AI has to guess.
+- **Verdict: adapt.** Add these fields:
+  - movement pattern (for example horizontal push, hinge);
+  - muscle role (target, synergist, stabilizer);
+  - muscle head or region;
+  - station or body position.
+  - Benefit: enables the instant swap (function 4), the station grouping rule (function 3) and better atlas filters.
+  - Effort: M (fill 1,223 entries with AI help, then review).
+  - Platform: none.
+
+### 10. Onboarding and user profile
+
+- **Others:**
+  - Peloton: goal, activities, days, durations, level ([Peloton](https://www.onepeloton.com/blog/personalized-workout-plan)).
+  - Centr: 3 to 5 minutes, goal, level, diet, sex ([GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)).
+  - Juggernaut: detailed, including current strength ([JTS](https://www.jtsstrength.com/how-juggernautai-works/)).
+  - Fitbod: "My Plan" plus conservative first loads from population data ([Fitbod](https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout)).
+  - Future and Trainwell: quiz plus a call with a coach.
+  - Noom's onboarding upselling is a top complaint ([calorie-trackers.com](https://calorie-trackers.com/reviews/noom/)).
+- **Ours:** none (only the API key screen in the repo).
+- **Verdict: adapt.** A 4 to 5 question, fully skippable onboarding: goal, experience, where you train and equipment, days per week, limitations. The answers become the configure defaults. No sales pressure.
+  - Benefit: first session fits without configuring.
+  - Effort: S to M.
+  - Platform: GDPR (profile); server only with accounts.
+
+### 11. Human coach vs AI vs hybrid
+
+- **Others:**
+  - Human: Future ($149 to $199 per month), Trainwell ($149), Caliber Premium (about $200), Ladder (coach publishes weekly plans).
+  - Coach tools with AI help: Trainerize.
+  - Algorithms: Juggernaut, Fitbod, Dr. Muscle, Alpha Progression, RP.
+  - LLM coaches: Sensai, iFIT Tailor.
+  - Instructors plus algorithms: Peloton, Centr.
+  - Signal: Future launched a free AI tier in February 2026 and scrapped it in June 2026 to focus on humans ([Athletech](https://athletechnews.com/future-pulls-the-plug-on-ai-personal-training-commits-to-human-coaches/)). The same source cites a Les Mills survey where only about 10% prefer AI guidance over a human.
+- **Ours:** AI designs the session; "Ask Claude" chat in Tips.
+- **Verdict: skip human coaching for now.** Keep the hybrid "AI designs, rules progress" model (as MacroFactor does).
+  - [I] People may trust AI more when it explains itself in plain words. Confirm with user testing.
+
+### 12. Wearables, readiness and recovery data
+
+- **Others:**
+  - Sensai: HRV, sleep and resting heart rate, judged together, never one number alone ([SensAI](https://www.sensai.fit/blog/sensai-review-2026)).
+  - Future and Trainwell: heart rate goes to the coach ([FAQ](https://faq.future.co/en/articles/12073347-do-i-need-a-smartwatch-to-use-future-pro)).
+  - Peloton IQ: camera rep counting ([Peloton IQ](https://www.onepeloton.com/peloton-iq)).
+  - Fitbod: counts cardio from Apple Health in recovery.
+  - Trainwell: watch rep counting, which users call inaccurate.
+  - Juggernaut: purely subjective readiness.
+- **Ours:** none.
+- **Verdict: skip for now, adopt subjective readiness instead** (see functions 2 and 7).
+  - [I] A web app cannot read Apple Health directly; that needs a native app. Confirm against the platform plan.
+
+### 13. Nutrition, body weight and the link to training
+
+- **Others:**
+  - MacroFactor: adaptive calorie targets from food logs and the weight trend; the workout app is separate and shares only body data, with no automatic cross-effects yet ([MacroFactor](https://macrofactor.com/workouts/)).
+  - Noom: green, yellow, red food colors ([calorie-trackers.com](https://calorie-trackers.com/reviews/noom/)).
+  - Centr: meals and today's workout on one planner screen, plus a shopping list ([GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)).
+  - Future and Trainwell: tips only, no meal plans.
+  - Juggernaut V3: shows the bodyweight trend on the dashboard ([V3 blog](https://www.juggernautai.app/blog/juggernautai-v3-0-is-here)).
+  - Caliber: uses body weight for relative strength ([Caliber](https://caliberstrong.freshdesk.com/support/solutions/articles/48001257574-strength-score-user-guide)).
+- **Ours:** none; NutriLog later.
+- **Verdict: adapt later.** Start with shared body data only: weight, measurements, photos. Use body weight in progress views. Consider a color-rule "simple mode" in NutriLog.
+  - Effort: M (NutriLog side).
+  - Platform: server (shared account), GDPR (body weight, likely health data [I]).
+
+### 14. Motivation and retention
+
+- **Others:**
+  - Streaks: Trainwell; Alpha Progression with badges. iFIT gives streak credit for outside workouts; Trainwell users complain that outside activities don't count ([App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504), [Monica Denais](https://monicadenais.com/trainwell-review)).
+  - Reminders: iFIT sends night-before reminders and missed-workout alerts ([iFIT](https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes)).
+  - Summaries: weekly (Peloton IQ), monthly and yearly (Hevy), AI summary after each workout (Shred).
+  - Records: live PR alerts (Hevy); a per-muscle Strength Score (Caliber).
+  - Social: feeds and leaderboards (Hevy, Shred).
+  - People: daily accountability messages from a person (Future).
+- **Ours:** last 3 sessions on the home screen.
+- **Verdict: adapt.**
+  - A streak that counts any logged training.
+  - A short summary after each session (what went up, what next time).
+  - A weekly view with sets per muscle on the atlas body.
+  - PR highlights.
+  - Skip social feeds for now. Reminders later (they need notifications).
+  - Effort: S to M.
+  - Platform: server for push notifications. GDPR light.
+
+### 15. Business model
+
+- **Prices seen (per month unless noted):**
+  - Human coaching: Future $149 to $199; Trainwell $149; Caliber Premium about $200.
+  - Programming apps: Juggernaut $34.99; RP $34.99; Dr. Muscle $48.99.
+  - AI and tracker apps: Sensai $6.99; Shred $12.99; Fitbod $12.99 to $15.99; Alpha Progression $12.99; MacroFactor Workouts $5.99 to $11.99; Hevy Pro about $3; Peloton App One $12.99, Strength+ $9.99.
+  - Content apps: Centr up to $29.99; th.fit $29.99.
+  - Trials: mostly 7 or 14 days.
+- **Patterns:**
+  - Logging free, smart features paid: Alpha Progression, Hevy, Caliber, Strong.
+  - AI only on paid plans: Trainerize.
+  - Free AI capped (one recommendation per day): Dr. Muscle [U].
+  - Bring your own AI assistant through an MCP server: Caliber.
+  - A free AI tier that did not last: Future.
+- **Ours:** the user pastes their own Anthropic API key (repo).
+- **Verdict: adapt.**
+  - Free: catalog, atlas, logging, a small number of generations per week.
+  - Paid: unlimited generation plus smart progression.
+  - Keep "bring your own AI" as an option for power users.
+  - Platform: server (usage metering, key custody), tiers.
 
 ## Section 3: Top 10 ideas
 
