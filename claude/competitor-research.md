@@ -364,6 +364,28 @@
 - **Business model:** free tier; Pro for advanced progress views; price not shown on the site. Unverified.
 - **Idea for us:** a muscle heat map of what you trained this week on the body model. Same as the Fitbod idea; two apps confirm it.
 
+#### MuscleWiki (exercise guides; picked because its muscle-map-first browser is the closest match to the atlas)
+
+- **What it is:** a free exercise library and app where you tap a muscle on a body map (male or female) and get exercises, filtered by equipment category (barbell, dumbbells, cables, machine, kettlebells, bands, TRX, stretches, recovery and more); also a "Joints" view, a workout generator and routine builder. [V] [musclewiki.com](https://musclewiki.com/) (opened in a browser)
+- **Exercise page structure:** difficulty level, 3 short numbered steps, then a detailed how-to (setup, torso, grip, performing the lift), then a coach's tips section. [V] [Bench press page](https://musclewiki.com/exercise/barbell-bench-press) (opened in a browser)
+- **Business model:** free with ads; premium about $49.99 per year with 7-day trial: unlimited routines, AI workout generation, progress analytics, advanced filters, no ads. [U] via search summary of the [App Store listing](https://apps.apple.com/us/app/musclewiki-workout-fitness/id1096827640) and [premium page](https://musclewiki.com/gopremium); not opened. The site also links a public API. [V] [musclewiki.com](https://musclewiki.com/)
+- **Ideas for us:**
+  1. Guide layout in two depths: 3 short steps first (readable between sets), full detail and expert tips below. Improves the exercise guide.
+  2. Body map as an entry point to the catalog (tap a muscle, see exercises). The atlas already has the model; this confirms the pattern.
+
+#### Muscle & Motion (exercise guides; picked for 3D anatomy videos per exercise, close to our 3D tab)
+
+- **What it is:** 3D anatomy and kinesiology apps (strength training, anatomy, yoga, posture) for trainers, therapists, students and gym-goers. [V] [muscleandmotion.com](https://www.muscleandmotion.com/)
+- **Presentation:** 3D animations of each movement with the active muscles highlighted, common mistakes, variations by level. [V] [muscleandmotion.com](https://www.muscleandmotion.com/)
+- **Business model:** not shown on the home page. Unverified.
+- **Idea for us:** in the 3D tab, highlight the working muscles and add a "common mistakes" block. Improves the guide and uses the atlas model.
+
+#### ExRx.net (exercise guides; picked for its long-standing exercise classification)
+
+- **What it is:** a large reference site of exercises and kinesiology. [V] [ExRx bench press page](https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress) (opened in a browser)
+- **Classification per exercise:** Utility (basic or auxiliary), Mechanics (compound or isolation), Force (push or pull); muscles split into Target, Synergists and Dynamic Stabilizers, with muscle heads named (for example pectoralis major sternal vs clavicular). Instructions in Preparation, Execution, Comments. [V] [ExRx bench press page](https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress)
+- **Idea for us:** add "target vs synergist vs stabilizer" and a muscle head field to the catalog, and a movement pattern field. Our generation rules already talk about muscle heads and patterns, but the catalog has no field for them. Improves catalog structure and generation.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -495,3 +517,15 @@ _Filled at the end._
 
 ### Strong
 - https://www.strong.app/
+
+### MuscleWiki
+- https://musclewiki.com/
+- https://musclewiki.com/exercise/barbell-bench-press
+- https://apps.apple.com/us/app/musclewiki-workout-fitness/id1096827640 (search summary only)
+- https://musclewiki.com/gopremium (search summary only)
+
+### Muscle & Motion
+- https://www.muscleandmotion.com/
+
+### ExRx.net
+- https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress
