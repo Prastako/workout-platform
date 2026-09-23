@@ -113,6 +113,26 @@
   2. Short plain-language changes during the session ("shorter", "knee hurts", "machine taken") on top of our "redo" button. Our free-text box already does this before generation; extend it to the session screen. Improves swap and injury handling.
   3. Multi-signal readiness: never cut a session because of one bad number. Relevant later if we add wearables.
 
+### Trainwell
+
+- **What it is:** remote 1-on-1 personal training by human trainers, with smartwatch motion tracking during workouts. Formerly named CoPilot. [V] [trainwell.net](https://www.trainwell.net/), [Sports Nerd](https://sports-nerd.com/brand/trainwell/) (former name, search listing)
+- **Target user:** busy adults training at home, gym or hotel who want a person to plan and check on them. [V] [trainwell.net](https://www.trainwell.net/)
+- **Key systems:**
+  - Onboarding: quiz, suggested trainer matches, you choose; switch trainer any time, as often as you want. Trial starts with a 40-minute call. [V] [trainwell.net](https://www.trainwell.net/), [FAQ](https://www.trainwell.net/faq)
+  - Programming: the trainer writes plans for your goals, equipment, schedule and location (home, gym, hotel). [V] [trainwell.net](https://www.trainwell.net/). A reviewer describes 4-week programs with progression, adjusted for time, intensity and focus. [V] as reviewer account, [Monica Denais, Mar 2025](https://monicadenais.com/trainwell-review)
+  - Feedback loop: you give feedback after each workout and overall, and message the trainer; the trainer reviews workouts as they happen. [V] per [Trainwell blog](https://www.trainwell.net/blog/the-best-personal-trainer-app-for-working-out-at-home-and-traveling) via search listing; page not opened, so [I] until confirmed.
+  - Session screen: exercise videos with how-to, the trainer's voice tells you what comes next, live feedback on pace and form. [V] [trainwell.net](https://www.trainwell.net/)
+  - Watch: Apple Watch Series 5+ or WearOS 3+ tracks sets, pace and range of motion automatically. Optional. Garmin and Fitbit via Apple Health or Google Health. [V] [FAQ](https://www.trainwell.net/faq), [trainwell.net](https://www.trainwell.net/)
+  - Swaps and rescheduling: a workout can be postponed one day without contacting the trainer; bigger changes go through the trainer. [U] [Monica Denais](https://monicadenais.com/trainwell-review)
+  - Nutrition: habits and general tips from the trainer, no meal plans. [V] [FAQ](https://www.trainwell.net/faq)
+  - Retention: workout streaks, trainer check-ins. [V] [trainwell.net](https://www.trainwell.net/)
+- **Business model:** $149 per month billed quarterly, 14-day free trial, HSA/FSA eligible. [V] [FAQ](https://www.trainwell.net/faq). A 2025 reviewer paid $150 monthly or $297 per quarter. [U] [Monica Denais](https://monicadenais.com/trainwell-review)
+- **Pain points:** [U] rep tracking inaccurate ([Garage Gym Reviews](https://www.garagegymreviews.com/trainwell-fitness-review), opened in a browser); outside activities like Pilates or running do not count toward the streak; limited self-service rescheduling ([Monica Denais](https://monicadenais.com/trainwell-review)).
+- **Ideas for us:**
+  1. A 1-question feedback after each session ("too easy, right, too hard") that the next generation reads. Improves progression with almost no friction.
+  2. Streaks that count any logged training, including outside activities, so a run does not break the chain. Improves retention.
+  - Watch-based rep counting is error-prone per user reports; not worth it for us early.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -160,3 +180,11 @@ _Filled at the end._
 - https://www.sensai.fit/
 - https://www.sensai.fit/blog/sensai-review-2026 (company blog)
 - https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099
+
+### Trainwell
+- https://www.trainwell.net/
+- https://www.trainwell.net/faq
+- https://monicadenais.com/trainwell-review
+- https://www.garagegymreviews.com/trainwell-fitness-review
+- https://www.trainwell.net/blog/the-best-personal-trainer-app-for-working-out-at-home-and-traveling (search listing only)
+- https://sports-nerd.com/brand/trainwell/ (search listing only)
