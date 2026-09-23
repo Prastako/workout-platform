@@ -268,6 +268,21 @@
   2. Three-way feedback on any exercise (more, less, never) plus silent learning from swaps and skips. Improves generation.
   3. Explain every lower recommendation in one line. Improves trust in progression.
 
+#### Dr. Muscle (personalized plans; picked for fully automatic progression and deloads)
+
+- **What it is:** an AI trainer app that recalculates weights, reps and sets after every workout, with automatic deloads. [V] [App Store](https://apps.apple.com/us/app/dr-muscle-ai-personal-trainer/id1073943857)
+- **Key systems (all company descriptions):**
+  - Rep ranges change every session (daily undulating periodization); weights are computed from past results, aiming for 2 to 3% increases. [V] [Dr. Muscle features page, Apr 2026](https://dr-muscle.com/what-makes-dr-muscle-different/)
+  - Rest-pause sets are the default set style to save time. [V] [features page](https://dr-muscle.com/what-makes-dr-muscle-different/)
+  - Automatic deload per exercise: when estimated 1RM drops and a plateau is detected, sets are cut by half and weight by about 10%. [V] [features page](https://dr-muscle.com/what-makes-dr-muscle-different/)
+  - Breaks: after 10+ days off, the next sessions are automatically light; longer breaks cut load more. [V] [features page](https://dr-muscle.com/what-makes-dr-muscle-different/)
+  - Neglected areas: a body part not trained for 5+ days gets more volume. [V] [features page](https://dr-muscle.com/what-makes-dr-muscle-different/)
+  - Effort input: RIR or RPE guidance after sets. [V] [features page](https://dr-muscle.com/what-makes-dr-muscle-different/)
+- **Business model:** free trial with all features; $48.99 per month or $399.99 per year; meal plan add-on $18.99 per month. [V] [App Store](https://apps.apple.com/us/app/dr-muscle-ai-personal-trainer/id1073943857). A third party reports a free plan with one AI recommendation per day. [U] [AI Tools Bakery](https://aitoolsbakery.com/blog/dr-muscle-review/), search summary only.
+- **Ideas for us:**
+  1. Simple, explainable auto-deload rule per exercise (estimated strength drops two sessions in a row: half the sets, 10% less weight for one session). Improves progression.
+  2. Return-from-break rule: after X days off, the next session is generated lighter automatically. Improves progression and injury prevention with no user input.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -368,3 +383,8 @@ _Filled at the end._
 ### Fitbod
 - https://help.fitbod.me/hc/en-us/articles/360004429814-How-Fitbod-Creates-Your-Workout
 - https://apps.apple.com/us/app/fitbod-gym-fitness-planner/id1041517543
+
+### Dr. Muscle
+- https://dr-muscle.com/what-makes-dr-muscle-different/ (company page)
+- https://apps.apple.com/us/app/dr-muscle-ai-personal-trainer/id1073943857
+- https://aitoolsbakery.com/blog/dr-muscle-review/ (search summary only)
