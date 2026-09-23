@@ -230,6 +230,23 @@
   2. For NutriLog later: one planner screen that shows today's session and today's meals together, with a shopping list. Improves the nutrition link.
   - Watch-out: repetition complaints. Our generator already varies sessions; keep that as a selling point.
 
+### th.fit (TRAIN HARD by Jason Khalipa)
+
+- **What it is:** a men's training brand by former CrossFit Games champion Jason Khalipa: a training app with fixed daily programming, local in-person "men's clubs", a podcast and a shop. The app runs on a white-label coaching platform (Playbook; at launch it was SugarWOD). [V] [th.fit](https://th.fit/), [Workouts page](https://th.fit/pages/workouts), [checkout](https://my.playbookapp.io/trainhard/checkout), [SugarWOD, Dec 2023](https://www.sugarwod.com/2023/12/train-hard-app-launch-jason-khalipa/)
+- **Target user:** busy men who want strength, conditioning and a community to show up for. [V] [Workouts page](https://th.fit/pages/workouts)
+- **Key systems:**
+  - Programming: one coach-written program for everyone, TRAIN HARD DAILY, 45 minutes start to finish, new workout every day, AMRAP and EMOM formats. [V] [Workouts page](https://th.fit/pages/workouts). Weekly blueprint of 2 full-body strength days, 2 mixed days, 1 aerobic, 1 anaerobic, 1 rest. [V] per search listing of the [TH Daily program page](https://my.playbookapp.io/trainhard/programs/th-daily/29843); page not opened, so [I] until confirmed.
+  - Equipment variants: each workout comes in a barbell version and a dumbbell version, with a clear equipment list. [V] [Workouts page](https://th.fit/pages/workouts)
+  - Earlier tracks: FORCE (strength and conditioning), FLEX (bodybuilding-style), EMOM (efficient); 5 training days, 2 rest days, weekly "hero" workouts. [V] [SugarWOD](https://www.sugarwod.com/2023/12/train-hard-app-launch-jason-khalipa/)
+  - Personalization: none found beyond choosing a program and equipment variant. [I] no generation or adaptation; confirm with a trial.
+  - Community: free weekly in-person club sessions, money-back promise. [V] [th.fit](https://th.fit/), [Workouts page](https://th.fit/pages/workouts)
+  - Logging, videos, nutrition: described by third-party listings (stream workouts, movement videos, log lifts, nutrition guidance, challenges, weekly calls). [U] [Garage Gym Reviews listing](https://www.garagegymreviews.com/train-hard-app-review), search summary only.
+- **Business model:** $29.99 per month or $199 per year, 7-day free trial. Checkout shows 4.9 from about 32,000 ratings. [V] [checkout](https://my.playbookapp.io/trainhard/checkout)
+- **Ideas for us:**
+  1. Zero-decision mode: one "today's session" button that needs no configuration at all. Their whole product is this. Improves the core idea directly (1 tap instead of 2 or 3).
+  2. Two equipment variants of the same session (barbell or dumbbells) instead of a new generation. Improves swap.
+  - Their retention comes from people (clubs, brotherhood), not features. Not something we can copy in the app.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -318,3 +335,11 @@ _Filled at the end._
 - https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817
 - https://www.gymbird.com/fitness-apps/centr-app-review
 - https://help.centr.com/en-US
+
+### th.fit
+- https://th.fit/
+- https://th.fit/pages/workouts
+- https://my.playbookapp.io/trainhard/checkout
+- https://www.sugarwod.com/2023/12/train-hard-app-launch-jason-khalipa/
+- https://my.playbookapp.io/trainhard/programs/th-daily/29843 (search listing only)
+- https://www.garagegymreviews.com/train-hard-app-review (search listing only)
