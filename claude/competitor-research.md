@@ -386,6 +386,20 @@
 - **Classification per exercise:** Utility (basic or auxiliary), Mechanics (compound or isolation), Force (push or pull); muscles split into Target, Synergists and Dynamic Stabilizers, with muscle heads named (for example pectoralis major sternal vs clavicular). Instructions in Preparation, Execution, Comments. [V] [ExRx bench press page](https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress)
 - **Idea for us:** add "target vs synergist vs stabilizer" and a muscle head field to the catalog, and a movement pattern field. Our generation rules already talk about muscle heads and patterns, but the catalog has no field for them. Improves catalog structure and generation.
 
+#### Freeletics (fitness in general; picked because its AI coach changes the next session from post-workout feedback)
+
+- **What it is:** an AI coach app for bodyweight HIIT, weights, gym machines and running, with 700+ exercises combined into generated sessions. [V] [App Store](https://apps.apple.com/app/id654810212), [freeletics.com](https://www.freeletics.com/en/)
+- **Key systems:**
+  - Onboarding: goals, fitness level, training days and time, location (home, gym, outdoor) and equipment. [V] [freeletics.com](https://www.freeletics.com/en/)
+  - Post-workout feedback: a five-step scale from too easy to too hard, plus which movements worked and whether form held or needed changes. [V] [Freeletics blog](https://www.freeletics.com/en/blog/posts/what-is-the-purpose-of-the-feedback-i-am-asked-to-give-after-each-workout/)
+  - Use of feedback: short term decides whether the next session scales back or pushes; long term sets training load. [V] [Freeletics blog](https://www.freeletics.com/en/blog/posts/what-is-the-purpose-of-the-feedback-i-am-asked-to-give-after-each-workout/)
+- **Business model:** free: 34 bodyweight workouts, 100+ exercises, community. Paid Coach or Coach plus Nutrition bundle, about $35 to $50 for 3 months, $75 to $90 for 12 months; 14-day money-back. [V] [App Store](https://apps.apple.com/app/id654810212)
+- **Pain points:** [U] no swapping single exercises or changing reps in a plan; rest too long in strength sessions; exercise order jumps between standing, seated and lying positions; quitting mid-workout loses the session. [App Store](https://apps.apple.com/app/id654810212)
+- **Ideas for us:**
+  1. One post-session rating (5 steps from too easy to too hard) that sets the next session's volume and load. Same point as Trainwell and Juggernaut; three apps confirm it.
+  2. Generation rule: group exercises by station and body position to cut walking and getting up and down. Improves generation (a coaching rule we do not have yet).
+  3. Save partial sessions automatically. Improves the session screen.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -529,3 +543,8 @@ _Filled at the end._
 
 ### ExRx.net
 - https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress
+
+### Freeletics
+- https://www.freeletics.com/en/
+- https://www.freeletics.com/en/blog/posts/what-is-the-purpose-of-the-feedback-i-am-asked-to-give-after-each-workout/
+- https://apps.apple.com/app/id654810212
