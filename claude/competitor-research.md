@@ -283,6 +283,19 @@
   1. Simple, explainable auto-deload rule per exercise (estimated strength drops two sessions in a row: half the sets, 10% less weight for one session). Improves progression.
   2. Return-from-break rule: after X days off, the next session is generated lighter automatically. Improves progression and injury prevention with no user input.
 
+#### RP Hypertrophy (muscle gain; picked for volume per muscle driven by soreness and pump feedback)
+
+- **What it is:** a hypertrophy programming app by Renaissance Periodization built on mesocycles (training blocks of several weeks) with planned deloads. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app)
+- **Key systems:**
+  - Setup: 45+ templates or a "Meso Builder" where you pick target muscle groups. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app)
+  - Feedback per muscle: pump, soreness and workload (plus, per third-party descriptions, joint pain and general fatigue); the app changes next week's sets and loads from the answers. Low pump points to more volume, extreme pump to too much. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app); pump scale per [Dr. Muscle article, Apr 2025](https://dr-muscle.com/rp-hypertrophy-app-beginners/) (a competitor, so [U])
+  - Exact weights and rep targets each week; system-managed deload weeks; exercises can be changed on the fly. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app)
+  - Guide: 250+ technique videos. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app)
+- **Business model:** $34.99 per month or $299.99 per year, 30-day money-back; separate diet app at a discount. [V] [RP app page](https://rpstrength.com/pages/hypertrophy-app), [App Store](https://apps.apple.com/us/app/rp-hypertrophy/id1555614554)
+- **Pain points:** [U] no built-in rest timer, no separate logging per limb, no cardio tracking. [App Store](https://apps.apple.com/us/app/rp-hypertrophy/id1555614554)
+- **Ideas for us:**
+  1. After the session, one question per trained muscle: "pump: low, good, too much" and at the next session "still sore? yes, no". Feeds volume per muscle. Improves progression and soreness handling. Watch-out: it adds taps, so keep it optional.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -388,3 +401,8 @@ _Filled at the end._
 - https://dr-muscle.com/what-makes-dr-muscle-different/ (company page)
 - https://apps.apple.com/us/app/dr-muscle-ai-personal-trainer/id1073943857
 - https://aitoolsbakery.com/blog/dr-muscle-review/ (search summary only)
+
+### RP Hypertrophy
+- https://rpstrength.com/pages/hypertrophy-app
+- https://apps.apple.com/us/app/rp-hypertrophy/id1555614554
+- https://dr-muscle.com/rp-hypertrophy-app-beginners/ (competitor article)
