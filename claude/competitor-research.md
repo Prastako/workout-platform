@@ -92,6 +92,27 @@
   2. A timeline view per exercise (every past session in one row: weight, reps) as the manual fallback for progression. Improves progress views.
   3. Stats save continuously, no "Finish" required. Improves the session screen.
 
+### Sensai (SensAI)
+
+- **What it is:** an iOS AI personal trainer: an LLM coach plus a workout planner and tracker that reads recovery data from wearables. [V] [sensai.fit](https://www.sensai.fit/), [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099)
+- **Target user:** gym-goers who wear an Apple Watch, Garmin, Oura or WHOOP and want the plan to react to recovery. [V] company positioning, [SensAI review page, Jul 2026](https://www.sensai.fit/blog/sensai-review-2026). Note: that "review" is on SensAI's own blog, so treat its claims as company claims.
+- **Key systems:**
+  - Onboarding: goals, equipment, schedule, session length, training days, injuries and pain. [V] [SensAI blog](https://www.sensai.fit/blog/sensai-review-2026)
+  - Generation: builds a program from scratch; regenerates it weekly from what you actually did and how you recovered, instead of rewriting every morning. [V] [sensai.fit](https://www.sensai.fit/), [SensAI blog](https://www.sensai.fit/blog/sensai-review-2026)
+  - Readiness: HRV, sleep, resting heart rate and training load through Apple Health; daily recovery summary; one low reading triggers a check of the other signals, not an automatic cut. [V] [SensAI blog](https://www.sensai.fit/blog/sensai-review-2026)
+  - Mid-session changes by plain language: "make it shorter", "my knee hurts, swap the lunges", "this machine is taken". The coach remembers injuries and preferences across sessions. [V] [SensAI blog](https://www.sensai.fit/blog/sensai-review-2026), [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099)
+  - Photo input: form feedback, meal evaluation, identifying gym equipment from a photo. [V] [sensai.fit](https://www.sensai.fit/)
+  - Session screen: set-by-set tracking, planned vs performed sets, muscle illustrations, automatic rest timers on the lock screen, heart rate zones, works offline, full workout control from Apple Watch (added in 1.1.5). [V] [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099), [sensai.fit](https://www.sensai.fit/)
+  - Loads: remembers weights, pre-fills matching sets, estimates a starting load for new exercises. [V] [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099)
+  - Guide: over 500 exercises with animated demonstrations. [V] [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099)
+  - AI limits: stated as not diagnosing pain; no usage cap found. How chat usage is limited is unverified.
+- **Business model:** $6.99 per month or $69.99 per year, 7-day full trial without card. iOS only. [V] [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099), [SensAI blog](https://www.sensai.fit/blog/sensai-review-2026)
+- **Pain points:** [U] app hangs, the AI forgets preferences between sessions, cannot log exercises outside the library; only 32 ratings so far. [App Store](https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099)
+- **Ideas for us:**
+  1. Pre-fill each set with the last weight used, and estimate a starting weight for a new exercise from related lifts. Improves logging and progression.
+  2. Short plain-language changes during the session ("shorter", "knee hurts", "machine taken") on top of our "redo" button. Our free-text box already does this before generation; extend it to the session screen. Improves swap and injury handling.
+  3. Multi-signal readiness: never cut a session because of one bad number. Relevant later if we add wearables.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -134,3 +155,8 @@ _Filled at the end._
 - https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out
 - https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder
 - https://help.trainerize.com/hc/en-us/articles/212130826-Progressing-Regressing-Workouts-with-the-Progressions-Spreadsheet
+
+### Sensai
+- https://www.sensai.fit/
+- https://www.sensai.fit/blog/sensai-review-2026 (company blog)
+- https://apps.apple.com/us/app/sensai-fitness-sensei/id6738963099
