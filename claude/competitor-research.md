@@ -174,6 +174,24 @@
   2. Instead of paying for AI calls, let users connect their own AI assistant to their data (Caliber's MCP route). Relevant to the platform plan and to AI cost limits.
   3. Explain metric dips in plain words inside the app. Improves trust in progression.
 
+### NordicTrack (iFIT software and programs)
+
+- **What it is:** NordicTrack machines run on iFIT, a class and program platform with over 10,000 trainer-led workouts, an AI coach, and a newer standalone phone app (iFIT Personal Trainer) for strength, HIIT, yoga and more without machines. [V] [AI Coach release notes, Sep 2024](https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes), [App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+- **Target user:** home exercisers, many of them NordicTrack or ProForm owners. [V] [AI Coach release notes](https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes)
+- **Key systems:**
+  - AI Coach (beta, 2024): sets goals with you, builds a plan mixing iFIT series, schedules workouts to the calendar, reminds you the night before, flags missed workouts, weekly check-ins, celebrates milestones. Ran over SMS, US members with iFIT equipment only. [V] [AI Coach release notes](https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes)
+  - Tailor (current app): AI builds a daily and weekly plan from goals, level, health data, history, available equipment and time; pulls Apple Health and MyFitnessPal data. [V] [App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+  - Recent app features: choose the AI trainer's personality, improved warm-ups, streak credit for workouts done outside iFIT, 1-rep-max tracking, outdoor running coach. [V] [App Store version history](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+  - SmartAdjust: intensity for a workout is set from your past iFIT history; when you override speed or incline, the system learns your pattern. [V] [Connect The Watts, Mar 2021](https://connectthewatts.com/2021/03/16/ifit-details-smartadjust-and-activepulse-features-to-automate-your-workouts/)
+  - ActivePulse: live heart rate keeps you in a target zone by changing speed, incline or resistance automatically. Machine feature, noted only for its logic. [V] [Connect The Watts](https://connectthewatts.com/2021/03/16/ifit-details-smartadjust-and-activepulse-features-to-automate-your-workouts/)
+  - Guide: visual movement demonstrations, 180+ trainers. [V] [App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+- **Business model:** iFIT Train about $15 per month (1 user), iFIT Pro about $39 per month (up to 5 users, needed for touchscreen machines). [U] third-party figures via search, the official membership page blocked reading. The new app sells Tailor+ at $19.99 per month and Train and Tailor+ at $24.99; Train and Pro members get it included. [V] [App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+- **Pain points:** [U] Apple Watch sync failures, chat history not shown, no pause button in workouts. [App Store](https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504)
+- **Ideas for us:**
+  1. Learn from overrides: when a user changes a suggested weight or swaps an exercise, store it and bias the next generation. Improves progression and generation without asking questions.
+  2. Night-before reminder with tomorrow's suggested day type. Improves retention and the day type suggestion.
+  3. Streak credit for training logged outside the app. Improves retention (same point as Trainwell's pain point).
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -241,3 +259,9 @@ _Filled at the end._
 - https://caliberstrong.freshdesk.com/support/solutions/articles/48001257574-strength-score-user-guide
 - https://caliberstrong.freshdesk.com/support/solutions/articles/48001225489-why-did-my-muscle-group-strength-score-drop-even-though-i-increased-weight-on-an-exercise-
 - https://athletechnews.com/age-of-ai-human-personal-trainers-might-become-a-luxury-future-caliber/
+
+### NordicTrack (iFIT)
+- https://apps.apple.com/us/app/ifit-personal-trainer/id6756594504
+- https://www3.ifit.com/blog/connect/ai-coach-beta-release-notes
+- https://connectthewatts.com/2021/03/16/ifit-details-smartadjust-and-activepulse-features-to-automate-your-workouts/
+- https://www.ifit.com/membership (blocked, not read)
