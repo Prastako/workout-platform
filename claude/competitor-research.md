@@ -71,6 +71,27 @@
   3. Swap list limited to exercises with the same purpose (same pattern and muscle), for today or for good. Improves swap.
   - Watch-out: the whole system depends on honest effort ratings. Keep the input to one tap and show why the weight changed.
 
+### Trainerize (ABC Trainerize)
+
+- **What it is:** software for personal trainers and gyms to deliver programs, nutrition and messaging to their clients through a (brandable) client app. [V] [Pricing](https://www.trainerize.com/pricing/)
+- **Target user:** coaches and studios (the payer); their clients use the app. [V] [Pricing](https://www.trainerize.com/pricing/)
+- **Key systems:**
+  - Programming is manual by the coach: master workouts, programs split into training phases, scheduled on a client calendar. [V] [Progressions article](https://help.trainerize.com/hc/en-us/articles/212130826-Progressing-Regressing-Workouts-with-the-Progressions-Spreadsheet)
+  - Progression: a "Progressions Spreadsheet" shows every scheduled instance of one workout in a timeline; the coach edits weight, reps, rest or swaps an exercise per day, and can drag a day's targets to the next. Nothing is automatic. [V] [Progressions article](https://help.trainerize.com/hc/en-us/articles/212130826-Progressing-Regressing-Workouts-with-the-Progressions-Spreadsheet)
+  - AI Workout Builder (open beta): the coach chats a prompt (or picks from a prompt library, or uploads CSV, Excel, PDF), gets a draft with exercises, sets, reps, rest, supersets and duration, refines it in chat, then confirms. One workout at a time, no programs, chat history not saved. [V] [AI builder article](https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder)
+  - AI context from the client is deliberately limited: age, sex, height, latest weight (last 3 months), up to 10 workouts and 10 cardio sessions from the last 3 months. Client data is not used to train the model. [V] [AI builder article](https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder)
+  - Client session screen: tap "Track", enter stats per set, stats save even without tapping "End", notes per workout, rest timer launches from rests the coach placed in the sequence, a separate countdown stopwatch, chime at the end. [V] [Mobile app article](https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out)
+  - Swap during a session: the client edits the workout (delete an exercise, insert another). A manual edit, not a suggested substitute. [V] [Mobile app article](https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out)
+  - Supersets and circuits: the coach selects exercises, ticks "Superset", sets rounds and rest after each exercise or round. [V] per search snippet of the help center; article page not opened, so [I] until opened.
+  - Nutrition, habits and wearables: habit coaching on the free tier; meal and macro tracking and wearable integrations from Grow up; MyFitnessPal and Fitbit links for nutrition. [V] [Pricing](https://www.trainerize.com/pricing/), related article titles on the [Mobile app article](https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out)
+  - Retention: leaderboard and threshold challenges (Pro), custom welcome emails. [V] [Pricing](https://www.trainerize.com/pricing/)
+- **Business model:** paid by the coach. Basic free (1 client, no AI), Grow $9 per month (2 clients, AI builder, nutrition, wearables), Pro from $23 per month (5 to 200 clients), Studio Plus from $248 per month. Add-ons $10 to $45 per month, branded app $169 one-time. 30-day trial without card, but the AI builder is excluded from the trial and free plan. [V] [Pricing](https://www.trainerize.com/pricing/), [AI builder article](https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder)
+- **Pain points:** not researched in depth; Trainerize is a coach tool, so client-side reviews are less relevant for us.
+- **Ideas for us:**
+  1. Send the AI only a small, fixed slice of history (for example the last 10 sessions and latest body weight), and state that personal data is not used for training. Improves generation and is a ready GDPR pattern for the platform plan.
+  2. A timeline view per exercise (every past session in one row: weight, reps) as the manual fallback for progression. Improves progress views.
+  3. Stats save continuously, no "Finish" required. Improves the session screen.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -107,3 +128,9 @@ _Filled at the end._
 - https://garagegymexperiment.com/2022/04/24/juggernaut-ai-review-from-non-powerlifters/
 - https://aitoolsbakery.com/blog/juggernautai-review/
 - https://www.garagegymreviews.com/juggernautai-review (search snippet only, page returned 404)
+
+### Trainerize
+- https://www.trainerize.com/pricing/
+- https://help.trainerize.com/hc/en-us/articles/208689026-How-do-I-use-the-mobile-app-when-I-m-working-out
+- https://help.trainerize.com/hc/en-us/articles/45565151151508-Using-the-AI-Workout-Builder
+- https://help.trainerize.com/hc/en-us/articles/212130826-Progressing-Regressing-Workouts-with-the-Progressions-Spreadsheet
