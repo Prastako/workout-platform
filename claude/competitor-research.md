@@ -296,6 +296,25 @@
 - **Ideas for us:**
   1. After the session, one question per trained muscle: "pump: low, good, too much" and at the next session "still sore? yes, no". Feeds volume per muscle. Improves progression and soreness handling. Watch-out: it adds taps, so keep it optional.
 
+#### Alpha Progression (muscle gain; picked for set-by-set weight and rep recommendations)
+
+- **What it is:** a German gym tracker with a plan generator and per-set progression recommendations, focused on hypertrophy. [V] [alphaprogression.com](https://alphaprogression.com/en)
+- **Key systems:**
+  - Plan generator: goal, equipment (several gym profiles), frequency, duration, muscle priorities, split. [V] [alphaprogression.com](https://alphaprogression.com/en)
+  - Recommendations: before each set it shows weight and reps, from past sessions and from the sets already done today (set 3 is not set 1), rounded to the gym's weight steps. RIR is optional, in half steps. [V] [Guide, Sep 2026](https://alphaprogression.com/en/blog/alpha-progression-guide), [RIR glossary](https://alphaprogression.com/en/glossary/reps-in-reserve)
+  - Exercise evaluations (Pro): each exercise rated for muscle-building suitability by range of motion and stability. [V] [Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)
+  - Weekly sets per muscle chart. [V] [Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)
+  - Deloads: at the end of a plan, or mark any single workout as a deload and the recommendations adjust. [V] [Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)
+  - Swaps: "similar exercises" list; history carries over into new plans. [V] [Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)
+  - Session tools: supersets, dropsets with automatic weight reduction, rest timer per exercise type that keeps counting past zero, lock screen display, warm-up calculator from first working set and available plates. [V] [Guide](https://alphaprogression.com/en/blog/alpha-progression-guide)
+  - Guide: 795 exercises with gym-filmed videos, setup, execution cues, common mistakes; lower-resolution videos available offline. [V] [alphaprogression.com](https://alphaprogression.com/en)
+- **Business model:** free: unlimited logging, manual plans, videos, measurements, CSV export. Pro: $12.99 per month or $79.99 per year, 14-day trial. [V] [alphaprogression.com](https://alphaprogression.com/en)
+- **Ideas for us:**
+  1. Within-session adjustment: if set 1 was hard, lower set 2's suggestion. Improves the session screen and progression.
+  2. "Mark today as deload" as a single switch that lowers all suggestions. We have "Deload" in Pace; this is the same idea, confirmed.
+  3. Weekly sets per muscle, drawn on the atlas body. Improves progress views.
+  4. A free tier that keeps logging and videos free and charges for the smart parts. A clear split for our paid tiers.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -406,3 +425,8 @@ _Filled at the end._
 - https://rpstrength.com/pages/hypertrophy-app
 - https://apps.apple.com/us/app/rp-hypertrophy/id1555614554
 - https://dr-muscle.com/rp-hypertrophy-app-beginners/ (competitor article)
+
+### Alpha Progression
+- https://alphaprogression.com/en
+- https://alphaprogression.com/en/blog/alpha-progression-guide
+- https://alphaprogression.com/en/glossary/reps-in-reserve (search listing)
