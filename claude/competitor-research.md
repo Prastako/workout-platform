@@ -211,6 +211,25 @@
   2. A short movement breakdown at the start of each block, then the demo during the set. Maps to the atlas: open the guide at block start, not only on tap. Improves the guide.
   3. A weekly plan that simply suggests, and moving or skipping a day costs nothing. Fits our day type suggestion.
 
+### Centr
+
+- **What it is:** a training, meal planning and mindfulness app founded by Chris Hemsworth, now also selling home gym equipment and official HYROX programs. [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817), [centr.com](https://centr.com/)
+- **Target user:** general fitness users at home or in the gym who want training and meals in one plan. [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817)
+- **Key systems:**
+  - Onboarding (3 to 5 minutes): goal (lose weight, build muscle, get fit), level, meal preference (regular, pescatarian, vegetarian, vegan), sex. [V] as reviewer account, [GymBird, 2023](https://www.gymbird.com/fitness-apps/centr-app-review)
+  - Planner home: today's workout, breakfast, lunch, dinner, optional snack and a wellness tip, all from the quiz. Meals and workouts can be swapped in advance. [V] [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+  - Workouts: 5 to 60 minutes; two formats: self-guided move by move, or a continuous coached video; demos show beginner to advanced versions; filter by body part or equipment. [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817), [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+  - Weights tracker: in self-guided workouts you log weight and reps, and see your last three performances. [V] [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+  - Nutrition: dietary styles (plant-based, high-protein and more), recipes with nutrition data, automatic shopping list from the week's meals. Calorie or macro targets not confirmed. [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817), [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+  - Centr Coach: a newer guided strength and conditioning app tied to their equipment. Details not public beyond the product page. [V] [centr.com](https://centr.com/)
+  - Devices: TV casting, Apple Watch tracking. [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817)
+- **Business model:** 7-day trial, then about $29.99 per month, $59.99 per quarter or $119.99 per year (App Store shows ranges from $15.99 per month to $89.99 per year by offer). [V] [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817), [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+- **Pain points:** [U] workouts feel repetitive over time; users want voice coaching through all videos. [App Store](https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817). [U] interface can overwhelm people who want a simple routine. [GymBird](https://www.gymbird.com/fitness-apps/centr-app-review)
+- **Ideas for us:**
+  1. Show the last three performances of an exercise while logging. Cheap and useful. Improves logging and progression.
+  2. For NutriLog later: one planner screen that shows today's session and today's meals together, with a shopping list. Improves the nutrition link.
+  - Watch-out: repetition complaints. Our generator already varies sessions; keep that as a selling point.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -293,3 +312,9 @@ _Filled at the end._
 - https://www.pelobuddy.com/personalized-weight-strength-plus/
 - https://www.pelobuddy.com/new-year-app-2026/
 - https://mwm.ai/apps/peloton-strength/6476712925 (search summary only)
+
+### Centr
+- https://centr.com/
+- https://apps.apple.com/us/app/centr-fitness-workout-plans/id1382530817
+- https://www.gymbird.com/fitness-apps/centr-app-review
+- https://help.centr.com/en-US
