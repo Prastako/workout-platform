@@ -400,6 +400,29 @@
   2. Generation rule: group exercises by station and body position to cut walking and getting up and down. Improves generation (a coaching rule we do not have yet).
   3. Save partial sessions automatically. Improves the session screen.
 
+#### Apple Fitness+ (fitness in general; picked for building a whole plan in a few taps)
+
+- **What it is:** Apple's trainer-led video workout and meditation service, with Custom Plans. [V] [Apple Support: Custom Plans](https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios)
+- **Key systems:**
+  - Build your own plan: tap workout days, pick time per day, plan length, up to five activity types, trainer and music preferences, start date. [V] [Apple Support](https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios)
+  - Premade plans with no setup: "Stay Consistent" (built from your history: favorite activities, durations, trainers, music, usual days), "Push Further" (same but longer), "Get Started" (from your first choices). [V] [Apple Support](https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios)
+  - Missed days: you can go back and do earlier workouts of the plan; a finished plan can be repeated with the same or refreshed content. [V] [Apple Support](https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios)
+- **Business model:** subscription; price not checked in this session. Unverified.
+- **Ideas for us:**
+  1. A premade "keep doing what I do" option built only from history, next to the configurable path. Improves the day type suggestion and configure screen (zero-decision default).
+  2. A "push further" variant that is the same session, slightly longer or harder. Improves progression without new settings.
+
+#### Ladder (fitness in general; picked because the session is simply given to you, a direct answer to decision paralysis)
+
+- **What it is:** a strength app where a 2-minute quiz places you on a "team" run by a human coach who publishes a new 7-day plan every week. [V] [joinladder.com](https://www.joinladder.com/)
+- **Key systems:**
+  - You follow the coach's plan; you do not assemble workouts. Audio cues handle pacing, reps and rest; videos for every movement; you log reps and weight as you go. [V] [joinladder.com](https://www.joinladder.com/)
+  - Blocks of about 5 to 6 weeks that get harder; the weight you used last time is pre-filled; team chat, awards, coach messaging; sessions about 30 to 40 minutes. [U] via search summary of reviews ([Bustle](https://www.bustle.com/wellness/ladder-app-review), [Garage Gym Reviews](https://www.garagegymreviews.com/ladder-app-review)); not opened.
+- **Business model:** free trial without card. [V] [joinladder.com](https://www.joinladder.com/). About $29.99 per month or $179.99 per year. [U] search summary only.
+- **Ideas for us:**
+  1. Pre-filled last weight (again; now confirmed across Sensai, Centr, Ladder). Improves logging.
+  2. Audio cue for rest end and next exercise, so the phone can stay in the pocket. Improves the session screen.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -548,3 +571,11 @@ _Filled at the end._
 - https://www.freeletics.com/en/
 - https://www.freeletics.com/en/blog/posts/what-is-the-purpose-of-the-feedback-i-am-asked-to-give-after-each-workout/
 - https://apps.apple.com/app/id654810212
+
+### Apple Fitness+
+- https://support.apple.com/guide/fitness-plus/use-custom-plans-apdf222051d8/ios
+
+### Ladder
+- https://www.joinladder.com/
+- https://www.bustle.com/wellness/ladder-app-review (search summary only)
+- https://www.garagegymreviews.com/ladder-app-review (search summary only)
