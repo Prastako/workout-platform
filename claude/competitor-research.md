@@ -343,6 +343,27 @@
   2. Muscle-preservation training for people losing weight (including GLP-1 users) as a goal option. A possible profile goal later.
   - Watch-out: upselling in onboarding is a top complaint. Keep our onboarding free of sales pressure.
 
+#### Hevy (gym logging; picked as the reference logging screen with a generous free tier)
+
+- **What it is:** a social workout logger with routines, a plan generator ("Hevy Trainer") and a coach product (Hevy Coach). [V] [Hevy features](https://www.hevyapp.com/features/)
+- **Key systems:**
+  - Logging: set types, RPE, supersets that auto-scroll to the next exercise after a set, automatic rest timer (per exercise, default for new routines), percentage-based warm-up set calculator, plate calculator, live PR notification, lock screen live activity, Apple Watch. [V] [Hevy features](https://www.hevyapp.com/features/), [Hevy help: workout settings](https://help.hevyapp.com/hc/en-us/articles/33882110558743-Workout-Settings-Preferences-Timer-Warm-up-calculator-Plate-Calculator-Smart-Superset-Scrolling) (search listing)
+  - "Previous" values: you choose whether the previous value shown is from the last time you did the exercise anywhere, or the last time within this routine. [V] per search listing of the [Hevy help center](https://help.hevyapp.com/hc/en-us/articles/33882110558743-Workout-Settings-Preferences-Timer-Warm-up-calculator-Plate-Calculator-Smart-Superset-Scrolling); page not opened, so [I] until confirmed.
+  - Progress: charts, muscle distribution chart, measurements, progress photos, monthly and yearly reviews. Social feed, likes, comments, leaderboards. [V] [Hevy features](https://www.hevyapp.com/features/)
+  - AI: a Hevy plugin for ChatGPT. [V] [Hevy features](https://www.hevyapp.com/features/)
+- **Business model:** free with limits (4 routines, 7 custom exercises, 3 months of stats history); Pro about $2.99 to $3.99 per month, $23.99 per year, $74.99 lifetime. [U] third-party review, [AI Tools Bakery, Sep 2026](https://aitoolsbakery.com/blog/hevy-review/); the official pricing page was not reachable.
+- **Pain points:** [U] social feed cannot be removed; no Garmin. [AI Tools Bakery](https://aitoolsbakery.com/blog/hevy-review/)
+- **Ideas for us:**
+  1. Superset auto-scroll: after logging a set, jump to the partner exercise. Improves supersets (we already offer "Supersets" in Pace).
+  2. Rest timer that starts itself when a set is ticked, with per-exercise defaults (longer for compounds). Improves the session screen.
+
+#### Strong (gym logging; picked as the minimal logger many apps copy)
+
+- **What it is:** a long-running, minimal workout logger; free forever with a Pro tier. [V] [strong.app](https://www.strong.app/)
+- **Key systems:** custom exercises, supersets, warm-up calculator, RPE, custom timers, scheduling, muscle heat map, charts, best sets, estimated 1RM records, measurements, CSV export, Apple Health, Siri Shortcuts, Apple Watch. [V] [strong.app](https://www.strong.app/)
+- **Business model:** free tier; Pro for advanced progress views; price not shown on the site. Unverified.
+- **Idea for us:** a muscle heat map of what you trained this week on the body model. Same as the Fitbod idea; two apps confirm it.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -466,3 +487,11 @@ _Filled at the end._
 ### Noom
 - https://www.noom.com/blog/weight-management/noom-cost-2/
 - https://calorie-trackers.com/reviews/noom/
+
+### Hevy
+- https://www.hevyapp.com/features/
+- https://help.hevyapp.com/hc/en-us/articles/33882110558743-Workout-Settings-Preferences-Timer-Warm-up-calculator-Plate-Calculator-Smart-Superset-Scrolling (search listing)
+- https://aitoolsbakery.com/blog/hevy-review/
+
+### Strong
+- https://www.strong.app/
