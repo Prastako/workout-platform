@@ -154,6 +154,26 @@
   2. One tap "I only have dumbbells today" that rebuilds the session. We have an Equipment row; this puts it on the session screen. Improves swap.
   3. A short auto-written summary after the session (what improved, what next time). Improves retention and progression.
 
+### Caliber
+
+- **What it is:** a strength training app with a free logger, a paid plans tier with a Strength Score, and a premium human coaching tier. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410), [caliberstrong.com](https://caliberstrong.com/)
+- **Target user:** people who want to get stronger and improve body composition, from self-guided lifters to those paying for a coach. [V] [caliberstrong.com](https://caliberstrong.com/)
+- **Key systems:**
+  - Free tier: unlimited custom workouts, over 800 exercises with tutorials, training with friends, Apple Health sync. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410)
+  - AI connection: an MCP server (added in version 5.15.0) lets users connect their Caliber training data to ChatGPT or Claude. Free. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410). Caliber's own AI coaching inside the app was not found. Unverified.
+  - Strength Score (paid): estimated 1RM per exercise, multiplied by a bodyweight factor, scored per muscle group (legs split into quad and hamstring work; chest, back, shoulders, arms), weighted by body mass, adjusted for age and sex, levels from Beginner (100) to Elite (600). Recomputed weekly. [V] [Strength Score guide](https://caliberstrong.freshdesk.com/support/solutions/articles/48001257574-strength-score-user-guide)
+  - Strength Balance: shows whether muscle groups develop evenly; coaching members aim for 90%+. [V] [caliberstrong.com](https://caliberstrong.com/), [Strength Score guide](https://caliberstrong.freshdesk.com/support/solutions/articles/48001257574-strength-score-user-guide)
+  - Honest score explanations: a help article explains why the score can dip when you add weight (fewer reps lower the estimate) and tells you to watch the trend. [V] [Score drop article](https://caliberstrong.freshdesk.com/support/solutions/articles/48001225489-why-did-my-muscle-group-strength-score-drop-even-though-i-increased-weight-on-an-exercise-)
+  - Plus tier: over 120 coach-designed plans, nutrition lessons, custom exercises and supersets, progress photos. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410)
+  - Premium coaching: assessment, a coach plans strength, cardio, nutrition and habits; video form reviews, daily messaging, weekly reviews; money back if body composition does not improve 20% in 12 weeks. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410), [caliberstrong.com](https://caliberstrong.com/)
+  - Progress views: redesigned charts per activity type, progress photo gallery with comparisons. [V] [App Store version history](https://apps.apple.com/us/app/caliber-strength-training/id1482405410)
+- **Business model:** Free forever; Plus $9 to $12 per month or $36 to $72 per year; a $3 "Supporter" option; Premium coaching about $200 per month. [V] [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410), [Athletech, Feb 2026](https://athletechnews.com/age-of-ai-human-personal-trainers-might-become-a-luxury-future-caliber/)
+- **Pain points:** [U] score accuracy could be better; few complaints visible. [App Store](https://apps.apple.com/us/app/caliber-strength-training/id1482405410)
+- **Ideas for us:**
+  1. A per-muscle strength and balance view built from logged sets (estimated 1RM per exercise, grouped by muscle). Fits the atlas muscle map directly. Improves progress views.
+  2. Instead of paying for AI calls, let users connect their own AI assistant to their data (Caliber's MCP route). Relevant to the platform plan and to AI cost limits.
+  3. Explain metric dips in plain words inside the app. Improves trust in progression.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -214,3 +234,10 @@ _Filled at the end._
 - https://www.shred.app/
 - https://apps.apple.com/us/app/shred-gym-home-workouts/id1439828095
 - https://www.garagegymreviews.com/shred-app-review (search snippet only)
+
+### Caliber
+- https://caliberstrong.com/
+- https://apps.apple.com/us/app/caliber-strength-training/id1482405410
+- https://caliberstrong.freshdesk.com/support/solutions/articles/48001257574-strength-score-user-guide
+- https://caliberstrong.freshdesk.com/support/solutions/articles/48001225489-why-did-my-muscle-group-strength-score-drop-even-though-i-increased-weight-on-an-exercise-
+- https://athletechnews.com/age-of-ai-human-personal-trainers-might-become-a-luxury-future-caliber/
