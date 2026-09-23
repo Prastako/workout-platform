@@ -328,6 +328,21 @@
   1. Two separate apps that share only body data (weight, photos, measurements), with no automatic cross-effects at first. A low-risk model for the NutriLog link and for GDPR scope (each app holds only what it needs).
   2. Rule-based, explainable progression instead of AI for load changes; AI stays for session design. Keeps AI costs down and results predictable.
 
+#### Noom (weight loss; picked for behavior change and retention mechanics)
+
+- **What it is:** a psychology-first weight loss program with a food tracker, now also a telehealth provider for GLP-1 weight loss drugs (Noom Med). [V] [Noom pricing article, Sep 2026](https://www.noom.com/blog/weight-management/noom-cost-2/)
+- **Key systems:**
+  - Daily short lessons based on cognitive behavioral therapy, as articles and quizzes. [V] [Noom pricing article](https://www.noom.com/blog/weight-management/noom-cost-2/), [calorie-trackers.com, Apr 2026](https://calorie-trackers.com/reviews/noom/)
+  - Color system: every food is green, yellow or red by calorie density and nutrition; aim for mostly green and yellow. A simple rule instead of numbers. [V] [calorie-trackers.com](https://calorie-trackers.com/reviews/noom/)
+  - Coaching: weekly check-ins with a human goal specialist by message, peer groups with a coach. [V] [calorie-trackers.com](https://calorie-trackers.com/reviews/noom/)
+  - GLP-1 companion: protein tools, muscle-preservation workouts, side-effect management. [V] [Noom pricing article](https://www.noom.com/blog/weight-management/noom-cost-2/)
+- **Business model:** Noom Weight $169 for 4 months, $179 for 6, $209 for 12, 7-day trial; Noom Med GLP-1 plans $179 to $299 per month. [V] [Noom pricing article](https://www.noom.com/blog/weight-management/noom-cost-2/)
+- **Pain points:** [U] aggressive upselling during onboarding, less accurate calorie data, expensive. [calorie-trackers.com](https://calorie-trackers.com/reviews/noom/)
+- **Ideas for us:**
+  1. For NutriLog: a 3-color food rule as the simple mode, with numbers only for those who want them. Same "no decision paralysis" idea applied to food.
+  2. Muscle-preservation training for people losing weight (including GLP-1 users) as a goal option. A possible profile goal later.
+  - Watch-out: upselling in onboarding is a top complaint. Keep our onboarding free of sales pressure.
+
 ## Section 2: Per function of our app
 
 _Filled after all apps._
@@ -447,3 +462,7 @@ _Filled at the end._
 ### MacroFactor
 - https://macrofactor.com/
 - https://macrofactor.com/workouts/
+
+### Noom
+- https://www.noom.com/blog/weight-management/noom-cost-2/
+- https://calorie-trackers.com/reviews/noom/
